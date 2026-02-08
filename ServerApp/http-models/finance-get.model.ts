@@ -1,0 +1,3 @@
+interface FinanceGetModel {
+    id: number;
+}
