@@ -1,0 +1,30 @@
+<div class="navigation"
+     (mouseenter)="onExpand()"
+     (mouseleave)="onCollapse()">
+  <div class="navigation_container">
+    <!-- <button mat-icon-button>
+      <mat-icon class="icon"
+                fontIcon="menu" />
+    </button> -->
+    @for (item of items; track item.id) {
+    <div class="item">
+      <div class="item_element">
+        <button class="navigation-button"
+                mat-button
+                [attr.appearance]="elementAttribute()"
+                (click)="onElementClick(item)">
+          <mat-icon class="icon"
+                    [fontIcon]="item.icon" />
+          @if (expanded()){
+          {{item.title}}
+          }
+        </button>
+      </div>
+    </div>
+    }
+  </div>
+  <button matIconButton (click)="onToggleTheme()">
+    <mat-icon class="icon"
+              fontIcon="sunny" />
+  </button>
+</div>

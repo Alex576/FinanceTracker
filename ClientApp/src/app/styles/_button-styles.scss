@@ -1,0 +1,15 @@
+button[mat-button][appearance~="no-border"] {
+    border-radius: 0;
+}
+
+button[mat-button][appearance~="padding-8"] {
+    padding: 0 8px;
+}
+
+button[mat-button][appearance~="hide-text"] {
+    min-width: 0;
+
+    .mat-icon {
+        margin-right: 0;
+    }
+}

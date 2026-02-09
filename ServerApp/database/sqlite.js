@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const dbScripts = require('./scripts/db-scripts');
 // Файл 'my_database.db' создастся в корне проекта
-const db = new sqlite3.Database('./my_database.db', (err) => {
+const db = new sqlite3.Database('./database/my_database.db', (err) => {
     if (err) console.error('Ошибка подключения:', err.message);
     else console.log('База данных SQLite создана/подключена.');
 });

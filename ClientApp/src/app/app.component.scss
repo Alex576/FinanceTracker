@@ -1,0 +1,9 @@
+.app {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+
+    background-color: var(--mat-app-background-color);
+    color: var(--mat-app-text-color);
+    font: var(--mat-sys-body-medium);
+}

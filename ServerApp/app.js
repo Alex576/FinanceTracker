@@ -1,8 +1,13 @@
+// @ts-check
 const express = require("express");
+const cors = require("cors");
 const db = require('./database/sqlite');
 
 const app = express();
 app.use(express.json());
+app.use(cors({
+    origin: 'http://localhost:4200'
+}));
 const apiRouter = express.Router();
 
 const financeRouter = express.Router();
@@ -15,7 +20,7 @@ financeRouter.get('/getFinances', async (req, res) => {
         res.json(rows);
     })
 });
-
+financeRouter.post();
 apiRouter.use('/finances', financeRouter);
 app.use('/api', apiRouter);
 

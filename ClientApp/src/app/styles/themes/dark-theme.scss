@@ -1,0 +1,14 @@
+@use "@angular/material" as mat;
+
+$dark-theme: mat.define-theme(
+    (
+        color: (
+            theme-type: dark,
+            primary: mat.$magenta-palette
+        ),
+        typography: (
+            brand-family: "Roboto",
+            bold-weight: 900
+        )
+    )
+);
