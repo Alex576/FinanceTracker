@@ -6,7 +6,7 @@ const db = require('./database/sqlite');
 const app = express();
 app.use(express.json());
 app.use(cors({
-    origin: 'http://localhost:4200'
+    origin: ['http://localhost:4200', 'http://localhost:8100']
 }));
 const apiRouter = express.Router();
 
@@ -20,7 +20,7 @@ financeRouter.get('/getFinances', async (req, res) => {
         res.json(rows);
     })
 });
-financeRouter.post();
+
 apiRouter.use('/finances', financeRouter);
 app.use('/api', apiRouter);
 

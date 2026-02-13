@@ -1,0 +1,2 @@
+﻿создание моделей по базе данных: dotnet ef dbcontext scaffold "Server=DESKTOP-ALIM42N;Database=Finances;Trusted_Connection=True;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models
+для обновления используем флаг -f

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AgGridAngular } from 'ag-grid-angular'; // Angular Data Grid Component
-import { colorSchemeDarkBlue, colorSchemeLight, themeMaterial, type ColDef, type GridOptions } from 'ag-grid-community'; // Column Definition Type Interface
+import { AgGridAngular } from 'ag-grid-angular';
+import { colorSchemeDarkBlue, colorSchemeLight, themeMaterial, type ColDef, type GridOptions } from 'ag-grid-community';
 import { BaseToolComponent } from '../base-tool/base-tool.component';
 import { FinancesService } from './finances.service';
 
