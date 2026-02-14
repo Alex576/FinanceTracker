@@ -6,6 +6,10 @@ export const routes: Routes = [
         path: '',
         loadChildren: () => import('./core/routing/workplace.routes').then(w => w.routes),
     },
+    {
+        path: 'login',
+        loadComponent: () => import('./core/components/login/login.component').then(c => c.LoginComponent),
+    },
     // {
     //     path: '',
     //     redirectTo: '/workplace',

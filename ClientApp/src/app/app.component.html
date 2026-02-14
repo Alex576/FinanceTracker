@@ -1,3 +1,8 @@
 <div #themeElement class="app">
+  @if (isLoaded()){
   <router-outlet />
+  }
+  @else {
+  <app-loading />
+  }
 </div>

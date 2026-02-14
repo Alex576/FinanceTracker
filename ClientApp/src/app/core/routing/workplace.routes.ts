@@ -1,7 +1,7 @@
 import { Routes } from "@angular/router";
+import { WorkplaceComponent } from "../components/workplace/workplace.component";
 import { RouteData } from "../models/route-data";
 import { ToolCode } from "../models/tool-code";
-import { WorkplaceComponent } from "../workplace/workplace.component";
 
 export const routes: Routes = [
     {
@@ -10,9 +10,9 @@ export const routes: Routes = [
 
         children: [
             {
-                path: 'home',
-                data: { [RouteData.ToolCode]: ToolCode.Home },
-                loadComponent: () => import('../components/home/home.component').then(c => c.HomeComponent)
+                path: 'dashboard',
+                data: { [RouteData.ToolCode]: ToolCode.Dashboard },
+                loadComponent: () => import('../components/dashboard/dashboard.component').then(c => c.DashboardComponent)
             },
             {
                 path: 'finances',
@@ -23,7 +23,7 @@ export const routes: Routes = [
     },
     {
         path: '',
-        redirectTo: '/workplace/home',
+        redirectTo: '/workplace/dashboard',
         pathMatch: 'full'
     },
 ];

@@ -1,0 +1,30 @@
+$toolbar-height: 40px;
+
+.toolbar {
+    background-color: var(--mat-sys-primary);
+    color: var(--mat-sys-on-primary);
+    position: sticky;
+    top: 0;
+    height: $toolbar-height;
+    z-index: 100;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &_left,
+    &_right {
+        display: flex;
+        align-items: center;
+        padding: 4px;
+    }
+
+    &_left {
+    }
+
+    &_right {
+        .user {
+            display: flex;
+        }
+    }
+}

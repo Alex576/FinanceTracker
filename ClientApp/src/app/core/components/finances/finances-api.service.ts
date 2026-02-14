@@ -6,7 +6,7 @@ import { BaseApiService } from '../../services/base-api.service';
   providedIn: 'root'
 })
 export class FinancesApiService extends BaseApiService {
-  private readonly GET_LAYOUT = 'finances/getFinances';
+  private readonly GET_LAYOUT = 'Finances/GetFinances';
 
   constructor() {
     super();

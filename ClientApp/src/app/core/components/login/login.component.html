@@ -1,0 +1,16 @@
+<div class="login">
+  <form class="login_form" [formGroup]="form">
+    <mat-form-field>
+      <mat-label>Login</mat-label>
+      <input matInput type="text" [formControl]="form.controls.login">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input matInput type="password" [formControl]="form.controls.password">
+    </mat-form-field>
+
+    <div class="form_actions">
+      <button matButton [disabled]="isDisabledLogin()" (click)="onLoginClick()">Login</button>
+    </div>
+  </form>
+</div>

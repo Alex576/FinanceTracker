@@ -45,5 +45,14 @@ export class FinancesComponent extends BaseToolComponent implements OnInit {
       });
 
   }
-
+  test() {
+    this.service.getLayout(this.toolCode)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef)
+      ).subscribe({
+        next: (layout) => {
+          console.log(layout);
+        }
+      });
+  }
 }

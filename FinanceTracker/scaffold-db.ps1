@@ -8,8 +8,8 @@ dotnet ef dbcontext scaffold $conn $provider `
     --startup-project ..\MasterData.Data\ `
     --schema md `
     --context MasterDataContext `
-    --output-dir Models `
-    --context-dir Context `
+    --output-dir DBModels `
+    --context-dir DBContext `
     --no-onconfiguring `
     --force # Перезаписывает файлы, если они уже есть
 
@@ -20,8 +20,8 @@ dotnet ef dbcontext scaffold $conn $provider `
     --startup-project ..\Security.Data\ `
     --schema sc `
     --context SecurityContext `
-    --output-dir Models `
-    --context-dir Context `
+    --output-dir DBModels `
+    --context-dir DBContext `
     --no-onconfiguring `
     --force
 
@@ -32,8 +32,8 @@ dotnet ef dbcontext scaffold $conn $provider `
     --startup-project ..\FinanceTracker.Data\ `
     --schema dbo `
     --context FinanceTrackerContext `
-    --output-dir Models `
-    --context-dir Context `
+    --output-dir DBModels `
+    --context-dir DBContext `
     --no-onconfiguring `
     --force
 

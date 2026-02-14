@@ -1,10 +1,13 @@
 export enum ToolCode {
-    Home = 1,
+    Dashboard = 1,
     Finances = 2,
+    Settings = 3,
+    Roles = 4,
+    Users = 5,
 }
 
 export const ToolCodeUrlMap = new Map<ToolCode, string>([
-    [ToolCode.Home, 'home'],
+    [ToolCode.Dashboard, 'dashboard'],
     [ToolCode.Finances, 'finances'],
 
 ]);

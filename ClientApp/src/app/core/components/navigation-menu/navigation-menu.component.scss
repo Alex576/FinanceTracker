@@ -1,10 +1,12 @@
 @use "../../../styles/components/navigation-menu-styles.scss" as navStyles;
+@use "../toolbar/toolbar.component.scss" as toolbar;
+
 .navigation {
     position: absolute;
-    z-index: 1;
-    height: 100%;
+    z-index: 4;
+    height: calc(100% - toolbar.$toolbar-height);
     min-width: navStyles.$menu-min-width;
-    background-color: var(--mat-sys-surface-container-high);
+    background-color: var(--mat-sys-surface-container-low);
     display: flex;
     flex-direction: column;
     justify-content: space-between;

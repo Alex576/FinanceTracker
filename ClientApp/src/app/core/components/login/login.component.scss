@@ -1,0 +1,19 @@
+.login {
+    width: 30vw;
+    height: 100%;
+    background-color: var(--mat-sys-surface-container-high);
+    &_form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+        padding: 0 10px;
+
+        .form_actions {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--mat-sys-surface-container-highest);
+        }
+    }
+}

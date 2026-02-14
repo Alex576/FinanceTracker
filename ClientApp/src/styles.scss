@@ -20,11 +20,12 @@ body {
 }
 
 @mixin themeConfig($theme) {
-  @include mat.core-theme($theme);
-  @include mat.button-theme($theme);
-  @include mat.card-theme($theme);
-  @include mat.icon-theme($theme);
-  @include mat.icon-button-theme($theme);
+  @include mat.all-component-themes($theme);
+  // @include mat.core-theme($theme);
+  // @include mat.button-theme($theme);
+  // @include mat.card-theme($theme);
+  // @include mat.icon-theme($theme);
+  // @include mat.icon-button-theme($theme);
   @include mat.system-level-colors($theme);
 }
 
@@ -41,4 +42,39 @@ body {
 .ag-grid-angular {
   width: 100%;
   height: 100%;
+}
+
+/* Контейнер для тостов */
+.toast-container .ngx-toastr {
+  box-shadow:
+    0px 3px 5px -1px rgba(0, 0, 0, 0.2),
+    0px 6px 10px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+  // 0 3px 5px -1px rgba(0, 0, 0, 0.2),
+  // 0 6px 10px 0 rgba(0, 0, 0, 0.14),
+  // 0 1px 18px 0 rgba(0, 0, 0, 0.12); // Стандартная тень Material
+  border-radius: var(--mat-sys-corner-extra-small); // Или 28px для стиля Material 3
+  padding: 14px 8px 14px 16px;
+  // font-family: Roboto, "Helvetica Neue", sans-serif;
+  opacity: 1;
+
+  font-family: var(--mat-sys-body-medium-font);
+  font-size: var(--mat-sys-body-medium-size);
+  font-weight: var(--mat-sys-body-medium-weight);
+  line-height: var(--mat-sys-body-medium-line-height);
+}
+
+/* Стилизация по типам сообщений с использованием цветов Material */
+.toast-success {
+  background-color: #4caf50; // mat-color($mat-green)
+}
+
+.toast-error {
+  background-color: var(--mat-sys-error); // mat-color($mat-red)
+  color: var(--mat-sys-on-error);
+}
+
+/* Убираем стандартные иконки ngx-toastr, если хотите использовать MatIcons */
+.toast-container .ngx-toastr {
+  background-image: none !important;
 }
