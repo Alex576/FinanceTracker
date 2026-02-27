@@ -6,8 +6,13 @@
 @use "@angular/material" as mat;
 @use "./app/styles/_icon-button-styles.scss" as *;
 @use "./app/styles/_button-styles.scss" as *;
+@use "./app/styles/components/_mat-form-field-styles.scss" as *;
 @use "./app/styles/themes/light-theme.scss" as lightTheme;
 @use "./app/styles/themes/dark-theme.scss" as darkTheme;
+
+:root {
+  @include mat.system-level-typography(lightTheme.$light-theme);
+}
 
 body {
   margin: 0;
@@ -21,11 +26,6 @@ body {
 
 @mixin themeConfig($theme) {
   @include mat.all-component-themes($theme);
-  // @include mat.core-theme($theme);
-  // @include mat.button-theme($theme);
-  // @include mat.card-theme($theme);
-  // @include mat.icon-theme($theme);
-  // @include mat.icon-button-theme($theme);
   @include mat.system-level-colors($theme);
 }
 
@@ -58,10 +58,7 @@ body {
   // font-family: Roboto, "Helvetica Neue", sans-serif;
   opacity: 1;
 
-  font-family: var(--mat-sys-body-medium-font);
-  font-size: var(--mat-sys-body-medium-size);
-  font-weight: var(--mat-sys-body-medium-weight);
-  line-height: var(--mat-sys-body-medium-line-height);
+  font: var(--mat-sys-body-medium);
 }
 
 /* Стилизация по типам сообщений с использованием цветов Material */
@@ -77,4 +74,16 @@ body {
 /* Убираем стандартные иконки ngx-toastr, если хотите использовать MatIcons */
 .toast-container .ngx-toastr {
   background-image: none !important;
+}
+
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 30vw;
+  height: 100vh;
+  background: var(--mat-sys-surface-container);
+  color: var(--mat-sys-on-surface);
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
+
+  font: var(--mat-sys-body-medium);
 }

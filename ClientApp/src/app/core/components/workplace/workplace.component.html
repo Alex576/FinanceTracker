@@ -1,9 +1,14 @@
 <div class="workplace-panel">
+  @if (ready()){
   <app-toolbar></app-toolbar>
   <div class="workplace-panel_wrapper">
-    <app-navigation-menu />
+    <app-navigation-menu [items]="items()" />
     <div class="workplace-panel_wrapper_content">
       <router-outlet />
     </div>
   </div>
+  }
+  @else{
+  <app-loading />
+  }
 </div>

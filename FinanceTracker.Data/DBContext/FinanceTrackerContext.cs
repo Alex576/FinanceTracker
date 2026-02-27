@@ -14,7 +14,11 @@ public partial class FinanceTrackerContext : DbContext
 
     public virtual DbSet<Layout> Layouts { get; set; }
 
+    public virtual DbSet<MenuItem> MenuItems { get; set; }
+
     public virtual DbSet<Tile> Tiles { get; set; }
+
+    public virtual DbSet<TileItem> TileItems { get; set; }
 
     public virtual DbSet<TileType> TileTypes { get; set; }
 
@@ -35,12 +39,37 @@ public partial class FinanceTrackerContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(255)
                 .HasColumnName("name");
-            entity.Property(e => e.TileId).HasColumnName("tileId");
+            entity.Property(e => e.TileCode).HasColumnName("tileCode");
 
-            entity.HasOne(d => d.Tile).WithMany(p => p.Layouts)
-                .HasForeignKey(d => d.TileId)
+            entity.HasOne(d => d.TileCodeNavigation).WithMany(p => p.Layouts)
+                .HasForeignKey(d => d.TileCode)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Layout__tile_id__628FA481");
+        });
+
+        modelBuilder.Entity<MenuItem>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__MenuItem__3213E83F19C7DECD");
+
+            entity.ToTable("MenuItem");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Name)
+                .HasMaxLength(100)
+                .HasColumnName("name");
+            entity.Property(e => e.ParentMenuCode).HasColumnName("parentMenuCode");
+            entity.Property(e => e.ToolCode).HasColumnName("toolCode");
+
+            entity.HasOne(d => d.ParentMenuCodeNavigation).WithMany(p => p.InverseParentMenuCodeNavigation)
+                .HasForeignKey(d => d.ParentMenuCode)
+                .HasConstraintName("FK__MenuItem__parent__339FAB6E");
+
+            entity.HasOne(d => d.ToolCodeNavigation).WithMany(p => p.MenuItems)
+                .HasForeignKey(d => d.ToolCode)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__MenuItem__toolCo__3587F3E0");
         });
 
         modelBuilder.Entity<Tile>(entity =>
@@ -50,27 +79,46 @@ public partial class FinanceTrackerContext : DbContext
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("(NEXT VALUE FOR [dbo].[SQ_Tile_Code])", "DF__Tiles__id__619B8048")
                 .HasColumnName("id");
+            entity.Property(e => e.Hierarchy)
+                .HasMaxLength(4000)
+                .HasComputedColumnSql("([hierarchyPath].[ToString]())", false)
+                .HasColumnName("hierarchy");
+            entity.Property(e => e.HierarchyPath).HasColumnName("hierarchyPath");
             entity.Property(e => e.Name)
                 .HasMaxLength(255)
                 .HasColumnName("name");
             entity.Property(e => e.Order).HasColumnName("order");
-            entity.Property(e => e.ParentTileId).HasColumnName("parentTileId");
-            entity.Property(e => e.TileId).HasColumnName("tileId");
-            entity.Property(e => e.ToolId).HasColumnName("toolId");
+            entity.Property(e => e.ParentTileCode).HasColumnName("parentTileCode");
+            entity.Property(e => e.TileCode).HasColumnName("tileCode");
+            entity.Property(e => e.ToolCode).HasColumnName("toolCode");
             entity.Property(e => e.Type).HasColumnName("type");
 
-            entity.HasOne(d => d.ParentTile).WithMany(p => p.InverseParentTile)
-                .HasForeignKey(d => d.ParentTileId)
+            entity.HasOne(d => d.ParentTileCodeNavigation).WithMany(p => p.InverseParentTileCodeNavigation)
+                .HasForeignKey(d => d.ParentTileCode)
                 .HasConstraintName("FK__Tiles__tile_code__6477ECF3");
 
-            entity.HasOne(d => d.Tool).WithMany(p => p.Tiles)
-                .HasForeignKey(d => d.ToolId)
+            entity.HasOne(d => d.ToolCodeNavigation).WithMany(p => p.Tiles)
+                .HasForeignKey(d => d.ToolCode)
                 .HasConstraintName("FK__Tiles__tool_id__7B5B524B");
 
             entity.HasOne(d => d.TypeNavigation).WithMany(p => p.Tiles)
                 .HasForeignKey(d => d.Type)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Tiles__type__797309D9");
+        });
+
+        modelBuilder.Entity<TileItem>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__TileItem__3213E83FB919BC31");
+
+            entity.ToTable("TileItem");
+
+            entity.Property(e => e.Id)
+                .HasDefaultValueSql("(NEXT VALUE FOR [dbo].[SQ_TileItem])")
+                .HasColumnName("id");
+            entity.Property(e => e.Name)
+                .HasMaxLength(200)
+                .HasColumnName("name");
         });
 
         modelBuilder.Entity<TileType>(entity =>
@@ -106,25 +154,22 @@ public partial class FinanceTrackerContext : DbContext
 
         modelBuilder.Entity<UserSetting>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__User_Set__3213E83F20A924C3");
+            entity.HasKey(e => e.Id).HasName("PK__UserSett__3213E83FA3CFE7E7");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.OptionsJson).HasColumnName("optionsJson");
-            entity.Property(e => e.TileId).HasColumnName("tileId");
-            entity.Property(e => e.ToolId).HasColumnName("toolId");
+            entity.Property(e => e.Hierarchy)
+                .HasMaxLength(4000)
+                .HasComputedColumnSql("([hierarchyPath].[ToString]())", false)
+                .HasColumnName("hierarchy");
+            entity.Property(e => e.HierarchyPath).HasColumnName("hierarchyPath");
+            entity.Property(e => e.ParentSettingCode).HasColumnName("parentSettingCode");
+            entity.Property(e => e.SettingCode).HasColumnName("settingCode");
+            entity.Property(e => e.SettingsJson).HasColumnName("settingsJson");
             entity.Property(e => e.UserId).HasColumnName("userId");
-
-            entity.HasOne(d => d.Tile).WithMany(p => p.UserSettings)
-                .HasForeignKey(d => d.TileId)
-                .HasConstraintName("FK__User_Sett__tileI__7F2BE32F");
-
-            entity.HasOne(d => d.Tool).WithMany(p => p.UserSettings)
-                .HasForeignKey(d => d.ToolId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__User_Sett__toolI__7E37BEF6");
         });
         modelBuilder.HasSequence("SQ_Layout").StartsAt(1000L);
         modelBuilder.HasSequence("SQ_Tile_Code");
+        modelBuilder.HasSequence("SQ_TileItem").StartsAt(10000L);
 
         OnModelCreatingPartial(modelBuilder);
     }

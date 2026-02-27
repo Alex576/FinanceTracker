@@ -34,6 +34,10 @@
                         height: navStyles.$menu-icon-size;
                     }
                 }
+
+                &.active {
+                    background-color: var(--mat-sys-surface-container-high);
+                }
             }
         }
     }

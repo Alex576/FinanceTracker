@@ -1,0 +1,29 @@
+<div class="layout-editor">
+  @if (layoutManagement()){
+  <div class="layout-editor__filters">
+    <app-filters [filters]="filters()" (valueChanged)="onFilterValueChanged($event)"></app-filters>
+  </div>
+  @let editor = layoutEditor();
+  <div class="layout-editor__content">
+    @if (editor){
+    @for (item of editor.layoutItems; track item.tileCode) {
+    <!-- <ng-container *ngComponentOutlet="getComponent(item.type); inputs: {}">
+    </ng-container> -->
+    @switch (item.type) {
+    @case (itemType.Filter) {
+    <app-filters-editor [filterEntity]="item.data" [tileCode]="item.tileCode"></app-filters-editor>
+    }
+    @case (itemType.Grid) {
+    <app-grid-editor [gridEntity]="item.data"></app-grid-editor>
+    }
+    }
+    }
+    }@else {
+    <app-loading />
+    }
+  </div>
+  }
+  @else {
+  <app-loading />
+  }
+</div>

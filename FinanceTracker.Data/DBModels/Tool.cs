@@ -13,9 +13,9 @@ public partial class Tool
 
     public virtual ICollection<Tool> InverseParentToolCodeNavigation { get; set; } = new List<Tool>();
 
+    public virtual ICollection<MenuItem> MenuItems { get; set; } = new List<MenuItem>();
+
     public virtual Tool? ParentToolCodeNavigation { get; set; }
 
     public virtual ICollection<Tile> Tiles { get; set; } = new List<Tile>();
-
-    public virtual ICollection<UserSetting> UserSettings { get; set; } = new List<UserSetting>();
 }

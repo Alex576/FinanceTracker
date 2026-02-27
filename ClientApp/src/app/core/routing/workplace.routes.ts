@@ -19,11 +19,31 @@ export const routes: Routes = [
                 data: { [RouteData.ToolCode]: ToolCode.Finances },
                 loadComponent: () => import('../components/finances/finances.component').then(c => c.FinancesComponent)
             },
+            {
+                path: 'users',
+                data: { [RouteData.ToolCode]: ToolCode.Users },
+                loadComponent: () => import('../components/users/users.component').then(c => c.UsersComponent)
+            },
+            {
+                path: 'roles',
+                data: { [RouteData.ToolCode]: ToolCode.Roles },
+                loadComponent: () => import('../components/roles/roles.component').then(c => c.RolesComponent)
+            },
+            {
+                path: 'translations',
+                data: { [RouteData.ToolCode]: ToolCode.Translation },
+                loadComponent: () => import('../components/translations/translations.component').then(c => c.TranslationsComponent)
+            },
+            {
+                path: 'layout',
+                data: { [RouteData.ToolCode]: ToolCode.Layout },
+                loadComponent: () => import('../components/layout-editor/layout-editor.component').then(c => c.LayoutEditorComponent)
+            },
         ]
     },
     {
         path: '',
-        redirectTo: '/workplace/dashboard',
+        redirectTo: '/workplace',
         pathMatch: 'full'
     },
 ];

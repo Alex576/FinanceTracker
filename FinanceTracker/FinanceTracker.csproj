@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FinanceTracker.Core\FinanceTracker.Core.csproj" />
     <ProjectReference Include="..\FinanceTracker.Data\FinanceTracker.Data.csproj" />
+    <ProjectReference Include="..\MasterData.Core\MasterData.Core.csproj" />
     <ProjectReference Include="..\MasterData.Data\MasterData.Data.csproj" />
     <ProjectReference Include="..\Security.Core\Security.Core.csproj" />
     <ProjectReference Include="..\Security.Data\Security.Data.csproj" />
@@ -16,6 +17,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="10.0.3" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="6.1.1" />
   </ItemGroup>
 
 </Project>

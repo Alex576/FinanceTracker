@@ -1,0 +1,18 @@
+<div class="filter-editor">
+  <app-side-panel-view [isMainDataReady]="isFormReady()">
+    <ng-container main-data>
+      <div class="filter-editor__form">
+        <app-form [form]="form()" />
+      </div>
+    </ng-container>
+    <ng-container buttons>
+      <div>
+        <button class="side-panel-view__buttons-close"
+                matButton="filled"
+                (click)="onSave()">
+          {{"Save"}}
+        </button>
+      </div>
+    </ng-container>
+  </app-side-panel-view>
+</div>

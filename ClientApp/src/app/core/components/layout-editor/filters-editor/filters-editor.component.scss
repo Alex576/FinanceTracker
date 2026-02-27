@@ -1,0 +1,15 @@
+.filters-editor {
+    &__item {
+        width: 200px;
+        display: flex;
+        justify-content: space-between;
+        background-color: var(--mat-form-field-filled-container-color, var(--mat-sys-surface-variant));
+
+        &:hover {
+            opacity: var(--mat-form-field-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity));
+        }
+
+        &-title {
+        }
+    }
+}

@@ -6,6 +6,7 @@ namespace FinanceTracker.Core.Services.Interfaces
 {
     public interface ILoginService
     {
-        Task<(OperationResult<UserModel> result, JwtSecurityToken? token)> Login(string login, string password);
+        Task<(OperationResultData<UserModel> result, JwtSecurityToken? token)> Login(string login, string password);
+        Task Logout(int id);
     }
 }

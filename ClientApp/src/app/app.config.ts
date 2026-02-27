@@ -6,6 +6,7 @@ import { routes } from './app.routes';
 import { errorInterceptor } from './core/interceptors/error-interceptor';
 import { httpDelayInterception } from './core/interceptors/http-delay-interceptor';
 import { httpInterceptor } from './core/interceptors/http-interceptor';
+import { userInterception } from './core/interceptors/user-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,6 +15,7 @@ export const appConfig: ApplicationConfig = {
         errorInterceptor,
         httpDelayInterception,
         httpInterceptor,
+        userInterception,
       ])
     ),
     provideToastr({

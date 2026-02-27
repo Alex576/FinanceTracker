@@ -16,6 +16,8 @@ public partial class MasterDataContext : DbContext
 
     public virtual DbSet<Finance> Finances { get; set; }
 
+    public virtual DbSet<ObjectEntity> ObjectEntities { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Capital>(entity =>
@@ -53,8 +55,26 @@ public partial class MasterDataContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Finances__capita__534D60F1");
         });
+
+        modelBuilder.Entity<ObjectEntity>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Object__3213E83F490061FC");
+
+            entity.ToTable("ObjectEntity", "md");
+
+            entity.Property(e => e.Id)
+                .HasDefaultValueSql("(NEXT VALUE FOR [md].[SQ_Object])", "DF__Object__id__3F115E1A")
+                .HasColumnName("id");
+            entity.Property(e => e.FullName)
+                .HasMaxLength(300)
+                .HasColumnName("fullName");
+            entity.Property(e => e.Name)
+                .HasMaxLength(300)
+                .HasColumnName("name");
+        });
         modelBuilder.HasSequence("SQ_Capital", "md");
         modelBuilder.HasSequence("SQ_Finances", "md");
+        modelBuilder.HasSequence("SQ_Object", "md").StartsAt(10000L);
 
         OnModelCreatingPartial(modelBuilder);
     }

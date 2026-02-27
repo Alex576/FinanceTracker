@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceTracker.Controllers.Api
 {
@@ -7,6 +8,7 @@ namespace FinanceTracker.Controllers.Api
     public class ConfigurationController : ControllerBase
     {
         [HttpGet("[action]")]
+        [AllowAnonymous]
         public AppConfig GetConfig()
         {
             return new AppConfig();

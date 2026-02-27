@@ -11,5 +11,7 @@ namespace FinanceTracker.Core.Models
         Settings = 3,
         Roles = 4,
         Users = 5,
+        Translation = 6,
+        Layout = 7,
     }
 }

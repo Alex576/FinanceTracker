@@ -1,0 +1,7 @@
+<div class="form">
+  @if (form()) {
+  @for (control of controls(); track control.id) {
+  <app-control-switch [control]="control" (controlChanged)="onControlChanged($event)" />
+  }
+  }
+</div>

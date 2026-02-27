@@ -11,7 +11,7 @@ public partial class Layout
 
     public string? LayoutJson { get; set; }
 
-    public int TileId { get; set; }
+    public int TileCode { get; set; }
 
-    public virtual Tile Tile { get; set; } = null!;
+    public virtual Tile TileCodeNavigation { get; set; } = null!;
 }

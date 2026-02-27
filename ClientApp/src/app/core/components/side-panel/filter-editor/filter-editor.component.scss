@@ -1,0 +1,13 @@
+:host {
+    display: block;
+    height: 100%;
+}
+
+.filter-editor {
+    height: 100%;
+
+    &__form {
+        padding: 10px 0;
+        width: 100%;
+    }
+}

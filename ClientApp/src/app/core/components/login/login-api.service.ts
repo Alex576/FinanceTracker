@@ -9,9 +9,13 @@ import { BaseApiService } from '../../services/base-api.service';
 })
 export class LoginApiService extends BaseApiService {
   private readonly LOGIN = 'Login/Login';
+  private readonly LOGOUT = 'Login/Logout';
 
   login(login: string, password: string): Observable<OperationResult<UserModel>> {
     return this.http.post<OperationResult<UserModel>>(`${this.baseUrl}${this.LOGIN}`, { login, password }, { withCredentials: true });
   }
 
+  logout(id: number): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}${this.LOGOUT}`, { id });
+  }
 }

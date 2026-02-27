@@ -13,3 +13,6 @@ button[mat-button][appearance~="hide-text"] {
         margin-right: 0;
     }
 }
+
+button[mat-button].active {
+}

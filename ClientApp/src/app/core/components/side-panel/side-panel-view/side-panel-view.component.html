@@ -1,0 +1,28 @@
+<div class="side-panel-view">
+  <div class="side-panel-view__header">
+    <div>
+      {{header}}
+    </div>
+  </div>
+  <div class="side-panel-view__data">
+    <!-- <div class="side-panel-view__blob"></div> -->
+    @if (isMainDataReady()){
+    <ng-content select="[main-data]" />
+    }
+    @else {
+    <div class="side-panel-view__loading">
+      <app-loading />
+    </div>
+    }
+  </div>
+  <div class="side-panel-view__buttons">
+    <button class="side-panel-view__buttons-close"
+            matButton="outlined"
+            (click)="onClose()">
+      {{"Close"}}
+    </button>
+    <div>
+      <ng-content select="[buttons]" />
+    </div>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+<div class="ag-grid">
+  @if (ready()){
+  <ag-grid-angular class="ag-grid_table" [gridOptions]="gridOptions()"
+                   (gridReady)="onGridReady($event)" />
+  }@else{
+  <app-loading />
+  }
+</div>

@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatIconRegistry } from '@angular/material/icon';
 import { RouterOutlet } from '@angular/router';
 import { tap } from 'rxjs';
 import { LoadingComponent } from './core/components/loading/loading.component';
@@ -19,17 +20,24 @@ export class AppComponent {
   private readonly themeSwitcherService = inject(ThemeSwitcherService);
   private readonly storageService = inject(StorageService);
   private readonly service = inject(AppService);
+  private readonly iconRegistry = inject(MatIconRegistry);
 
-  protected readonly isLoaded = signal(true); //todo revert to false
+  protected readonly isLoaded = signal(false);
 
   protected readonly title = 'FinanceTracker';
   private readonly darkThemeName = 'dark-theme';
   private readonly lightThemeName = 'light-theme';
 
   constructor() {
+    this.iconRegistry.setDefaultFontSetClass('material-symbols-outlined');
+
     this.service.getAppConfig()
       .pipe(
-        tap({ next: () => this.isLoaded.set(true) }),
+        tap({
+          next: () => {
+            this.isLoaded.set(true);
+          }
+        }),
         takeUntilDestroyed(),
       )
       .subscribe();

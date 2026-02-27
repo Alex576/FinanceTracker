@@ -21,17 +21,22 @@ namespace FinanceTracker.Core.Services
             m_TokenService = tokenService;
         }
 
-        public async Task<(OperationResult<UserModel> result, JwtSecurityToken? token)> Login(string login, string password)
+        public async Task<(OperationResultData<UserModel> result, JwtSecurityToken? token)> Login(string login, string password)
         {
             var user = await m_UserService.GetUser(login, password);
 
             if (user == null)
-                return (new OperationResult<UserModel>(null, ResultCode.Error, "Failed to login"), null);
+                return (new OperationResultData<UserModel>(null, ResultCode.Error, "Failed to login"), null);
             else
             {
                 var refreshToken = await UpdateRefreshToken(user);
-                return (new OperationResult<UserModel>(new UserModel(user) { AccessToken = GenerateAccessToken(user) }, ResultCode.Success, "Login success"), refreshToken);
+                return (new OperationResultData<UserModel>(new UserModel(user) { AccessToken = GenerateAccessToken(user) }, ResultCode.Success, "Login success"), refreshToken);
             }
+        }
+
+        public async Task Logout(int id)
+        {
+            await m_UserService.UpdateUser(id, x => x.SetProperty(p => p.RefreshToken, v => null));
         }
 
         private string GenerateAccessToken(User user) => m_TokenService.GenerateAccessToken(user);

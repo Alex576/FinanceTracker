@@ -1,0 +1,10 @@
+<div class="roles">
+  <div class="roles_container">
+    @if(gridLayout()){
+    <app-ag-grid [grid]="gridLayout()"></app-ag-grid>
+    }
+    @else {
+    <app-loading />
+    }
+  </div>
+</div>

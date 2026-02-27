@@ -31,4 +31,8 @@ export class LoginService {
         })
       );
   }
+
+  logout(id: number): Observable<void> {
+    return this.api.logout(id);
+  }
 }

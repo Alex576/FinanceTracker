@@ -1,2 +1,4 @@
 $menu-icon-size: 28px;
-$menu-min-width: calc(var(--mat-button-text-with-icon-horizontal-padding) * 2 + $menu-icon-size);
+$menu-min-width: calc(
+    var(--mat-button-text-with-icon-horizontal-padding) * 2 + $menu-icon-size - 4px
+); // icon have -4px margin left

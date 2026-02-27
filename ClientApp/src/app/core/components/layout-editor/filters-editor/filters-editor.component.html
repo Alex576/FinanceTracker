@@ -1,0 +1,17 @@
+<div class="filters-editor">
+  @for (filter of filters(); track filter.tileItemCode) {
+  <div class="filters-editor__item">
+    <div class="filters-editor__item-title">
+      {{filter.name}}
+    </div>
+    <button matIconButton (click)="onEditItem(filter)">
+      <mat-icon class="icon">edit</mat-icon>
+    </button>
+  </div>
+  }
+  @if (canAdd()) {
+  <button matIconButton (click)="onAddItem()">
+    <mat-icon class="icon">add</mat-icon>
+  </button>
+  }
+</div>

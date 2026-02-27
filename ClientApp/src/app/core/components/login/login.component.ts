@@ -4,7 +4,10 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { MatAnchor } from "@angular/material/button";
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { from, mergeMap } from 'rxjs';
+import { from, mergeMap, tap } from 'rxjs';
+import { LocalStorageKeys } from '../../models/local-storage-keys';
+import { UserModel } from '../../models/user-model';
+import { StorageService } from '../../services/storage.service';
 import { calculateHash } from '../../utils/helper';
 import { LoginService } from './login.service';
 
@@ -17,6 +20,7 @@ import { LoginService } from './login.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent {
+  private readonly storageService = inject(StorageService);
   private readonly loginService = inject(LoginService);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -31,6 +35,24 @@ export class LoginComponent {
   private readonly formValid = toSignal(this.form.statusChanges);
 
   protected readonly isDisabledLogin = computed<boolean>(() => this.formValid() !== 'VALID');
+
+  constructor() {
+    const user = this.storageService.getValue<UserModel>(LocalStorageKeys.CurrentUser);
+    if (user) {
+      this.loginService.logout(user.id)
+        .pipe(
+          tap({
+            next: () => {
+              this.storageService.remove(LocalStorageKeys.Token);
+              this.storageService.remove(LocalStorageKeys.CurrentUser);
+            }
+          }),
+          takeUntilDestroyed()
+        )
+        .subscribe();
+    }
+
+  }
 
   onLoginClick(): void {
     const login = this.form.controls.login;

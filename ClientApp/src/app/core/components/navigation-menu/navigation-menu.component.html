@@ -2,29 +2,30 @@
      (mouseenter)="onExpand()"
      (mouseleave)="onCollapse()">
   <div class="navigation_container">
-    <!-- <button mat-icon-button>
-      <mat-icon class="icon"
-                fontIcon="menu" />
-    </button> -->
-    @for (item of items; track item.id) {
+    @for (item of visibleItems(); track item.data.id) {
+
     <div class="item">
-      <div class="item_element">
+      <div class="item_element"
+           [class.active]="isActive(item)">
         <button class="navigation-button"
                 mat-button
                 [attr.appearance]="elementAttribute()"
                 (click)="onElementClick(item)">
-          <mat-icon class="icon"
-                    [fontIcon]="item.icon" />
+          <mat-icon class="icon">{{item.data.icon}}</mat-icon>
           @if (expanded()){
-          {{item.title}}
+          {{item.data.name}}
+
+          }
+          @if(expanded() && item.hasChild){
+          <mat-icon iconPositionEnd>{{(item.expanded ? 'keyboard_arrow_down' :'keyboard_arrow_right')}}</mat-icon>
           }
         </button>
       </div>
     </div>
+
     }
   </div>
   <button matIconButton (click)="onToggleTheme()">
-    <mat-icon class="icon"
-              fontIcon="sunny" />
+    <mat-icon class="icon">sunny</mat-icon>
   </button>
 </div>

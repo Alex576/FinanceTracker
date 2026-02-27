@@ -7,12 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FinanceTracker.Data\FinanceTracker.Data.csproj" />
-    <ProjectReference Include="..\Security.Core\Security.Core.csproj" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Utils\" />
+    <ProjectReference Include="..\FinanceTracker.Data\FinanceTracker.Data.csproj" />
+    <ProjectReference Include="..\MasterData.Data\MasterData.Data.csproj" />
+    <ProjectReference Include="..\Security.Core\Security.Core.csproj" />
   </ItemGroup>
 
 </Project>

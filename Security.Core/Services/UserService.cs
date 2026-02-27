@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Security.Core.Models;
 using Security.Core.Services.Interfaces;
 using Security.Data.DBContext;
@@ -33,10 +34,10 @@ namespace Security.Core.Services
             return user;
         }
 
-        public async Task<UserModel?> GetUser(int userId)
+        public async Task<User?> GetUser(int userId)
         {
             var user = await m_Context.Users.FirstAsync(u => u.Id == userId);
-            return user == null ? null : new UserModel(user);
+            return user;
         }
 
         public async Task<UserModel> AddUser(UserModel user, string password)
@@ -71,6 +72,16 @@ namespace Security.Core.Services
         public async Task SetUserToken(User user, string token)
         {
             user.RefreshToken = token;
+            await m_Context.SaveChangesAsync();
+        }
+
+        public async Task UpdateUser(int id, Action<UpdateSettersBuilder<User>> action)
+        {
+           await  m_Context.Users.Where(x => x.Id == id).ExecuteUpdateAsync(action);
+        }
+
+        public async Task SaveAsync(User user)
+        {
             await m_Context.SaveChangesAsync();
         }
     }

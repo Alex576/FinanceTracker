@@ -32,7 +32,9 @@ export function errorInterceptor(
                         if (token) {
                             return tryUpdateToken(req, next, token);
                         }
+                        notificationService.notifyError("Session is over");
                         navigationService.navigateToLoginPage();
+                        return throwError(() => error);
                     }
                     notificationService.notifyError("Unknown Error");
                     console.error(error.message);

@@ -22,9 +22,7 @@ export function httpInterceptor(
 
     function updateToken() {
         const clone = req.clone({
-            setHeaders: {
-                Authorization: `Bearer ${token}`
-            }
+            headers: req.headers.set('Authorization', `Bearer ${token}`)
         });
         return next(clone);
     }

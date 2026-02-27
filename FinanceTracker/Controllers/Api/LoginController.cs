@@ -24,7 +24,7 @@ namespace FinanceTracker.Controllers.Api
 
         [AllowAnonymous]
         [HttpPost("[action]")]
-        public async Task<OperationResult<UserModel>> Login(LoginModel model)
+        public async Task<OperationResultData<UserModel>> Login(LoginModel model)
         {
             ArgumentNullException.ThrowIfNull(model.Login);
             ArgumentNullException.ThrowIfNull(model.Password);
@@ -43,6 +43,13 @@ namespace FinanceTracker.Controllers.Api
             }
 
             return result;
+        }
+
+        [HttpPost("[action]")]
+        public async Task Logout(LogoutModel model)
+        {
+            await m_LoginService.Logout(model.Id);
+            Response.Cookies.Delete(CookieKeys.RefreshToken);
         }
     }
 }
