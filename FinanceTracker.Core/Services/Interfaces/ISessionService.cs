@@ -1,4 +1,4 @@
-﻿namespace FinanceTracker.Core.Services
+﻿namespace FinanceTracker.Core.Services.Interfaces
 {
     public interface ISessionService
     {

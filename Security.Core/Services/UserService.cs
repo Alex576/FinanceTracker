@@ -4,8 +4,6 @@ using Security.Core.Models;
 using Security.Core.Services.Interfaces;
 using Security.Data.DBContext;
 using Security.Data.DBModels;
-using System;
-using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -77,7 +75,7 @@ namespace Security.Core.Services
 
         public async Task UpdateUser(int id, Action<UpdateSettersBuilder<User>> action)
         {
-           await  m_Context.Users.Where(x => x.Id == id).ExecuteUpdateAsync(action);
+            await m_Context.Users.Where(x => x.Id == id).ExecuteUpdateAsync(action);
         }
 
         public async Task SaveAsync(User user)

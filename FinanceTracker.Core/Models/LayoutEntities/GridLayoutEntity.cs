@@ -1,14 +1,15 @@
 ﻿using FinanceTracker.Core.Models.Grid;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using FinanceTracker.Data.Models;
 
 namespace FinanceTracker.Core.Models.LayoutEntities
 {
     public class GridLayoutEntity : LayoutEntityBase
     {
-        //public override TileTypeCode Type => TileTypeCode.Grid;
+        public override TileTypeCode Type => TileTypeCode.Grid;
         public List<ColumnEntity> Columns { get; set; }
+        public GridLayoutEntity(TileCode tileCode) : base(tileCode)
+        {
+        }
     }
 
     public class ColumnEntity

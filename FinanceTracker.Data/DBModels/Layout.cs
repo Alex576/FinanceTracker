@@ -7,8 +7,6 @@ public partial class Layout
 {
     public int Id { get; set; }
 
-    public string Name { get; set; } = null!;
-
     public string? LayoutJson { get; set; }
 
     public int TileCode { get; set; }

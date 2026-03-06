@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FinanceTracker.Core.Models.OperationResult
+﻿namespace FinanceTracker.Core.Models.OperationResult
 {
     public class OperationResultData<T> : OperationResult where T : class
     {
@@ -17,5 +13,7 @@ namespace FinanceTracker.Core.Models.OperationResult
         {
             Result = result;
         }
+
+        public OperationResultData(OperationResult operationResult, T result) : this(result, operationResult.Code, operationResult.Description) { }
     }
 }

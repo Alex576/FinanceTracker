@@ -3,9 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FinanceTracker.Data.DBContext
 {
@@ -42,7 +39,7 @@ namespace FinanceTracker.Data.DBContext
                     {
                         try
                         {
-                            await SetTileHierarchyPath(cancellationToken);
+                            //await SetTileHierarchyPath(cancellationToken);
 
                             var result = await base.SaveChangesAsync(cancellationToken);
                             await transaction.CommitAsync();
@@ -68,73 +65,73 @@ namespace FinanceTracker.Data.DBContext
             }
         }
 
-        private async Task SetTileHierarchyPath(CancellationToken cancellationToken)
-        {
+        //private async Task SetTileHierarchyPath(CancellationToken cancellationToken)
+        //{
 
-            await SetHierarchyPathForAdded(cancellationToken);
-            await SetHierarchyPathForUpdated(cancellationToken);
-        }
+        //    await SetHierarchyPathForAdded(cancellationToken);
+        //    await SetHierarchyPathForUpdated(cancellationToken);
+        //}
 
-        private async Task SetHierarchyPathForUpdated(CancellationToken cancellationToken)
-        {
-            var entries = ChangeTracker.Entries<Tile>()
-                              .Where(e => e.State == EntityState.Modified)
-                              .ToList();
-            foreach (var entry in entries)
-            {
-                var newParent = entry.Entity.ParentTileCode;
-                var oldParent = entry.Property(x => x.ParentTileCode).OriginalValue;
+        //private async Task SetHierarchyPathForUpdated(CancellationToken cancellationToken)
+        //{
+        //    var entries = ChangeTracker.Entries<Tile>()
+        //                      .Where(e => e.State == EntityState.Modified)
+        //                      .ToList();
+        //    foreach (var entry in entries)
+        //    {
+        //        var newParent = entry.Entity.ParentTileCode;
+        //        var oldParent = entry.Property(x => x.ParentTileCode).OriginalValue;
 
-                if (newParent != oldParent && newParent != null)
-                {
-                    var oldPath = entry.Entity.HierarchyPath;
+        //        if (newParent != oldParent && newParent != null)
+        //        {
+        //            var oldPath = entry.Entity.HierarchyPath;
 
-                    var newParentPath = await Tiles
-                       .Where(e => e.Id == newParent)
-                       .Select(e => e.HierarchyPath)
-                       .FirstOrDefaultAsync(cancellationToken) ?? HierarchyId.GetRoot();
+        //            var newParentPath = await Tiles
+        //               .Where(e => e.Id == newParent)
+        //               .Select(e => e.HierarchyPath)
+        //               .FirstOrDefaultAsync(cancellationToken) ?? HierarchyId.GetRoot();
 
-                    var lastChildPath = await Tiles
-                      .Where(e => e.HierarchyPath.GetAncestor(1) == newParentPath)
-                      .OrderByDescending(e => e.HierarchyPath)
-                      .Select(e => e.HierarchyPath)
-                      .FirstOrDefaultAsync(cancellationToken);
+        //            var lastChildPath = await Tiles
+        //              .Where(e => e.HierarchyPath.GetAncestor(1) == newParentPath)
+        //              .OrderByDescending(e => e.HierarchyPath)
+        //              .Select(e => e.HierarchyPath)
+        //              .FirstOrDefaultAsync(cancellationToken);
 
-                    var newNodePath = newParentPath.GetDescendant(lastChildPath, null);
-                    entry.Entity.HierarchyPath = newNodePath;
+        //            var newNodePath = newParentPath.GetDescendant(lastChildPath, null);
+        //            entry.Entity.HierarchyPath = newNodePath;
 
-                    await Database.ExecuteSqlInterpolatedAsync($@"
-                            UPDATE dbo.Tiles 
-                            SET HierarchyPath = HierarchyPath.GetReparentedValue({oldPath}, {newNodePath})
-                            WHERE HierarchyPath.IsDescendantOf({oldPath}) AND Id <> {entry.Entity.Id}",
-                        cancellationToken);
-                }
-            }
-        }
+        //            await Database.ExecuteSqlInterpolatedAsync($@"
+        //                    UPDATE dbo.Tiles 
+        //                    SET HierarchyPath = HierarchyPath.GetReparentedValue({oldPath}, {newNodePath})
+        //                    WHERE HierarchyPath.IsDescendantOf({oldPath}) AND Id <> {entry.Entity.Id}",
+        //                cancellationToken);
+        //        }
+        //    }
+        //}
 
-        private async Task SetHierarchyPathForAdded(CancellationToken cancellationToken)
-        {
-            var entries = ChangeTracker.Entries<Tile>()
-                                .Where(e => e.State == EntityState.Added && e.Entity.ParentTileCode != null)
-                                .ToList();
+        //private async Task SetHierarchyPathForAdded(CancellationToken cancellationToken)
+        //{
+        //    var entries = ChangeTracker.Entries<Tile>()
+        //                        .Where(e => e.State == EntityState.Added && e.Entity.ParentTileCode != null)
+        //                        .ToList();
 
-            foreach (var entry in entries)
-            {
-                var tile = entry.Entity;
+        //    foreach (var entry in entries)
+        //    {
+        //        var tile = entry.Entity;
 
-                var parentPath = await Tiles
-                    .Where(e => e.Id == tile.ParentTileCode)
-                    .Select(e => e.HierarchyPath)
-                    .FirstOrDefaultAsync(cancellationToken) ?? HierarchyId.GetRoot();
+        //        var parentPath = await Tiles
+        //            .Where(e => e.Id == tile.ParentTileCode)
+        //            .Select(e => e.HierarchyPath)
+        //            .FirstOrDefaultAsync(cancellationToken) ?? HierarchyId.GetRoot();
 
-                var lastChildPath = await Tiles
-                    .Where(e => e.HierarchyPath.GetAncestor(1) == parentPath)
-                    .OrderByDescending(e => e.HierarchyPath)
-                    .Select(e => e.HierarchyPath)
-                    .FirstOrDefaultAsync(cancellationToken);
+        //        var lastChildPath = await Tiles
+        //            .Where(e => e.HierarchyPath.GetAncestor(1) == parentPath)
+        //            .OrderByDescending(e => e.HierarchyPath)
+        //            .Select(e => e.HierarchyPath)
+        //            .FirstOrDefaultAsync(cancellationToken);
 
-                tile.HierarchyPath = parentPath.GetDescendant(lastChildPath, null);
-            }
-        }
+        //        tile.HierarchyPath = parentPath.GetDescendant(lastChildPath, null);
+        //    }
+        //}
     }
 }

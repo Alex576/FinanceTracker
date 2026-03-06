@@ -1,16 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { mergeMap, Observable, tap } from 'rxjs';
-import { ChangedControlValue } from '../../models/controls/changed-control-value';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { ComboControl } from '../../models/controls/combo-control';
+import { FormControl } from '../../models/controls/form-control';
 import { BaseToolComponent } from '../base-tool/base-tool.component';
 import { FiltersComponent } from "../filters/filters.component";
 import { LoadingComponent } from "../loading/loading.component";
 import { FiltersEditorComponent } from "./filters-editor/filters-editor.component";
 import { GridEditorComponent } from "./grid-editor/grid-editor.component";
 import { LayoutEditorService } from './layout-editor.service';
-import { LayoutEditorModel } from './models/layout-editor-model';
-import { LayoutManagementModel } from './models/layout-management-model';
+import { EditFilterModel } from './models/edit-filter-model';
 import { TileTypeCode } from './models/tile-type-code';
 
 @Component({
@@ -23,68 +20,26 @@ import { TileTypeCode } from './models/tile-type-code';
 })
 export class LayoutEditorComponent extends BaseToolComponent {
   private readonly service = inject(LayoutEditorService);
-  private readonly destroyRef = inject(DestroyRef);
 
   protected readonly itemType = TileTypeCode;
 
-  protected readonly layoutManagement = signal<LayoutManagementModel>(null, { equal: () => false });
-  protected readonly layoutEditor = signal<LayoutEditorModel>(null);
-
-  protected readonly filters = computed<ComboControl[]>(() => {
-    const filters: ComboControl[] = [];
-    const model = this.layoutManagement();
-    if (!model) { return filters; }
-
-    if (model.toolFilter) {
-      filters.push(model.toolFilter);
-    }
-    if (model.tileFilter) {
-      filters.push(model.tileFilter);
-    }
-    return filters;
-  });
+  protected readonly layoutManagement = this.service.layoutManagement;
+  protected readonly layoutEditor = this.service.layoutEditor;
+  protected readonly filters = computed<ComboControl[]>(() => this.service.filters());
 
   constructor() {
     super();
 
-    this.service.getLayoutManagement()
-      .pipe(
-        tap({ next: (model) => this.layoutManagement.set(model) }),
-        mergeMap((model) => this.loadLayoutEditor(model.toolFilter.value as number)),
-        takeUntilDestroyed(),
-      )
-      .subscribe();
+    this.service.loadLayoutManagement();
   }
 
-  onFilterValueChanged({ control, newValue }: ChangedControlValue): void {
+  onFilterValueChanged(control: FormControl): void {
     if (control.id == 'ToolFilter') {
-      this.loadLayoutEditor(newValue as number)
-        .subscribe();
+      this.service.loadLayoutEditorAsync(control.value as number);
     }
   }
 
-
-  private loadLayoutEditor(newValue: number): Observable<LayoutEditorModel> {
-    return this.service.getLayoutEditor(newValue)
-      .pipe(
-        tap({
-          next: (model: LayoutEditorModel) => {
-            this.layoutEditor.set(model);
-            return this.layoutManagement.update(x => {
-              x.tileFilter = model.tileFilter;
-              return x;
-            });
-          }
-        }),
-        takeUntilDestroyed(this.destroyRef)
-      );
+  onEditFilter(model: EditFilterModel): void {
+    this.service.editFilter(model);
   }
-
-  // protected getComponent(type: TileTypeCode): Type<FiltersComponent | AgGridComponent> {
-  //   switch (type) {
-  //     case TileTypeCode.Filter: return FiltersComponent;
-  //     case TileTypeCode.Grid: return AgGridComponent;
-  //     default: return null;
-  //   }
-  // }
 }

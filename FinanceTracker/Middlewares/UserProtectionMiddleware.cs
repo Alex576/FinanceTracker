@@ -1,4 +1,4 @@
-﻿using FinanceTracker.Core.Services;
+﻿using FinanceTracker.Core.Services.Interfaces;
 
 public class UserProtectionMiddleware
 {

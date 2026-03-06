@@ -1,11 +1,9 @@
-﻿using FinanceTracker.Models;
+﻿using FinanceTracker.Core.Models;
+using FinanceTracker.Core.Services.Interfaces;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
-using Security.Core.Models;
 using Security.Data.DBModels;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;

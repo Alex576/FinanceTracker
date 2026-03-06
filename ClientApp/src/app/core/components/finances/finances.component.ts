@@ -1,21 +1,23 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
 import { colorSchemeDarkBlue, colorSchemeLight, themeMaterial, type ColDef, type GridOptions } from 'ag-grid-community';
+import { mergeMap, tap } from 'rxjs';
+import { FormControl } from '../../models/controls/form-control';
 import { BaseToolComponent } from '../base-tool/base-tool.component';
+import { FiltersComponent } from "../filters/filters.component";
 import { FinancesService } from './finances.service';
 
 @Component({
   selector: 'app-finances',
   templateUrl: './finances.component.html',
   styleUrls: ['./finances.component.scss'],
-  imports: [AgGridAngular],
+  imports: [AgGridAngular, FiltersComponent],
   providers: [FinancesService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FinancesComponent extends BaseToolComponent implements OnInit {
+export class FinancesComponent extends BaseToolComponent {
   private readonly service = inject(FinancesService);
-  private readonly destroyRef = inject(DestroyRef);
+  // private readonly destroyRef = inject(DestroyRef);
   protected readonly rowData: any[] = [];
   protected readonly colDefs: ColDef[] = [
     { field: "make" },
@@ -25,6 +27,8 @@ export class FinancesComponent extends BaseToolComponent implements OnInit {
   ];
 
   protected gridOptions: GridOptions;
+  protected filters = signal<FormControl[]>(null);
+
   constructor() {
     super();
     this.gridOptions = {
@@ -32,27 +36,18 @@ export class FinancesComponent extends BaseToolComponent implements OnInit {
         .withParams(Object.entries(colorSchemeLight.modeParams)[0][1], 'light-theme')
         .withParams(Object.entries(colorSchemeDarkBlue.modeParams)[0][1], 'dark-theme'),
     };
-  }
 
-  ngOnInit() {
-    this.service.getLayout(this.toolCode)
+
+    this.service.getFilters(this.toolCode)
       .pipe(
-        takeUntilDestroyed(this.destroyRef)
-      ).subscribe({
+        tap({ next: (filters) => this.filters.set(filters) }),
+        mergeMap((filters) => this.service.getLayout({ toolCode: this.toolCode, filters })),
+      )
+      .subscribe({
         next: (layout) => {
           console.log(layout);
         }
       });
 
-  }
-  test() {
-    this.service.getLayout(this.toolCode)
-      .pipe(
-        takeUntilDestroyed(this.destroyRef)
-      ).subscribe({
-        next: (layout) => {
-          console.log(layout);
-        }
-      });
   }
 }

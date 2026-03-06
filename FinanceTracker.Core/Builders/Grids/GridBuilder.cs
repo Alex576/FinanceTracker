@@ -1,7 +1,4 @@
 ﻿using FinanceTracker.Core.Models.Grid;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FinanceTracker.Core.Builders.Grids
 {

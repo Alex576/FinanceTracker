@@ -1,4 +1,4 @@
-﻿namespace FinanceTracker.Core.Models.Layout
+﻿namespace FinanceTracker.Core.Models.LayoutEditor
 {
     //public class LayoutEditableItem
     //{

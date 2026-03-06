@@ -1,8 +1,13 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatButton } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { tap } from 'rxjs';
+import { FormControl } from '../../../models/controls/form-control';
+import { OperationResult, OperationResultData } from '../../../models/operation-result/operation-result';
+import { isSuccess } from '../../../models/operation-result/result-code';
 import { FormComponent } from "../../form/form.component";
+import { LayoutEditorService } from '../../layout-editor/layout-editor.service';
+import { LayoutEditorModel } from '../../layout-editor/models/layout-editor-model';
 import { BaseSidePanelComponent } from '../base-side-panel.component';
 import { SidePanelViewComponent } from "../side-panel-view/side-panel-view.component";
 import { FiltersEditorService } from './filters-editor.service';
@@ -12,24 +17,65 @@ import { FiltersEditorService } from './filters-editor.service';
   templateUrl: './filter-editor.component.html',
   styleUrls: ['./filter-editor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SidePanelViewComponent, MatButton, FormComponent],
+  imports: [SidePanelViewComponent, FormComponent, MatButtonModule],
   providers: [FiltersEditorService],
 })
 export class FilterEditorComponent extends BaseSidePanelComponent {
   private readonly service = inject(FiltersEditorService);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly layoutService = inject(LayoutEditorService);
+
+  private get data(): FormControl {
+    return this.panelData.data as FormControl;
+  }
 
   constructor() {
     super();
 
-    this.service.getForm({ tileCode: this.data.tileCode })
+    this.service.getForm({ tileCode: this.panelData.tileCode, itemId: this.data.id })
       .pipe(
         tap({ next: (form) => this.form.set(form) }),
-        takeUntilDestroyed()
+        takeUntilDestroyed(),
       )
       .subscribe();
   }
 
-  onSave(): void {
+  onFormChanged(): void {
+    this.service.updateForm(this.getFormUpdateModel(this.data.id))
+      .pipe(
+        tap({ next: (form) => this.form.set(form) }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe();
+  }
 
+  onDelete(): void {
+    this.service.deleteControl({ tileCode: this.panelData.tileCode, controlId: this.data.id })
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe({
+        next: ({ code }: OperationResult) => {
+          if (isSuccess(code)) {
+            this.layoutService.removeLayoutElement(this.panelData.tileCode, this.data.id);
+            this.sidePanelService.close();
+          }
+        }
+      });
+  }
+
+  onSave(): void {
+    this.service.saveForm(this.getFormUpdateModel(this.data.id))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe({
+        next: (result: OperationResultData<LayoutEditorModel>) => {
+          if (isSuccess(result.code)) {
+            this.layoutService.applyEditorLayout(result.result);
+            this.sidePanelService.close();
+          }
+        }
+      });
   }
 }

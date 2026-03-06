@@ -1,11 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, OnInit, output } from '@angular/core';
 import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatIconModule } from "@angular/material/icon";
+import { FormControl } from '../../../models/controls/form-control';
 import { SidePanelType } from '../../../models/side-panel/side-panel-type';
 import { TileCode } from '../../../models/tile-code';
 import { SidePanelService } from '../../../services/side-panel.service';
 import { FilterEditorComponent } from '../../side-panel/filter-editor/filter-editor.component';
-import { FilterControlEntity, FilterLayoutEntity } from '../models/layout-editable-item';
+import { LayoutEditorService } from '../layout-editor.service';
+import { EditFilterModel } from '../models/edit-filter-model';
 
 @Component({
   selector: 'app-filters-editor',
@@ -15,13 +17,16 @@ import { FilterControlEntity, FilterLayoutEntity } from '../models/layout-editab
   imports: [MatIconModule, MatIconButton, MatButtonModule]
 })
 export class FiltersEditorComponent implements OnInit {
-  readonly filterEntity = input.required<FilterLayoutEntity>();
+  readonly filters = input.required<FormControl[]>();
   readonly tileCode = input.required<TileCode>();
   readonly maxItemCount = input<number>(Number.POSITIVE_INFINITY);
 
-  private readonly sidePanelService = inject(SidePanelService);
+  readonly editItem = output<EditFilterModel>();
 
-  protected readonly filters = computed<FilterControlEntity[]>(() => this.filterEntity()?.filters ?? []);
+  private readonly sidePanelService = inject(SidePanelService);
+  private readonly layoutEditorService = inject(LayoutEditorService);
+
+  // protected readonly filters = computed<FormControl[]>(() => this.filters() ?? []);
   protected readonly canAdd = computed<boolean>(() => this.maxItemCount() > this.filters().length);
 
   constructor() { }
@@ -29,8 +34,8 @@ export class FiltersEditorComponent implements OnInit {
   ngOnInit() {
   }
 
-  onEditItem(item: FilterControlEntity): void {
-    console.log(item);
+  onEditItem(item: FormControl): void {
+    this.editItem.emit({ control: item, tileCode: this.tileCode() });
   }
 
   onAddItem(): void {
@@ -38,6 +43,7 @@ export class FiltersEditorComponent implements OnInit {
       type: SidePanelType.LayoutFilterEditor,
       componentType: FilterEditorComponent,
       data: { tileCode: this.tileCode(), data: {} }, header: 'Filter'
-    });
+    },
+      [{ provide: LayoutEditorService, useValue: this.layoutEditorService }]);
   }
 }

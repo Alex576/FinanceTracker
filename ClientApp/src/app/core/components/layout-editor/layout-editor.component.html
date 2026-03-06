@@ -7,11 +7,11 @@
   <div class="layout-editor__content">
     @if (editor){
     @for (item of editor.layoutItems; track item.tileCode) {
-    <!-- <ng-container *ngComponentOutlet="getComponent(item.type); inputs: {}">
-    </ng-container> -->
-    @switch (item.type) {
+    @switch (item.data.type) {
     @case (itemType.Filter) {
-    <app-filters-editor [filterEntity]="item.data" [tileCode]="item.tileCode"></app-filters-editor>
+    <app-filters-editor [filters]="item.data.filters"
+                        [tileCode]="item.tileCode"
+                        (editItem)="onEditFilter($event)"></app-filters-editor>
     }
     @case (itemType.Grid) {
     <app-grid-editor [gridEntity]="item.data"></app-grid-editor>

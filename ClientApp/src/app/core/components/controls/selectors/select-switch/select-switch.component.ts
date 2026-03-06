@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
-import { ChangedControlValue } from '../../../../models/controls/changed-control-value';
 import { ComboControlSettings } from '../../../../models/controls/combo-control-settings';
 import { FormControl } from '../../../../models/controls/form-control';
 import { MultiSelectComponent } from "../multi-select/multi-select.component";
@@ -15,14 +14,14 @@ import { SingleSelectComponent } from "../single-select/single-select.component"
 export class SelectSwitchComponent {
   readonly control = input.required<FormControl>();
 
-  readonly valueChanged = output<ChangedControlValue>();
+  readonly valueChanged = output<FormControl>();
 
   protected readonly comboSettings = computed<ComboControlSettings>(() => this.control().settings as ComboControlSettings);
   protected readonly isMulti = computed<boolean>(() => this.comboSettings().allowMultiselect);
   // protected readonly controlMultiValue = computed<number[]>(() => this.control().value as number[]);
   // protected readonly controlSingleValue = computed<number>(() => this.control().value as number);
 
-  onValueChanged(value: number | number[]): void {
-    this.valueChanged.emit({ control: this.control(), newValue: value });
+  onValueChanged(control: FormControl): void {
+    this.valueChanged.emit(control);
   }
 }

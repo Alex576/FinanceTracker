@@ -1,11 +1,6 @@
 ﻿using FinanceTracker.Core.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Security.Data.DBContext;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Net;
-using System.Text;
 
 namespace FinanceTracker.Core.Services
 {

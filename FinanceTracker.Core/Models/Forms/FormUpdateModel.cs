@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FinanceTracker.Core.Models.Forms
+﻿namespace FinanceTracker.Core.Models.Forms
 {
     public class FormUpdateModel : FormModel
     {
+        public FormUpdateModel(TileCode tileCode) : base(tileCode)
+        {
+        }
     }
 }

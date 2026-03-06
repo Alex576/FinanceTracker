@@ -36,9 +36,6 @@ public partial class FinanceTrackerContext : DbContext
                 .HasDefaultValueSql("(NEXT VALUE FOR [dbo].[SQ_Layout])", "id")
                 .HasColumnName("id");
             entity.Property(e => e.LayoutJson).HasColumnName("layoutJson");
-            entity.Property(e => e.Name)
-                .HasMaxLength(255)
-                .HasColumnName("name");
             entity.Property(e => e.TileCode).HasColumnName("tileCode");
 
             entity.HasOne(d => d.TileCodeNavigation).WithMany(p => p.Layouts)
@@ -74,11 +71,11 @@ public partial class FinanceTrackerContext : DbContext
 
         modelBuilder.Entity<Tile>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Tiles__3213E83F646A63D6");
+            entity.HasKey(e => e.TileCode).HasName("PK__Tiles__3213E83F646A63D6");
 
-            entity.Property(e => e.Id)
-                .HasDefaultValueSql("(NEXT VALUE FOR [dbo].[SQ_Tile_Code])", "DF__Tiles__id__619B8048")
-                .HasColumnName("id");
+            entity.Property(e => e.TileCode)
+                .ValueGeneratedNever()
+                .HasColumnName("tileCode");
             entity.Property(e => e.Hierarchy)
                 .HasMaxLength(4000)
                 .HasComputedColumnSql("([hierarchyPath].[ToString]())", false)
@@ -89,13 +86,8 @@ public partial class FinanceTrackerContext : DbContext
                 .HasColumnName("name");
             entity.Property(e => e.Order).HasColumnName("order");
             entity.Property(e => e.ParentTileCode).HasColumnName("parentTileCode");
-            entity.Property(e => e.TileCode).HasColumnName("tileCode");
             entity.Property(e => e.ToolCode).HasColumnName("toolCode");
             entity.Property(e => e.Type).HasColumnName("type");
-
-            entity.HasOne(d => d.ParentTileCodeNavigation).WithMany(p => p.InverseParentTileCodeNavigation)
-                .HasForeignKey(d => d.ParentTileCode)
-                .HasConstraintName("FK__Tiles__tile_code__6477ECF3");
 
             entity.HasOne(d => d.ToolCodeNavigation).WithMany(p => p.Tiles)
                 .HasForeignKey(d => d.ToolCode)

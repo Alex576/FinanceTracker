@@ -14,6 +14,11 @@
     <ProjectReference Include="..\FinanceTracker.Data\FinanceTracker.Data.csproj" />
     <ProjectReference Include="..\MasterData.Data\MasterData.Data.csproj" />
     <ProjectReference Include="..\Security.Core\Security.Core.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Builders\Forms\" />
   </ItemGroup>
 
 </Project>

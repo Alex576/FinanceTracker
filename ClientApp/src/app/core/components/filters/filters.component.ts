@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, OnInit, output } from '@angular/core';
-import { ChangedControlValue } from '../../models/controls/changed-control-value';
 import { ComboControl } from '../../models/controls/combo-control';
+import { FormControl } from '../../models/controls/form-control';
 import { SelectSwitchComponent } from "../controls/selectors/select-switch/select-switch.component";
 
 @Component({
@@ -11,8 +11,11 @@ import { SelectSwitchComponent } from "../controls/selectors/select-switch/selec
   imports: [SelectSwitchComponent]
 })
 export class FiltersComponent implements OnInit {
-  readonly filters = input.required<ComboControl[], ComboControl[] | ComboControl>({
-    transform: (filers: ComboControl | ComboControl[]) => {
+  readonly filters = input.required<ComboControl[], ComboControl[] | ComboControl | null>({
+    transform: (filers: ComboControl | ComboControl[] | null) => {
+      if (!filers) {
+        return [];
+      }
       if (Array.isArray(filers)) {
         return filers;
       }
@@ -20,14 +23,14 @@ export class FiltersComponent implements OnInit {
     }
   });
 
-  readonly valueChanged = output<ChangedControlValue>();
+  readonly valueChanged = output<FormControl>();
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  onValueChanged(control: ChangedControlValue): void {
+  onValueChanged(control: FormControl): void {
     this.valueChanged.emit(control);
   }
 }

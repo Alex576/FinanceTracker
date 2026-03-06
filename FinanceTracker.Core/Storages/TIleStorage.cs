@@ -1,8 +1,5 @@
 ﻿using FinanceTracker.Data.DBContext;
 using FinanceTracker.Data.DBModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FinanceTracker.Core.Storages
 {
@@ -22,7 +19,7 @@ namespace FinanceTracker.Core.Storages
             var allTiles = m_Context.Tiles.ToList();
             foreach (var tile in allTiles)
             {
-                m_TilesMap.Add(tile.Id, tile);
+                //m_TilesMap.Add(tile.Id, tile);
             }
         }
 

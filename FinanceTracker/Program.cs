@@ -1,12 +1,9 @@
 using FinanceTracker.Core;
-using FinanceTracker.Core.Services;
-using FinanceTracker.Core.Services.Interfaces;
+using FinanceTracker.Core.Models;
 using FinanceTracker.Data.DBContext;
 using FinanceTracker.Middlewares;
-using FinanceTracker.Models;
 using MasterData.Data.DBContext;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -14,7 +11,6 @@ using NLog;
 using NLog.Web;
 using Security.Core;
 using Security.Data.DBContext;
-using System.Security.Claims;
 using System.Text;
 
 public partial class Program
@@ -41,7 +37,7 @@ public partial class Program
     private static void InitializeApplication(Logger logger, string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        
+
         //builder.Logging.ClearProviders();
         builder.Host.UseNLog();
 

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace MasterData.Data.DBModels;
+﻿namespace MasterData.Data.DBModels;
 
 public partial class Object
 {

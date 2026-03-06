@@ -1,5 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { FormControl } from '../../models/controls/form-control';
+import { GetGridLayoutModel } from '../../models/get-grid-layout-model';
+import { ToolCode } from '../../models/tool-code';
 import { FinancesApiService } from './finances-api.service';
 
 @Injectable()
@@ -8,7 +11,11 @@ export class FinancesService {
 
   constructor() { }
 
-  getLayout(id: number): Observable<any> {
-    return this.api.getLayout(id);
+  getLayout(model: GetGridLayoutModel): Observable<any> {
+    return this.api.getLayout(model);
+  }
+
+  getFilters(toolCode: ToolCode): Observable<FormControl[]> {
+    return this.api.getFilters(toolCode);
   }
 }

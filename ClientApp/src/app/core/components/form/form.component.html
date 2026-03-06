@@ -1,7 +1,21 @@
 <div class="form">
   @if (form()) {
-  @for (control of controls(); track control.id) {
-  <app-control-switch [control]="control" (controlChanged)="onControlChanged($event)" />
-  }
+  <div class="form__controls">
+    @for (control of controls(); track control.id) {
+    <app-control-switch [control]="control" (controlChanged)="onControlChanged($event)" />
+    }
+  </div>
+  <!-- <div class="form__actions">
+    @for (action of actions(); track action.code) {
+    @switch (action.code) {
+    @case (actionCode.Save) {
+    <button matButton="filled"
+            (click)="onSave()">
+      {{"Save"}}
+    </button>
+    }
+    }
+    }
+  </div> -->
   }
 </div>

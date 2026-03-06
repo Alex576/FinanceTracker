@@ -1,6 +1,5 @@
 ﻿using FinanceTracker.Core.Models;
 using FinanceTracker.Core.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceTracker.Controllers.Api

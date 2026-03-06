@@ -1,48 +1,14 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using FinanceTracker.Core.Models.LayoutEditor.EditorModels;
 
 namespace FinanceTracker.Core.Models.LayoutEditor
 {
-    public class LayoutEditorModel<TData> where TData : class
+    /// <summary>
+    /// Used as layout of tile item element, stored in db
+    /// </summary>
+    public class LayoutEditorModel
     {
-        public int Id { get; set; }
+        public TileCode TileCode { get; set; }
+        public List<FormControlData> FormControls { get; set; } = new();
 
-        public string Name { get; set; } = null!;
-
-        public string? LayoutJson { get; set; }
-
-        private TData _layout;
-
-        public TData Layout
-        {
-            get
-            {
-                _layout ??= JsonConvert.DeserializeObject<TData>(LayoutJson ?? "") ?? Activator.CreateInstance<TData>();
-                return _layout;
-            }
-
-        }
-
-        public int TileCode { get; set; }
-
-        public LayoutEditorModel(int id, string name, string? layoutJson, int tileCode)
-        {
-            Id = id;
-            Name = name;
-            LayoutJson = layoutJson;
-            TileCode = tileCode;
-        }
-
-        public LayoutEditorModel(FinanceTracker.Data.DBModels.Layout layout) : this(layout.Id, layout.Name, layout.LayoutJson, layout.TileCode) { }
-
-        public FinanceTracker.Data.DBModels.Layout GetLayout() => new()
-        {
-            Id = Id,
-            Name = Name,
-            LayoutJson = LayoutJson,
-            TileCode = TileCode
-        };
     }
 }

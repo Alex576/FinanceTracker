@@ -1,5 +1,5 @@
 <div class="finances">
-  <button (click)="test()"></button>
+  <app-filters [filters]="filters()" />
   <div class="finances_content">
     <ag-grid-angular class="finances_content_table"
                      [gridOptions]="gridOptions"

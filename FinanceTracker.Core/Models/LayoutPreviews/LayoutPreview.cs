@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FinanceTracker.Core.Models.LayoutPreviews
+﻿namespace FinanceTracker.Core.Models.LayoutPreviews
 {
     public class LayoutPreview
     {

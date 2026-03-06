@@ -1,9 +1,7 @@
 ﻿using FinanceTracker.Core.Models;
 using FinanceTracker.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 using Authorization = FinanceTracker.Core.Services.Interfaces;
 
 namespace FinanceTracker.Controllers.Api

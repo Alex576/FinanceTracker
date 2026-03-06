@@ -1,7 +1,7 @@
 ﻿using FinanceTracker.Core.Models.Controls;
 using FinanceTracker.Core.Models.LayoutEntities;
 
-namespace FinanceTracker.Core.Models.Layout
+namespace FinanceTracker.Core.Models.LayoutEditor
 {
     public class LayoutEditor
     {

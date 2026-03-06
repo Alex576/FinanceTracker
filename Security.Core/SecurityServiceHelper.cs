@@ -1,9 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Security.Core.Services;
 using Security.Core.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Security.Core
 {

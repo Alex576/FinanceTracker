@@ -1,8 +1,7 @@
-﻿using Security.Core.Models;
-using Security.Data.DBModels;
+﻿using Security.Data.DBModels;
 using System.IdentityModel.Tokens.Jwt;
 
-namespace FinanceTracker.Core.Services
+namespace FinanceTracker.Core.Services.Interfaces
 {
     public interface ITokenService
     {

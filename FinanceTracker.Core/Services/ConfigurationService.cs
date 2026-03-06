@@ -1,12 +1,7 @@
-﻿using FinanceTracker.Controllers.Api;
+﻿using FinanceTracker.Core.Models;
 using FinanceTracker.Core.Services.Interfaces;
 using FinanceTracker.Data.DBContext;
-using FinanceTracker.Models;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FinanceTracker.Core.Services
 {

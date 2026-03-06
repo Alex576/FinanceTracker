@@ -1,4 +1,4 @@
-﻿namespace FinanceTracker.Models
+﻿namespace FinanceTracker.Core.Models
 {
     public enum UserSettingCode
     {

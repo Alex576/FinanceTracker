@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.3.11505.172 d18.3
+VisualStudioVersion = 18.3.11505.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceTracker", "FinanceTracker.csproj", "{D78D17C3-85FC-4A6D-BC1B-F18981708692}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceTracker.Data", "..\FinanceTracker.Data\FinanceTracker.Data.csproj", "{35758475-7188-4CC3-962A-CE86CE76CDEB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceTracker.Core", "..\FinanceTracker.Core\FinanceTracker.Core.csproj", "{E9A7EEF6-DB5F-4A64-9414-AA3A407F7C30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "..\Shared\Shared.csproj", "{7B95EA0B-2EBD-46EF-93AD-6F38D36D566D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{E9A7EEF6-DB5F-4A64-9414-AA3A407F7C30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9A7EEF6-DB5F-4A64-9414-AA3A407F7C30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9A7EEF6-DB5F-4A64-9414-AA3A407F7C30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B95EA0B-2EBD-46EF-93AD-6F38D36D566D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B95EA0B-2EBD-46EF-93AD-6F38D36D566D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B95EA0B-2EBD-46EF-93AD-6F38D36D566D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B95EA0B-2EBD-46EF-93AD-6F38D36D566D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

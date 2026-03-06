@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FinanceTracker.Core.Utils
+﻿namespace FinanceTracker.Core.Utils
 {
     public static class ListExtensions
     {

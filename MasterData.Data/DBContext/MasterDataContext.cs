@@ -14,6 +14,8 @@ public partial class MasterDataContext : DbContext
 
     public virtual DbSet<Capital> Capitals { get; set; }
 
+    public virtual DbSet<ClassEntity> ClassEntities { get; set; }
+
     public virtual DbSet<Finance> Finances { get; set; }
 
     public virtual DbSet<ObjectEntity> ObjectEntities { get; set; }
@@ -31,6 +33,20 @@ public partial class MasterDataContext : DbContext
                 .HasColumnName("id");
             entity.Property(e => e.Name)
                 .HasMaxLength(255)
+                .HasColumnName("name");
+        });
+
+        modelBuilder.Entity<ClassEntity>(entity =>
+        {
+            entity.HasKey(e => e.ClassCode).HasName("PK__ClassEnt__0257F880B78AC869");
+
+            entity.ToTable("ClassEntity", "md");
+
+            entity.Property(e => e.ClassCode)
+                .ValueGeneratedNever()
+                .HasColumnName("classCode");
+            entity.Property(e => e.Name)
+                .HasMaxLength(1000)
                 .HasColumnName("name");
         });
 
@@ -65,12 +81,17 @@ public partial class MasterDataContext : DbContext
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("(NEXT VALUE FOR [md].[SQ_Object])", "DF__Object__id__3F115E1A")
                 .HasColumnName("id");
+            entity.Property(e => e.ClassCode).HasColumnName("classCode");
             entity.Property(e => e.FullName)
                 .HasMaxLength(300)
                 .HasColumnName("fullName");
             entity.Property(e => e.Name)
                 .HasMaxLength(300)
                 .HasColumnName("name");
+
+            entity.HasOne(d => d.ClassCodeNavigation).WithMany(p => p.ObjectEntities)
+                .HasForeignKey(d => d.ClassCode)
+                .HasConstraintName("FK__ObjectEnt__class__690797E6");
         });
         modelBuilder.HasSequence("SQ_Capital", "md");
         modelBuilder.HasSequence("SQ_Finances", "md");

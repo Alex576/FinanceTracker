@@ -1,13 +1,26 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using FinanceTracker.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinanceTracker.Core.Models
 {
     public enum TileCode
     {
-
+        Dashboard = 1,
+        DashboardFilters = 2,
+        DashboardDashboard = 3,
+        FinancesLayout = 4,
+        FinancesDashboard = 5,
+        FinancesFilter = 6,
+        FinancesGrid = 7,
+        UsersLayout = 8,
+        UsersFilter = 9,
+        UsersGrid = 10,
+        RoleLayout = 11,
+        RoleFilter = 12,
+        RoleGrid = 13,
+        TranslationLayout = 14,
+        TranslationFilter = 15,
+        TranslationGrid = 16,
     }
 
     public class Tile

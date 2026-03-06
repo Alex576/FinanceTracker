@@ -1,4 +1,4 @@
-﻿namespace FinanceTracker.Core.Models.ControlDataSettings
+﻿namespace FinanceTracker.Core.Models.ControlSettingModels
 {
     public class ControlDataSettings
     {

@@ -1,7 +1,6 @@
-﻿using FinanceTracker.Core.Models.Layout;
+﻿using FinanceTracker.Core.Models.LayoutEditor;
 using FinanceTracker.Core.Services.Interfaces;
 using FinanceTracker.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceTracker.Controllers.Api
@@ -22,9 +21,9 @@ namespace FinanceTracker.Controllers.Api
         {
             return await m_LayoutService.GetLayoutManagement();
         }
-        
+
         [HttpPost("[action]")]
-        public async Task<LayoutEditor> GetLayoutEditor(LayoutEditorModel model)
+        public async Task<LayoutEditor> GetLayoutEditor(GetLayoutEditorModel model)
         {
             return await m_LayoutService.GetLayoutEditor(model.ToolCode);
         }

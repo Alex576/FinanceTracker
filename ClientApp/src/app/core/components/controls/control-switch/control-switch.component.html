@@ -2,10 +2,10 @@
   @let controlData = control();
   @switch (controlData.type) {
   @case (controlType.Input) {
-  <app-input [control]="controlData" />
+  <app-input [control]="controlData" (valueChanged)="onControlChanged($event)" />
   }
   @case (controlType.Combo) {
-  <app-select-switch [control]="controlData" />
+  <app-select-switch [control]="controlData" (valueChanged)="onControlChanged($event)" />
   }
   }
 </div>

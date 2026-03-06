@@ -1,11 +1,9 @@
 ﻿using FinanceTracker.Core.Models;
 using FinanceTracker.Core.Models.OperationResult;
-using FinanceTracker.Core.Services;
 using FinanceTracker.Core.Services.Interfaces;
 using FinanceTracker.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using Security.Core.Models;
 using System.IdentityModel.Tokens.Jwt;
 

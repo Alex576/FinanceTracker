@@ -1,7 +1,5 @@
 ﻿using FinanceTracker.Core.Models.Controls;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Newtonsoft.Json.Linq;
 
 namespace FinanceTracker.Core.Builders.Filter
 {
@@ -18,7 +16,7 @@ namespace FinanceTracker.Core.Builders.Filter
         //    return filterControl;
         //}
 
-        public object? FillEmptyValue(ControlSettings settings)
+        public JToken? FillEmptyValue(ControlSettings settings)
         {
             if (settings is ComboControlSettings controlSettings)
             {
@@ -26,7 +24,7 @@ namespace FinanceTracker.Core.Builders.Filter
                     return null;
 
                 if (controlSettings.AllowMultiselect == true)
-                    return new List<int> { controlSettings.Items.First().Id };
+                    return JToken.FromObject(new List<int> { controlSettings.Items.First().Id });
                 return controlSettings.Items.First().Id;
             }
             return null;

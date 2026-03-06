@@ -1,6 +1,7 @@
 ﻿using FinanceTracker.Core.Converters;
-using FinanceTracker.Core.Models.ControlDataSettings;
+using FinanceTracker.Core.Models.LayoutEditor.EditorModels;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace FinanceTracker.Core.Models.Controls
 {
@@ -11,8 +12,9 @@ namespace FinanceTracker.Core.Models.Controls
         public string Name { get; set; }
         public ControlType Type { get; set; }
         public ControlSettings Settings { get; set; }
-        public object? Value { get; set; }
+        public JToken? Value { get; set; }
         public TileItemCode TileItemCode { get; set; }
+        public bool Updated { get; set; }
 
 
         [JsonConstructor]

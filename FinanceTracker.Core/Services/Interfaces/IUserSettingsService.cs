@@ -1,6 +1,5 @@
 ﻿using FinanceTracker.Core.Models;
 using FinanceTracker.Core.Models.UserSettings;
-using FinanceTracker.Models;
 
 namespace FinanceTracker.Core.Services.Interfaces
 {

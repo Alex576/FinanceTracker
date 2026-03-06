@@ -1,6 +1,8 @@
 ﻿using FinanceTracker.Core.Models.Forms;
+using FinanceTracker.Core.Models.LayoutEditor;
+using FinanceTracker.Core.Models.OperationResult;
+using FinanceTracker.Core.Services.Interfaces;
 using FinanceTracker.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceTracker.Controllers.Api
@@ -19,7 +21,25 @@ namespace FinanceTracker.Controllers.Api
         [HttpPost("[action]")]
         public async Task<FormModel> GetForm(FormEditorModel model)
         {
-            return await m_FormEditorService.GetForm(model.TileCode);
+            return await m_FormEditorService.GetForm(model.TileCode, model.ItemId);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<FormModel> UpdateForm(FormValueModel model)
+        {
+            return await m_FormEditorService.UpdateForm(model);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<OperationResultData<LayoutEditor>> SaveForm(SaveFormModel model)
+        {
+            return await m_FormEditorService.SaveForm(model);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<OperationResult> DeleteControl(DeleteControlModel model)
+        {
+            return await m_FormEditorService.DeleteControl(model.TileCode, model.ControlId);
         }
     }
 }

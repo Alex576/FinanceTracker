@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FinanceTracker.Core.Cache
+﻿namespace FinanceTracker.Core.Cache
 {
     public static class CacheKeys
     {

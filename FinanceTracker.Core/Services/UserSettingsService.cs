@@ -2,12 +2,8 @@
 using FinanceTracker.Core.Models.UserSettings;
 using FinanceTracker.Core.Services.Interfaces;
 using FinanceTracker.Data.DBContext;
-using FinanceTracker.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FinanceTracker.Core.Services
 {

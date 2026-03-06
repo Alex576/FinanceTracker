@@ -1,4 +1,4 @@
-﻿namespace FinanceTracker.Core.Models.ControlDataSettings
+﻿namespace FinanceTracker.Core.Models.LayoutEditor
 {
     public enum AttributeCode
     {

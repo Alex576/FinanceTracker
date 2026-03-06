@@ -2,7 +2,7 @@
 
 namespace FinanceTracker.Models
 {
-    public class LayoutEditorModel
+    public class GetFilterModel
     {
         public ToolCode ToolCode { get; set; }
     }

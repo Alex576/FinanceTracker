@@ -1,12 +1,8 @@
 ﻿using FinanceTracker.Core.Models;
 using FinanceTracker.Core.Models.Controls;
-using FinanceTracker.Core.Models.Forms;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FinanceTracker.Core.Converters
 {
@@ -20,7 +16,7 @@ namespace FinanceTracker.Core.Converters
             formControl.Name = GetValue<string>(nameof(FormControl.Name), jsonObj);
             formControl.Type = GetValue<ControlType>(nameof(FormControl.Type), jsonObj);
             formControl.TileItemCode = GetValue<TileItemCode>(nameof(FormControl.TileItemCode), jsonObj);
-            formControl.Value = GetValue<object>(nameof(FormControl.Value), jsonObj);
+            formControl.Value = GetValue<JToken?>(nameof(FormControl.Value), jsonObj);
 
             formControl.Settings = formControl.Type switch
             {

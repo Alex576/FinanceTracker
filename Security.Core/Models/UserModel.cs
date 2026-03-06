@@ -1,7 +1,4 @@
 ﻿using Security.Data.DBModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Security.Core.Models
 {

@@ -14,5 +14,10 @@ button[mat-button][appearance~="hide-text"] {
     }
 }
 
-button[mat-button].active {
+button[matButton="outlined"][appearance~="delete"]:not(:disabled) {
+    --mat-button-outlined-outline-color: var(--mat-sys-error);
+    --mat-button-outlined-label-text-color: var(--mat-sys-error);
+    --mat-mdc-button-ripple-color: var(--mat-sys-error);
+    --mat-button-outlined-state-layer-color: var(--mat-sys-error);
+    --mat-button-outlined-ripple-color: color-mix(in srgb, var(--mat-sys-error) 12%, transparent);
 }

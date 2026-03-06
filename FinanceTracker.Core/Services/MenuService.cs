@@ -2,9 +2,6 @@
 using FinanceTracker.Core.Services.Interfaces;
 using FinanceTracker.Data.DBContext;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FinanceTracker.Core.Services
 {

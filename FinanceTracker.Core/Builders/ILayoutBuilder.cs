@@ -1,10 +1,6 @@
 ﻿using FinanceTracker.Core.Models;
-using FinanceTracker.Core.Models.Controls;
 using FinanceTracker.Core.Models.Forms;
 using FinanceTracker.Core.Models.OperationResult;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FinanceTracker.Core.Builders
 {

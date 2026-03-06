@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { OperationResult } from '../../models/operation-result/operation-result';
+import { OperationResultData } from '../../models/operation-result/operation-result';
 import { UserModel } from '../../models/user-model';
 import { BaseApiService } from '../../services/base-api.service';
 
@@ -11,8 +11,8 @@ export class LoginApiService extends BaseApiService {
   private readonly LOGIN = 'Login/Login';
   private readonly LOGOUT = 'Login/Logout';
 
-  login(login: string, password: string): Observable<OperationResult<UserModel>> {
-    return this.http.post<OperationResult<UserModel>>(`${this.baseUrl}${this.LOGIN}`, { login, password }, { withCredentials: true });
+  login(login: string, password: string): Observable<OperationResultData<UserModel>> {
+    return this.http.post<OperationResultData<UserModel>>(`${this.baseUrl}${this.LOGIN}`, { login, password }, { withCredentials: true });
   }
 
   logout(id: number): Observable<void> {

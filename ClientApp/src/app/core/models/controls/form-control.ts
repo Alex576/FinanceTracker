@@ -7,4 +7,6 @@ export interface FormControl {
     type: ControlType;
     value: unknown;
     settings: ControlSettings;
+    tileItemCode: number; //todo mb add TileItemCode entity?
+    updated?: boolean;
 }

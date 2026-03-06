@@ -1,6 +1,4 @@
-﻿using FinanceTracker.Core.Models;
-
-namespace FinanceTracker.Controllers.Api
+﻿namespace FinanceTracker.Core.Models
 {
     public class AppConfig
     {

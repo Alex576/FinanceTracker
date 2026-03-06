@@ -23,4 +23,7 @@ export class ControlSwitchComponent implements OnInit {
   ngOnInit() {
   }
 
+  onControlChanged(control: FormControl): void {
+    this.controlChanged.emit(control);
+  }
 }

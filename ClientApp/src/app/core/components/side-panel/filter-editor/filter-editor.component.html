@@ -2,13 +2,16 @@
   <app-side-panel-view [isMainDataReady]="isFormReady()">
     <ng-container main-data>
       <div class="filter-editor__form">
-        <app-form [form]="form()" />
+        <app-form [form]="form()" (formChanged)="onFormChanged()" />
       </div>
     </ng-container>
     <ng-container buttons>
-      <div>
-        <button class="side-panel-view__buttons-close"
-                matButton="filled"
+      <div class="filter-editor__buttons">
+        <button appearance="delete" matButton="outlined"
+                (click)="onDelete()">
+          {{"Delete"}}
+        </button>
+        <button matButton="filled"
                 (click)="onSave()">
           {{"Save"}}
         </button>

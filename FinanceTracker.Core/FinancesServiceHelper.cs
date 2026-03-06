@@ -1,12 +1,7 @@
-﻿using FinanceTracker.Controllers.Api;
-using FinanceTracker.Core.Services;
+﻿using FinanceTracker.Core.Services;
 using FinanceTracker.Core.Services.Interfaces;
+using FinanceTracker.Data.Services;
 using Microsoft.Extensions.DependencyInjection;
-using Security.Core.Services;
-using Security.Core.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FinanceTracker.Core
 {
@@ -14,6 +9,7 @@ namespace FinanceTracker.Core
     {
         public static void InitializeServices(IServiceCollection services)
         {
+            services.AddScoped<FinanceContextService>();
             services.AddScoped<IConfigurationService, ConfigurationService>();
             services.AddSingleton<ITokenService, TokenService>();
             services.AddScoped<IAuthorizationService, AuthorizationService>();
@@ -24,6 +20,7 @@ namespace FinanceTracker.Core
             services.AddScoped<ISessionService, SessionService>();
             services.AddScoped<IUserSettingsService, UserSettingsService>();
             services.AddScoped<IFormEditorService, FormEditorService>();
+            services.AddScoped<IFinancesService, FinancesService>();
         }
     }
 }

@@ -3,10 +3,7 @@ using FinanceTracker.Core.Services.Interfaces;
 using Security.Core.Models;
 using Security.Core.Services.Interfaces;
 using Security.Data.DBModels;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Text;
 
 namespace FinanceTracker.Core.Services
 {

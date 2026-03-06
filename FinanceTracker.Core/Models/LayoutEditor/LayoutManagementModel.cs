@@ -1,6 +1,6 @@
 ﻿using FinanceTracker.Core.Models.Controls;
 
-namespace FinanceTracker.Core.Models.Layout
+namespace FinanceTracker.Core.Models.LayoutEditor
 {
     public class LayoutManagementModel
     {

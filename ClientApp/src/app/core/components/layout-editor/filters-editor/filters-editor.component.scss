@@ -1,15 +1,23 @@
+@use "../../../../styles/variable-styles.scss" as var;
 .filters-editor {
+    display: flex;
+    gap: var.$item-indent;
+    padding: 0 var.$item-indent;
+
     &__item {
         width: 200px;
         display: flex;
         justify-content: space-between;
+        align-items: center;
         background-color: var(--mat-form-field-filled-container-color, var(--mat-sys-surface-variant));
 
-        &:hover {
-            opacity: var(--mat-form-field-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity));
-        }
+        // &:hover {
+        //     opacity: var(--mat-form-field-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity));
+        // }
 
         &-title {
+            cursor: default;
+            padding: 0 var.$item-indent;
         }
     }
 }

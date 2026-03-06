@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FinanceTracker.Core.Models
+﻿namespace FinanceTracker.Core.Models
 {
     public enum TileItemCode
     {
@@ -16,6 +12,9 @@ namespace FinanceTracker.Core.Models
         State = 8,
         Tool = 9,
         Tile = 10,
+        Item = 11,
+        Class = 12,
+        DataType = 13,
     }
 
     public class TileItem

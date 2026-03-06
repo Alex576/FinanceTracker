@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MasterData.Core.Models
+﻿namespace MasterData.Core.Models
 {
     public class FactEntity
     {

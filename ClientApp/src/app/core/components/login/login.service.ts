@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { OperationResult } from '../../models/operation-result/operation-result';
+import { OperationResultData } from '../../models/operation-result/operation-result';
 import { isError, isSuccess } from '../../models/operation-result/result-code';
 import { UserModel } from '../../models/user-model';
 import { NavigationService } from '../../services/navigation.service';
@@ -18,7 +18,7 @@ export class LoginService {
   login(login: string, password: string): Observable<void> {
     return this.api.login(login, password)
       .pipe(
-        map(({ result, code, description }: OperationResult<UserModel>) => {
+        map(({ result, code, description }: OperationResultData<UserModel>) => {
           if (isError(code)) {
             this.notificationService.notifyError(description || 'Wrong user name or password');
           }

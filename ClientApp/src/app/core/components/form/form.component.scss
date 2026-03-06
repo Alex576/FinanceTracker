@@ -1,0 +1,17 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    &__controls {
+        flex: 1;
+    }
+
+    // &__actions {
+    //     display: flex;
+    //     justify-content: space-between;
+    //     align-items: center;
+    //     padding: $panel-padding;
+    //     background: var(--mat-sys-surface-container-high);
+    // }
+}

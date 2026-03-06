@@ -1,5 +1,4 @@
-import { ComboControlSettings } from "../../../models/controls/combo-control-settings";
-import { ControlSettings } from "../../../models/controls/control-settings";
+import { FormControl } from "../../../models/controls/form-control";
 import { TileCode } from "../../../models/tile-code";
 import { PinPosition } from "../../ag-grid/models/column";
 import { TileTypeCode } from "./tile-type-code";
@@ -31,27 +30,17 @@ export interface ColumnEntity {
 export type LayoutItemEntity = FilterLayoutEntity | GridLayoutEntity;
 
 export interface LayoutEntity {
-    type: TileTypeCode;
     tileCode: TileCode;
-    data: any;//LayoutItemEntity;
+    data: LayoutItemEntity;
 }
 
 export interface GridLayoutEntity extends LayoutEntityBase {
-
+    type: TileTypeCode.Grid;
 }
 
 export interface FilterLayoutEntity extends LayoutEntityBase {
-    filters: FilterControlEntity[];
-}
-
-export interface FilterControlEntity extends ControlEntityBase<ComboControlSettings> {
-    objCode?: number;
-    factName?: string;
-}
-export interface ControlEntityBase<TSettings extends ControlSettings> {
-    name: string;
-    tileItemCode: number;
-    settings: TSettings;
+    type: TileTypeCode.Filter;
+    filters: FormControl[];
 }
 
 export interface LayoutEntityBase {

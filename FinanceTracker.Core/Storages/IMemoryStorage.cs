@@ -1,6 +1,4 @@
-﻿using FinanceTracker.Data.DBModels;
-
-namespace FinanceTracker.Core.Storages
+﻿namespace FinanceTracker.Core.Storages
 {
     public interface IMemoryStorage<TData>
     {

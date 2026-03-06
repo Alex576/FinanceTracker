@@ -1,4 +1,4 @@
-﻿using FinanceTracker.Controllers.Api;
+﻿using FinanceTracker.Core.Models;
 
 namespace FinanceTracker.Core.Services.Interfaces
 {
