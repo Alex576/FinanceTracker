@@ -7,6 +7,10 @@ public partial class Finance
 {
     public int Id { get; set; }
 
+    public string Name { get; set; } = null!;
+
+    public int CapitalId { get; set; }
+
     public DateTime? DateFrom { get; set; }
 
     public DateTime? DateTo { get; set; }
@@ -16,8 +20,6 @@ public partial class Finance
     public int? LastModifiedUser { get; set; }
 
     public string? OptionsJson { get; set; }
-
-    public int CapitalId { get; set; }
 
     public virtual Capital Capital { get; set; } = null!;
 }

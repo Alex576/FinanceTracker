@@ -6,10 +6,10 @@ namespace FinanceTracker.Core.Builders.Layouts
 {
     public abstract class BaseFormLayoutBuilder
     {
-        protected readonly FinanceContextService m_FinanceTrackerContext;
+        protected readonly TileContextService m_FinanceTrackerContext;
         private int _index = 0;
 
-        protected BaseFormLayoutBuilder(FinanceContextService financeTrackerContext)
+        protected BaseFormLayoutBuilder(TileContextService financeTrackerContext)
         {
             m_FinanceTrackerContext = financeTrackerContext;
         }

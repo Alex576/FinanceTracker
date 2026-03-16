@@ -1,6 +1,7 @@
 ﻿namespace FinanceTracker.Core.Models.UserSettings
 {
-    public class UserSetting
+    public abstract class UserSetting
     {
+        public abstract UserSettingCode SettingCode { get; }
     }
 }

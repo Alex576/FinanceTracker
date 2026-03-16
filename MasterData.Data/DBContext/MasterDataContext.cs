@@ -64,6 +64,9 @@ public partial class MasterDataContext : DbContext
             entity.Property(e => e.DateTo).HasColumnName("dateTo");
             entity.Property(e => e.LastModifiedUser).HasColumnName("lastModifiedUser");
             entity.Property(e => e.LastUpdate).HasColumnName("lastUpdate");
+            entity.Property(e => e.Name)
+                .HasMaxLength(400)
+                .HasColumnName("name");
             entity.Property(e => e.OptionsJson).HasColumnName("optionsJson");
 
             entity.HasOne(d => d.Capital).WithMany(p => p.Finances)
@@ -91,6 +94,7 @@ public partial class MasterDataContext : DbContext
 
             entity.HasOne(d => d.ClassCodeNavigation).WithMany(p => p.ObjectEntities)
                 .HasForeignKey(d => d.ClassCode)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__ObjectEnt__class__690797E6");
         });
         modelBuilder.HasSequence("SQ_Capital", "md");

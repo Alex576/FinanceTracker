@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-import { FormEditorModel } from '../../../models/controls/form-editor-model';
 import { DeleteControlModel } from '../../../models/form-editor/delete-control-model';
+import { FormEditorModel } from '../../../models/form-editor/form-editor-model';
 import { FormModel } from '../../../models/form-editor/form-model';
 import { FormSaveModel } from '../../../models/form-editor/form-save-model';
 import { FormUpdateModel } from '../../../models/form-editor/form-update-model';
@@ -38,7 +38,7 @@ export class FiltersEditorService {
   }
 
   deleteControl(model: DeleteControlModel): Observable<OperationResult> {
-    return this.api.deleteControl(model)
+    return this.api.deleteItem(model)
       .pipe(
         tap({
           next: ({ code, description }: OperationResult) => {

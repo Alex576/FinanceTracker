@@ -3,5 +3,6 @@
     public enum UserSettingCode
     {
         LastOpenedTool = 1,
+        FinancesFilterSettings = 2,
     }
 }

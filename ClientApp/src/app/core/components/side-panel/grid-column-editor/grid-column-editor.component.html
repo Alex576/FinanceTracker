@@ -1,0 +1,21 @@
+<div class="grid-column-editor">
+  <app-side-panel-view [isMainDataReady]="isFormReady()">
+    <ng-container main-data>
+      <div class="grid-column-editor__form">
+        <app-form [form]="form()" (formChanged)="onFormChanged()" />
+      </div>
+    </ng-container>
+    <ng-container buttons>
+      <div class="grid-column-editor__buttons">
+        <button appearance="delete" matButton="outlined"
+                (click)="onDelete()">
+          {{"Delete"}}
+        </button>
+        <button matButton="filled"
+                (click)="onSave()">
+          {{"Save"}}
+        </button>
+      </div>
+    </ng-container>
+  </app-side-panel-view>
+</div>

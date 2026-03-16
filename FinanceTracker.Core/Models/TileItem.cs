@@ -15,6 +15,7 @@
         Item = 11,
         Class = 12,
         DataType = 13,
+        ColumnDataType = 14,
     }
 
     public class TileItem

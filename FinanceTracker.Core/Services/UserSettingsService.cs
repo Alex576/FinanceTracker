@@ -21,27 +21,27 @@ namespace FinanceTracker.Core.Services
         public async Task<TData> GetUserSettings<TData>(UserSettingCode code, ToolCode? toolCode = null, TileCode? tileCode = null) where TData : UserSetting
         {
             var userId = m_SessionService.CurrentUser;
-            var hierarchyPath = HierarchyId.Parse(GetPath(toolCode, tileCode));
-            var settings = await m_FinanceTrackerContext.UserSettings.FirstOrDefaultAsync(x => x.UserId == userId && x.HierarchyPath.Equals(hierarchyPath));
+            var path = GetPath(userId, code, toolCode, tileCode);
+            var settings = await m_FinanceTrackerContext.UserSettings.FirstOrDefaultAsync(x => x.Path.Equals(path));
             if (settings == null || settings.SettingsJson == null)
                 return Activator.CreateInstance<TData>();
             return JsonConvert.DeserializeObject<TData>(settings.SettingsJson) ?? Activator.CreateInstance<TData>();
         }
 
-        public async Task SaveUserSetting(UserSettingCode userSetting, ToolCode? toolCode, TileCode? tileCode, UserSetting value)
+        public async Task SaveUserSetting(UserSettingCode code, ToolCode? toolCode, TileCode? tileCode, UserSetting value)
         {
             if (value == null)
                 return;
             var userId = m_SessionService.CurrentUser;
-            var hierarchyPath = HierarchyId.Parse(GetPath(toolCode, tileCode));
-            var savedSettings = await m_FinanceTrackerContext.UserSettings.FirstOrDefaultAsync(x => x.UserId == userId && x.HierarchyPath.Equals(hierarchyPath));
+            var path = GetPath(userId, code, toolCode, tileCode);
+            var savedSettings = await m_FinanceTrackerContext.UserSettings.FirstOrDefaultAsync(x => x.Path.Equals(path));
             if (savedSettings == null)
             {
                 await m_FinanceTrackerContext.UserSettings.AddAsync(new Data.DBModels.UserSetting()
                 {
                     UserId = userId,
-                    HierarchyPath = hierarchyPath,
-                    SettingCode = (int)userSetting,
+                    Path = path,
+                    SettingCode = (int)code,
                     ParentSettingCode = null,
                     SettingsJson = JsonConvert.SerializeObject(value)
                 });
@@ -53,7 +53,7 @@ namespace FinanceTracker.Core.Services
             await m_FinanceTrackerContext.SaveChangesAsync();
         }
 
-        private string GetPath(params Enum?[] nodes) => GetPath(nodes.Where(x => x != null).Select(x => Convert.ToInt32(x).ToString()).ToArray());
-        private string GetPath(params string[] nodes) => nodes.Length == 0 ? "/" : $"/{string.Join("/", nodes)}/";
+        private string GetPath(int userId, UserSettingCode code, ToolCode? toolCode = null, TileCode? tileCode = null) =>
+            $"{userId}_{(int)code}_{(toolCode.HasValue ? (int)toolCode.Value : string.Empty)}_{(tileCode.HasValue ? (int)tileCode.Value : string.Empty)}";
     }
 }

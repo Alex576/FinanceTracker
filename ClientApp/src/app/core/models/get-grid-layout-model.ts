@@ -1,7 +1,7 @@
-import { FormControl } from "./controls/form-control";
+import { FormControlValue } from "./controls/form-control-value";
 import { ToolCode } from "./tool-code";
 
 export interface GetGridLayoutModel {
     toolCode: ToolCode;
-    filters: FormControl[];
+    filters: FormControlValue[];
 }

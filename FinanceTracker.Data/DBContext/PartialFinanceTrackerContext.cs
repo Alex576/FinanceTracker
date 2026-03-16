@@ -22,10 +22,6 @@ namespace FinanceTracker.Data.DBContext
             {
                 entity.Ignore(e => e.Hierarchy);
             });
-            modelBuilder.Entity<UserSetting>(entity =>
-            {
-                entity.Ignore(e => e.Hierarchy);
-            });
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

@@ -148,13 +148,14 @@ public partial class FinanceTrackerContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK__UserSett__3213E83FA3CFE7E7");
 
+            entity.HasIndex(e => e.Path, "IX_Path");
+
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Hierarchy)
-                .HasMaxLength(4000)
-                .HasComputedColumnSql("([hierarchyPath].[ToString]())", false)
-                .HasColumnName("hierarchy");
-            entity.Property(e => e.HierarchyPath).HasColumnName("hierarchyPath");
             entity.Property(e => e.ParentSettingCode).HasColumnName("parentSettingCode");
+            entity.Property(e => e.Path)
+                .IsUnicode(false)
+                .UseCollation("Latin1_General_BIN")
+                .HasColumnName("path");
             entity.Property(e => e.SettingCode).HasColumnName("settingCode");
             entity.Property(e => e.SettingsJson).HasColumnName("settingsJson");
             entity.Property(e => e.UserId).HasColumnName("userId");

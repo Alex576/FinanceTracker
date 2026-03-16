@@ -14,11 +14,9 @@ namespace FinanceTracker.Core.Builders.Layouts
 {
     public class LayoutEditorBuilder : BaseFormLayoutBuilder
     {
-        private readonly FormValueModel m_FormValueModel;
 
-        public LayoutEditorBuilder(FinanceContextService financeTrackerContext, FormValueModel? formValueModel = null) : base(financeTrackerContext)
+        public LayoutEditorBuilder(TileContextService financeTrackerContext) : base(financeTrackerContext)
         {
-            m_FormValueModel = formValueModel ?? new();
         }
 
         public override async Task<LayoutPreview> GetLayoutAsync(ToolCode toolCode)
@@ -32,26 +30,29 @@ namespace FinanceTracker.Core.Builders.Layouts
             return await GetLayoutAsync([new(tileLayout)]);
         }
 
-        public Task<LayoutEditorModel> GetFormEditorLayout(TileCode tileCode)
+        protected virtual List<FormControlData> GetEditorControls()
         {
-
             var controls = new List<FormControlData>();
-            controls.Add(GetControl("Name", TileItemCode.Name, ControlType.Input, [ControlState.Editable]));
-            controls.Add(GetControl("Type", TileItemCode.Type, ControlType.Combo, [ControlState.Editable]));
+            controls.Add(GetControl("Name", TileItemCode.Name, ControlType.Input, [ControlState.Editable, ControlState.Required]));
+            controls.Add(GetControl("Type", TileItemCode.Type, ControlType.Combo, [ControlState.Editable, ControlState.Required]));
             controls.Add(GetControl("State", TileItemCode.State, ControlType.Combo, [ControlState.Editable, ControlState.AllowMultiselect]));
 
-            var itemControl = GetControl("Item", TileItemCode.Item, ControlType.Combo, [ControlState.Editable]);
+            var itemControl = GetControl("Item", TileItemCode.Item, ControlType.Combo, [ControlState.Editable, ControlState.Required]);
             controls.Add(itemControl);
             var classControlDependsOnItem = GetControlDependence(TileItemCode.Item, DependencyType.Value, TileItemCode.Object);
             //if (m_FormValueModel.TryGetControlValue<int>(x => x.ControlId == itemControl.Id, out var controlValue) && controlValue == (int)TileItemCode.Object)
             controls.Add(GetControl("Class", TileItemCode.Class, ControlType.Combo, [ControlState.Hidden, ControlState.Editable, ControlState.AllowMultiselect], classControlDependsOnItem));
-
-            return Task.FromResult(new LayoutEditorModel() { FormControls = controls });
+            return controls;
         }
 
-        private FormControlData GetControl(string name, TileItemCode tileItemCode, ControlType type, List<ControlState> states, ControlDependence? dependence = null)
+        public LayoutEditorModel GetFormEditorLayout(TileCode tileCode)
         {
-            var control = new FormControlData() { Id = GetControlId(tileItemCode), Name = name, TileItemCode = tileItemCode, Type = type, Dependence = dependence };
+            return new LayoutEditorModel(tileCode) { FormControls = GetEditorControls().OrderBy(x => x.Order).ToList() };
+        }
+
+        protected FormControlData GetControl(string name, TileItemCode tileItemCode, ControlType type, List<ControlState> states, ControlDependence? dependence = null, int order = 0)
+        {
+            var control = new FormControlData() { Id = GetControlId(tileItemCode), Name = name, TileItemCode = tileItemCode, Type = type, Dependence = dependence, Order = order };
             control.ControlStates.AddRange(states);
             return control;
         }

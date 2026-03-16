@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AgGridAngular } from 'ag-grid-angular';
 import { colorSchemeDarkBlue, colorSchemeLight, themeMaterial, type ColDef, type GridOptions } from 'ag-grid-community';
 import { mergeMap, tap } from 'rxjs';
 import { FormControl } from '../../models/controls/form-control';
+import { getFormControlValues } from '../../models/controls/form-control-value';
 import { BaseToolComponent } from '../base-tool/base-tool.component';
 import { FiltersComponent } from "../filters/filters.component";
 import { FinancesService } from './finances.service';
@@ -17,6 +19,8 @@ import { FinancesService } from './finances.service';
 })
 export class FinancesComponent extends BaseToolComponent {
   private readonly service = inject(FinancesService);
+  private readonly destroyRef = inject(DestroyRef);
+
   // private readonly destroyRef = inject(DestroyRef);
   protected readonly rowData: any[] = [];
   protected readonly colDefs: ColDef[] = [
@@ -41,7 +45,7 @@ export class FinancesComponent extends BaseToolComponent {
     this.service.getFilters(this.toolCode)
       .pipe(
         tap({ next: (filters) => this.filters.set(filters) }),
-        mergeMap((filters) => this.service.getLayout({ toolCode: this.toolCode, filters })),
+        mergeMap((filters) => this.service.getLayout({ toolCode: this.toolCode, filters: getFormControlValues(filters) })),
       )
       .subscribe({
         next: (layout) => {
@@ -50,4 +54,17 @@ export class FinancesComponent extends BaseToolComponent {
       });
 
   }
+
+  onFilterChanged(control: FormControl): void {
+    this.service.getLayout({ toolCode: this.toolCode, filters: getFormControlValues(this.filters()) })
+      .pipe(
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe({
+        next: (layout) => {
+          console.log(layout);
+        }
+      });
+  }
+
 }

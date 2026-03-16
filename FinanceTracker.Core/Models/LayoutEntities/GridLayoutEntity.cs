@@ -1,4 +1,6 @@
-﻿using FinanceTracker.Core.Models.Grid;
+﻿using FinanceTracker.Core.Models.Controls;
+using FinanceTracker.Core.Models.ControlSettingModels;
+using FinanceTracker.Core.Models.Grid;
 using FinanceTracker.Data.Models;
 
 namespace FinanceTracker.Core.Models.LayoutEntities
@@ -6,7 +8,7 @@ namespace FinanceTracker.Core.Models.LayoutEntities
     public class GridLayoutEntity : LayoutEntityBase
     {
         public override TileTypeCode Type => TileTypeCode.Grid;
-        public List<ColumnEntity> Columns { get; set; }
+        public List<ColumnEntity> Columns { get; set; } = [];
         public GridLayoutEntity(TileCode tileCode) : base(tileCode)
         {
         }
@@ -14,17 +16,12 @@ namespace FinanceTracker.Core.Models.LayoutEntities
 
     public class ColumnEntity
     {
-        public required string Name { get; set; }
-        public int ColumnId { get; set; }
-        public int? Width { get; set; }
-        public bool Editable { get; set; }
-        public PinPosition Pinned { get; set; }
-        public bool LockPinned { get; set; }
-        public bool AutoHeight { get; set; }
-        public bool WrapText { get; set; }
-        public bool Sortable { get; set; }
-        public int? MaxWidth { get; set; }
-        public bool Resizable { get; set; }
+        public string Name { get; set; }
+        public string ColumnId { get; set; }
+        public TileItemCode TileItemCode { get; set; }
+        public ColumnDataType ColumnDataType { get; set; }
+        public ControlMasterData ControlMasterData { get; set; } = new();
+        public List<ControlState> ControlStates { get; set; } = new();
 
     }
 }

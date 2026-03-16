@@ -6,5 +6,6 @@ namespace FinanceTracker.Core.Services.Interfaces
     public interface IFinancesService
     {
         Task<List<FormControl>> GetFilters(ToolCode toolCode);
+
     }
 }

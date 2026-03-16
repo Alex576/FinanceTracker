@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FinanceTracker.Data.Services
 {
-    public class FinanceContextService
+    public class TileContextService : FinanceContextServiceBase
     {
         private readonly string GET_TILE_CHILDREN = @"WITH CTE AS (
                     SELECT [tileCode], [name], [toolCode], [order], [type], [parentTileCode], [hierarchyPath] FROM [dbo].[Tiles] WHERE [tileCode] IN ({0})
@@ -23,13 +23,9 @@ namespace FinanceTracker.Data.Services
                 )
                 SELECT TOP(1) * FROM CTE WHERE [type] = {(int)TileTypeCode.Layout}";
 
-        private readonly FinanceTrackerContext m_Context;
 
-        public FinanceTrackerContext Context => m_Context;
-
-        public FinanceContextService(FinanceTrackerContext context)
+        public TileContextService(FinanceTrackerContext context) : base(context)
         {
-            m_Context = context;
         }
 
         public IAsyncEnumerable<Tile> GetTilesChildren(List<int> tiles)

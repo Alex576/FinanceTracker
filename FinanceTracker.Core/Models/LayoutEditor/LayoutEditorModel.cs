@@ -9,6 +9,10 @@ namespace FinanceTracker.Core.Models.LayoutEditor
     {
         public TileCode TileCode { get; set; }
         public List<FormControlData> FormControls { get; set; } = new();
+        public LayoutEditorModel(TileCode tileCode)
+        {
+            TileCode = tileCode;
+        }
 
     }
 }

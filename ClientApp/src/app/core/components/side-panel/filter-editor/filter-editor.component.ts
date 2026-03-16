@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { tap } from 'rxjs';
 import { FormControl } from '../../../models/controls/form-control';
+import { EditorType } from '../../../models/form-editor/editor-type';
 import { OperationResult, OperationResultData } from '../../../models/operation-result/operation-result';
 import { isSuccess } from '../../../models/operation-result/result-code';
 import { FormComponent } from "../../form/form.component";
@@ -22,7 +23,6 @@ import { FiltersEditorService } from './filters-editor.service';
 })
 export class FilterEditorComponent extends BaseSidePanelComponent {
   private readonly service = inject(FiltersEditorService);
-  private readonly destroyRef = inject(DestroyRef);
   private readonly layoutService = inject(LayoutEditorService);
 
   private get data(): FormControl {
@@ -32,7 +32,7 @@ export class FilterEditorComponent extends BaseSidePanelComponent {
   constructor() {
     super();
 
-    this.service.getForm({ tileCode: this.panelData.tileCode, itemId: this.data.id })
+    this.service.getForm({ tileCode: this.panelData.tileCode, itemId: this.data.id, type: EditorType.Filter })
       .pipe(
         tap({ next: (form) => this.form.set(form) }),
         takeUntilDestroyed(),
@@ -41,7 +41,7 @@ export class FilterEditorComponent extends BaseSidePanelComponent {
   }
 
   onFormChanged(): void {
-    this.service.updateForm(this.getFormUpdateModel(this.data.id))
+    this.service.updateForm(this.getFormUpdateModel(this.data.id, EditorType.Filter))
       .pipe(
         tap({ next: (form) => this.form.set(form) }),
         takeUntilDestroyed(this.destroyRef),
@@ -65,7 +65,7 @@ export class FilterEditorComponent extends BaseSidePanelComponent {
   }
 
   onSave(): void {
-    this.service.saveForm(this.getFormUpdateModel(this.data.id))
+    this.service.saveForm(this.getFormUpdateModel(this.data.id, EditorType.Filter))
       .pipe(
         takeUntilDestroyed(this.destroyRef),
       )

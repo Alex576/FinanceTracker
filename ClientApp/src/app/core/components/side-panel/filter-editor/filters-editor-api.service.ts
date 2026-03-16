@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FormEditorModel } from '../../../models/controls/form-editor-model';
 import { DeleteControlModel } from '../../../models/form-editor/delete-control-model';
+import { FormEditorModel } from '../../../models/form-editor/form-editor-model';
 import { FormModel } from '../../../models/form-editor/form-model';
 import { FormSaveModel } from '../../../models/form-editor/form-save-model';
 import { FormUpdateModel } from '../../../models/form-editor/form-update-model';
@@ -13,11 +13,11 @@ import { LayoutEditorModel } from '../../layout-editor/models/layout-editor-mode
   providedIn: 'root'
 })
 export class FiltersEditorApiService extends BaseApiService {
-  private readonly GET_FORM = "FormEditor/GetForm";
-  private readonly UPDATER_FORM = "FormEditor/UpdateForm";
-  private readonly SAVE_FORM = "FormEditor/SaveForm";
+  private readonly GET_FORM = "LayoutItemEditor/GetForm";
+  private readonly UPDATER_FORM = "LayoutItemEditor/UpdateForm";
+  private readonly SAVE_FORM = "LayoutItemEditor/SaveForm";
 
-  private readonly DELETE_CONTROL = "FormEditor/DeleteControl";
+  private readonly DELETE_CONTROL = "LayoutItemEditor/DeleteItem";
 
   getForm(model: FormEditorModel): Observable<FormModel> {
     return this.post(this.GET_FORM, model);
@@ -31,7 +31,7 @@ export class FiltersEditorApiService extends BaseApiService {
     return this.post(this.SAVE_FORM, model);
   }
 
-  deleteControl(model: DeleteControlModel): Observable<OperationResult> {
+  deleteItem(model: DeleteControlModel): Observable<OperationResult> {
     return this.post(this.DELETE_CONTROL, model);
   }
 }

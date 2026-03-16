@@ -1,5 +1,5 @@
 <div class="finances">
-  <app-filters [filters]="filters()" />
+  <app-filters [filters]="filters()" (valueChanged)="onFilterChanged($event)" />
   <div class="finances_content">
     <ag-grid-angular class="finances_content_table"
                      [gridOptions]="gridOptions"
