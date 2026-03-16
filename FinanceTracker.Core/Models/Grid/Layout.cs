@@ -2,6 +2,6 @@
 {
     public class Layout
     {
-        public List<ColDefinition> Cols { get; set; }
+        public List<ColDefinition> Cols { get; set; } = new();
     }
 }

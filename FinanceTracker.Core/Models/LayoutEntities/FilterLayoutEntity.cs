@@ -3,6 +3,9 @@ using FinanceTracker.Data.Models;
 
 namespace FinanceTracker.Core.Models.LayoutEntities
 {
+    /// <summary>
+    /// Used in layout editor
+    /// </summary>
     public class FilterLayoutEntity : LayoutEntityBase
     {
         public override TileTypeCode Type => TileTypeCode.Filter;

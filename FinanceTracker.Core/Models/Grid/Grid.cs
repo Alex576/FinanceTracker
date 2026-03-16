@@ -2,7 +2,7 @@
 {
     public class Grid
     {
-        public Layout Layout { get; set; }
-        public List<List<object>> Rows { get; set; }
+        public Layout Layout { get; set; } = new();
+        public List<Row> Rows { get; set; } = new();
     }
 }

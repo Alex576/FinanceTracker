@@ -1,7 +1,9 @@
+import { ColumnDataType } from "./column-data-type";
 
 export interface Column {
     field: string;
     columnId: number;
+    columnDataType: ColumnDataType;
     width: number;
     editable: boolean;
     filter: boolean;

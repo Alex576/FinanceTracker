@@ -5,23 +5,15 @@ using FinanceTracker.Data.Models;
 
 namespace FinanceTracker.Core.Models.LayoutEntities
 {
+    /// <summary>
+    /// Used in layout editor
+    /// </summary>
     public class GridLayoutEntity : LayoutEntityBase
     {
         public override TileTypeCode Type => TileTypeCode.Grid;
-        public List<ColumnEntity> Columns { get; set; } = [];
+        public GridEditorEntity GridEditor { get; set; } = new();
         public GridLayoutEntity(TileCode tileCode) : base(tileCode)
         {
         }
-    }
-
-    public class ColumnEntity
-    {
-        public string Name { get; set; }
-        public string ColumnId { get; set; }
-        public TileItemCode TileItemCode { get; set; }
-        public ColumnDataType ColumnDataType { get; set; }
-        public ControlMasterData ControlMasterData { get; set; } = new();
-        public List<ControlState> ControlStates { get; set; } = new();
-
     }
 }

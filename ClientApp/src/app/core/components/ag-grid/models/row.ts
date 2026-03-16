@@ -1,3 +1,3 @@
 export interface Row<TData> {
-    data: TData;
+    data: TData[];
 }

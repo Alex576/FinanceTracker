@@ -1,8 +1,10 @@
 ﻿using FinanceTracker.Core.Builders.Filter;
+using FinanceTracker.Core.Builders.Grids;
 using FinanceTracker.Core.Builders.Layouts;
 using FinanceTracker.Core.Models;
 using FinanceTracker.Core.Models.Controls;
 using FinanceTracker.Core.Models.LayoutEditor;
+using FinanceTracker.Core.Models.LayoutEditor.GridEditor;
 using FinanceTracker.Core.Models.LayoutEntities;
 using FinanceTracker.Core.Models.LayoutPreviews;
 using FinanceTracker.Core.Services.Interfaces;
@@ -90,9 +92,14 @@ namespace FinanceTracker.Core.Services
                 else if (previewItem is GridPreview gridPreview)
                 {
                     var item = new LayoutEntity() { TileCode = previewItem.TileCode };
-                    //var entity = new GridLayoutEntity(previewItem.TileCode);
-                    //if (layout != null)
-                        item.Data = JsonConvert.DeserializeObject<GridLayoutEntity>(layout?.LayoutJson ?? "") ?? new(previewItem.TileCode);
+                    var entity = new GridLayoutEntity(previewItem.TileCode);
+                    if (layout != null)
+                    {
+                        var gridLayout = JsonConvert.DeserializeObject<GridEditorModel>(layout?.LayoutJson ?? "") ?? new(previewItem.TileCode);
+                        var gridBuilder = new GridEditorBuilder(new GridLayoutBuilder().GetGridEditorLayout());
+                        entity.GridEditor = new GridEditorEntity() { GridEntity = gridBuilder.GetLayout(gridLayout.GridEntity.Layout.Columns) };
+                        item.Data = entity;
+                    }
                     //item.Data = entity;
                     layoutItems.Add(item);
                     //layoutItems.Add(new(LayoutBlockNames.GRID_BLOCK, gridLayout));

@@ -1,0 +1,15 @@
+:host {
+    display: block;
+    height: 100%;
+}
+.grid-editor {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    height: 100%;
+    &__actions {
+    }
+    &__content {
+        height: 100%;
+    }
+}

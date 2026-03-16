@@ -5,6 +5,7 @@ using FinanceTracker.Core.Models.ControlSettingModels;
 using FinanceTracker.Core.Models.Forms;
 using FinanceTracker.Core.Models.LayoutEditor;
 using FinanceTracker.Core.Models.LayoutEditor.EditorModels;
+using FinanceTracker.Core.Models.LayoutEditor.GridEditor;
 using FinanceTracker.Core.Models.LayoutEntities;
 using FinanceTracker.Core.Models.OperationResult;
 using FinanceTracker.Core.Utils;
@@ -68,14 +69,14 @@ namespace FinanceTracker.Core.Builders
             {
                 layout = new() { TileCode = (int)tileCode };
             }
-            var oldData = layout.LayoutJson.TryParse<GridLayoutEntity>(out var model) ? model : new(tileCode);
+            var oldData = layout.LayoutJson.TryParse<GridEditorModel>(out var model) ? model : new(tileCode);
             data.ColumnId = $"{(int)tileCode}_{data.Name}";
-            var index = oldData.Columns.FindIndex(x => x.ColumnId == data.ColumnId);
+            var index = oldData.GridEntity.Layout.Columns.FindIndex(x => x.ColumnId == data.ColumnId);
 
             if (index == -1)
-                oldData.Columns.Add(data);
+                oldData.GridEntity.Layout.Columns.Add(data);
             else
-                oldData.Columns[index] = data;
+                oldData.GridEntity.Layout.Columns[index] = data;
             layout.LayoutJson = JsonConvert.SerializeObject(oldData);
 
             if (layout.Id == 0)

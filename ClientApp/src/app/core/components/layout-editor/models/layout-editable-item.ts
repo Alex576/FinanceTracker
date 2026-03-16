@@ -1,20 +1,14 @@
 import { FormControl } from "../../../models/controls/form-control";
 import { TileCode } from "../../../models/tile-code";
 import { PinPosition } from "../../ag-grid/models/column";
+import { ColumnDataType } from "../../ag-grid/models/column-data-type";
+import { Grid } from "../../ag-grid/models/grid";
 import { TileTypeCode } from "./tile-type-code";
 
-// export interface LayoutEditableItem {
-//     tileCode: TileCode;
-//     itemType: ItemType;
-// }
-
-export interface GridLayoutEntity extends LayoutEntityBase {
-    columns: ColumnEntity[];
-}
 
 export interface ColumnEntity {
     name: string;
-    columnId: number;
+    columnId: string;
     width?: number;
     editable: boolean;
     pinned: PinPosition;
@@ -24,6 +18,7 @@ export interface ColumnEntity {
     sortable: boolean;
     maxWidth?: number;
     resizable: boolean;
+    columnDataType: ColumnDataType;
 
 }
 
@@ -36,6 +31,11 @@ export interface LayoutEntity {
 
 export interface GridLayoutEntity extends LayoutEntityBase {
     type: TileTypeCode.Grid;
+    gridEditor: GridEditorEntity;
+}
+
+export interface GridEditorEntity {
+    gridEntity: Grid;
 }
 
 export interface FilterLayoutEntity extends LayoutEntityBase {

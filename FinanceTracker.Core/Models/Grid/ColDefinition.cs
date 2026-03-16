@@ -1,9 +1,20 @@
-﻿namespace FinanceTracker.Core.Models.Grid
+﻿using FinanceTracker.Core.Models.LayoutEditor.GridEditor;
+using FinanceTracker.Core.Models.LayoutEntities;
+
+namespace FinanceTracker.Core.Models.Grid
 {
     public class ColDefinition
     {
-        public required string Field { get; set; }
-        public int ColumnId { get; set; }
+        public ColDefinition(ColumnEntity col)
+        {
+            Field = col.Name;
+            ColumnId = col.ColumnId;
+            ColumnDataType = col.ColumnDataType;
+        }
+
+        public string Field { get; set; }
+        public string ColumnId { get; set; }
+        public ColumnDataType ColumnDataType { get; set; }
         public int? Width { get; set; }
         public bool Editable { get; set; }
         public bool Filter { get; set; }

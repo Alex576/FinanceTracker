@@ -7,5 +7,6 @@
         Float = 3,
         DateTime = 4,
         DateRange = 5,
+        Enum = 6,
     }
 }

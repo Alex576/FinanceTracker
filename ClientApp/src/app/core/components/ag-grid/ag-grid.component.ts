@@ -24,7 +24,7 @@ export class AgGridComponent implements OnInit {
       theme: themeMaterial
         .withParams(Object.entries(colorSchemeLight.modeParams)[0][1], 'light-theme')
         .withParams(Object.entries(colorSchemeDarkBlue.modeParams)[0][1], 'dark-theme'),
-      rowData: grid.rows,
+      rowData: grid.rows.map((row) => row.data),
       columnDefs: this.service.prepareCols(grid.layout.cols),
     };
   });

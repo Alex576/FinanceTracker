@@ -1,32 +1,20 @@
 ﻿using FinanceTracker.Core.Models;
 using FinanceTracker.Core.Models.Grid;
+using FinanceTracker.Core.Models.LayoutEditor.GridEditor;
 using FinanceTracker.Core.Utils;
+using Newtonsoft.Json.Linq;
 
 namespace FinanceTracker.Core.Builders.Grids
 {
     public class RolesGridBuilder : GridBuilder<Role>
     {
-
-        public override Grid GetLayout(List<Role> data)
+        public RolesGridBuilder(GridEntityLayout gridLayout) : base(gridLayout)
         {
-            return base.GetLayout(data);
         }
 
-        protected override List<ColDefinition> GetColumns(Type type)
+        protected override JToken? GetCellData(ColumnEntity col, Role data)
         {
-            return type.GetProperties().Select((x, index) => new ColDefinition()
-            {
-                Field = x.Name.ToCamelCase(),
-                ColumnId = index,
-                Sortable = true,
-                Resizable = true,
-                Filter = true,
-            }).ToList();
-        }
-
-        protected override List<List<object>> GetRows(List<Role> data)
-        {
-            return data.Select((x) => new List<object> { x.Id, x.Name }).ToList();
+            throw new NotImplementedException();
         }
     }
 }
