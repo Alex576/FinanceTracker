@@ -70,8 +70,8 @@ namespace FinanceTracker.Core.Builders
                 layout = new() { TileCode = (int)tileCode };
             }
             var oldData = layout.LayoutJson.TryParse<GridEditorModel>(out var model) ? model : new(tileCode);
-            data.ColumnId = $"{(int)tileCode}_{data.Name}";
-            var index = oldData.GridEntity.Layout.Columns.FindIndex(x => x.ColumnId == data.ColumnId);
+            //data.ColumnId = $"{(int)data.TileItemCode}";
+            var index = oldData.GridEntity.Layout.Columns.FindIndex(x => x.TileItemCode == data.TileItemCode);
 
             if (index == -1)
                 oldData.GridEntity.Layout.Columns.Add(data);

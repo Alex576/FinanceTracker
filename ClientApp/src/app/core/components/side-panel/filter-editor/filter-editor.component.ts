@@ -10,8 +10,8 @@ import { FormComponent } from "../../form/form.component";
 import { LayoutEditorService } from '../../layout-editor/layout-editor.service';
 import { LayoutEditorModel } from '../../layout-editor/models/layout-editor-model';
 import { BaseSidePanelComponent } from '../base-side-panel.component';
+import { LayoutItemEditorService } from '../layout-item-editor.service';
 import { SidePanelViewComponent } from "../side-panel-view/side-panel-view.component";
-import { FiltersEditorService } from './filters-editor.service';
 
 @Component({
   selector: 'app-filter-editor',
@@ -19,10 +19,10 @@ import { FiltersEditorService } from './filters-editor.service';
   styleUrls: ['./filter-editor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SidePanelViewComponent, FormComponent, MatButtonModule],
-  providers: [FiltersEditorService],
+  providers: [LayoutItemEditorService],
 })
 export class FilterEditorComponent extends BaseSidePanelComponent {
-  private readonly service = inject(FiltersEditorService);
+  private readonly service = inject(LayoutItemEditorService);
   private readonly layoutService = inject(LayoutEditorService);
 
   private get data(): FormControl {
@@ -50,7 +50,7 @@ export class FilterEditorComponent extends BaseSidePanelComponent {
   }
 
   onDelete(): void {
-    this.service.deleteControl({ tileCode: this.panelData.tileCode, controlId: this.data.id })
+    this.service.deleteItem({ tileCode: this.panelData.tileCode, itemId: this.data.id, type: EditorType.Filter })
       .pipe(
         takeUntilDestroyed(this.destroyRef),
       )

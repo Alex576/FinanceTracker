@@ -22,7 +22,7 @@ namespace FinanceTracker.Core
             services.AddScoped<ILayoutService, LayoutService>();
             services.AddScoped<ISessionService, SessionService>();
             services.AddScoped<IUserSettingsService, UserSettingsService>();
-            services.AddScoped<ILayoutItemService, FilterEditorService>();
+            services.AddScoped<ILayoutItemService, LayoutItemService>();
             services.AddScoped<IGridEditorService, GridEditorService>();
             services.AddScoped<IFinancesService, FinancesService>();
         }

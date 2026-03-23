@@ -1,4 +1,6 @@
-﻿using FinanceTracker.Core.Models.Grid;
+﻿using FinanceTracker.Core.Models;
+using FinanceTracker.Core.Models.ControlSettingModels;
+using FinanceTracker.Core.Models.Grid;
 using FinanceTracker.Core.Models.LayoutEditor.GridEditor;
 using Newtonsoft.Json.Linq;
 
@@ -8,11 +10,17 @@ namespace FinanceTracker.Core.Builders.Grids
     {
         protected readonly GridEntityLayout m_GridLayout;
 
-        protected List<ColumnEntity> Columns => m_GridLayout.Columns;
+        protected List<ColumnEntity> Columns;
 
         public GridBuilder(GridEntityLayout gridLayout)
         {
             m_GridLayout = gridLayout;
+            PrepareColumns(gridLayout.Columns);
+        }
+
+        private void PrepareColumns(List<ColumnEntity> columns)
+        {
+            Columns = columns.Where(c => !IsHidden(c)).ToList();
         }
 
         public virtual Grid GetLayout(List<T> data)
@@ -39,23 +47,40 @@ namespace FinanceTracker.Core.Builders.Grids
             var row = new Row();
             foreach (var col in Columns)
             {
-                row.Data.Add(GetCellData(col, data));
+                if (col.TileItemCode == TileItemCode.ColumnActions)
+                {
+                    row.Data.Add(null);
+                }
+                else
+                {
+                    row.Data.Add(GetCellData(col, data));
+                }
             }
-
+            row.Actions.AddRange(GetRowActions(data));
+            row.Tag = GetRowTag(data);
             return row;
         }
 
+        protected abstract RowTag GetRowTag(T data);
+        protected abstract List<RowAction> GetRowActions(T data);
         protected abstract JToken? GetCellData(ColumnEntity col, T data);
 
         protected List<ColDefinition> GetColumns()
         {
             var columns = new List<ColDefinition>(Columns.Count);
-            foreach (var col in Columns)
+            for (int i = 0; i < Columns.Count; i++)
             {
-                columns.Add(new ColDefinition(col));
+                var col = Columns[i];
+                var colDef = new ColDefinition(col);
+                colDef.Editable = IsEditable(col);
+                colDef.ColumnId = i.ToString();
+                columns.Add(colDef);
             }
 
             return columns;
         }
+
+        protected bool IsEditable(ColumnEntity column) => column.ControlStates.Contains(ControlState.Editable);
+        protected bool IsHidden(ColumnEntity column) => column.ControlStates.Contains(ControlState.Hidden);
     }
 }

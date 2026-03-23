@@ -2,10 +2,15 @@ import { computed, DestroyRef, inject, Injectable, signal } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { mergeMap, Observable, tap } from 'rxjs';
 import { ComboControl } from '../../models/controls/combo-control';
+import { RemoveItemModel } from '../../models/form-editor/delete-control-model';
+import { OperationResult } from '../../models/operation-result/operation-result';
+import { isSuccess } from '../../models/operation-result/result-code';
 import { SidePanelType } from '../../models/side-panel/side-panel-type';
 import { TileCode } from '../../models/tile-code';
 import { ToolCode } from '../../models/tool-code';
 import { SidePanelService } from '../../services/side-panel.service';
+import { AgGridActionService } from '../ag-grid/ag-grid-action.service';
+import { UpdateGridModel } from '../ag-grid/models/update-grid-model';
 import { FilterEditorComponent } from '../side-panel/filter-editor/filter-editor.component';
 import { LayoutEditorApiService } from './layout-editor-api.service';
 import { EditFilterModel } from './models/edit-filter-model';
@@ -18,6 +23,7 @@ export class LayoutEditorService {
   private readonly sidePanelService = inject(SidePanelService);
   private readonly api = inject(LayoutEditorApiService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly gridService = inject(AgGridActionService);
 
   readonly layoutManagement = signal<LayoutManagementModel>(null, { equal: () => false });
   readonly layoutEditor = signal<LayoutEditorModel>(null, { equal: () => false });
@@ -86,15 +92,29 @@ export class LayoutEditorService {
     this.layoutEditor.set(result);
   }
 
+  removeLayoutItemAsync(model: RemoveItemModel): void {
+    this.api.removeLayoutItem(model)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe({
+        next: (result: OperationResult) => {
+          if (isSuccess(result.code)) {
+            this.removeLayoutElement(model.tileCode, model.itemId);
+          }
+        }
+      });
+  }
+
   removeLayoutElement(tileCode: TileCode, elementId: string): void {
     this.layoutEditor.update((layout) => {
-      const filters = layout.layoutItems.find(x => x.tileCode == tileCode);
-      if (filters) {
-        if (filters.data.type === TileTypeCode.Filter) {
-          filters.data.filters = filters.data.filters.filter((filter) => filter.id !== elementId);
+      const item = layout.layoutItems.find(x => x.tileCode == tileCode);
+      if (item) {
+        if (item.data.type === TileTypeCode.Filter) {
+          item.data.filters = item.data.filters.filter((filter) => filter.id !== elementId);
         }
-        else if (filters.data.type === TileTypeCode.Grid) {
-          console.error("Not implemented");
+        else if (item.data.type === TileTypeCode.Grid) {
+          this.gridService.applyTransition(new UpdateGridModel([], [], [elementId]));
         }
       }
       return layout;

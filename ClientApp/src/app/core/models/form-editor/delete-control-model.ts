@@ -1,6 +1,8 @@
 import { TileCode } from "../tile-code";
+import { EditorType } from "./editor-type";
 
-export interface DeleteControlModel {
+export interface RemoveItemModel {
     tileCode: TileCode;
-    controlId: string;
+    itemId: string;
+    type: EditorType;
 }

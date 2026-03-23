@@ -5,11 +5,11 @@ using Newtonsoft.Json;
 namespace FinanceTracker.Core.Models.LayoutEditor.EditorModels
 {
     /// <summary>
-    /// Used in layout editor forms
+    /// Used in layout editor forms, stored in db
     /// </summary>
     public class FormControlData
     {
-        public string Id { get; set; }
+        //public string Id { get; set; }
         public string Name { get; set; }
         public ControlType Type { get; set; }
 

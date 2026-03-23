@@ -95,8 +95,8 @@ namespace FinanceTracker.Core.Builders
                 layout = new() { TileCode = (int)tileCode };
             }
             var oldData = layout.LayoutJson.TryParse<LayoutEditorModel>(out var model) ? model : new(tileCode);
-            data.Id = $"{(int)data.TileItemCode}_{data.Name}";
-            var index = oldData.FormControls.FindIndex(x => x.Id == data.Id);
+            //data.Id = $"{(int)data.TileItemCode}_{data.Name}";
+            var index = oldData.FormControls.FindIndex(x => x.TileItemCode == data.TileItemCode);
 
             if (index == -1)
                 oldData.FormControls.Add(data);

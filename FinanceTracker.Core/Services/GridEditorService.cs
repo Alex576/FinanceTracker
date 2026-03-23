@@ -7,6 +7,7 @@ using FinanceTracker.Core.Models.LayoutEditor.GridEditor;
 using FinanceTracker.Core.Models.LayoutEntities;
 using FinanceTracker.Core.Models.OperationResult;
 using FinanceTracker.Core.Services.Interfaces;
+using FinanceTracker.Core.Utils;
 using FinanceTracker.Data.Services;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -33,7 +34,7 @@ namespace FinanceTracker.Core.Services
         {
             var layout = await m_LayoutContextService.Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == (int)tileCode);
             var layoutData = JsonConvert.DeserializeObject<GridEditorModel>(layout?.LayoutJson ?? "") ?? new(tileCode);
-            var column = layoutData.GridEntity.Layout.Columns.FirstOrDefault(x => x.ColumnId == itemId) ?? new();
+            var column = layoutData.GridEntity.Layout.Columns.FirstOrDefault(x => ItemCodeHelper.GetItemCode(x) == itemId) ?? new();
             var layoutBuilder = new GridLayoutEditorBuilder(m_TileContextService);
             var formLayout = layoutBuilder.GetFormEditorLayout(tileCode);
             var formBuilder = new GridEditorBuilder(m_LayoutContextService, formLayout);
@@ -45,7 +46,7 @@ namespace FinanceTracker.Core.Services
         {
             var layout = await m_LayoutContextService.Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == (int)model.TileCode);
             var layoutData = JsonConvert.DeserializeObject<GridEditorModel>(layout?.LayoutJson ?? "") ?? new(model.TileCode);
-            var column = layoutData.GridEntity.Layout.Columns.FirstOrDefault(x => x.ColumnId == model.ItemId) ?? new();
+            var column = layoutData.GridEntity.Layout.Columns.FirstOrDefault(x => ItemCodeHelper.GetItemCode(x) == model.ItemId) ?? new();
 
             var layoutBuilder = new GridLayoutEditorBuilder(m_TileContextService);
             var formLayout = layoutBuilder.GetFormEditorLayout(model.TileCode);
@@ -61,7 +62,7 @@ namespace FinanceTracker.Core.Services
         {
             var layout = await m_LayoutContextService.Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == (int)model.TileCode);
             var layoutData = JsonConvert.DeserializeObject<GridEditorModel>(layout?.LayoutJson ?? "") ?? new(model.TileCode);
-            var column = layoutData.GridEntity.Layout.Columns.FirstOrDefault(x => x.ColumnId == model.ItemId) ?? new();
+            var column = layoutData.GridEntity.Layout.Columns.FirstOrDefault(x => ItemCodeHelper.GetItemCode(x) == model.ItemId) ?? new();
 
             var layoutBuilder = new GridLayoutEditorBuilder(m_TileContextService);
             var formLayout = layoutBuilder.GetFormEditorLayout(model.TileCode);

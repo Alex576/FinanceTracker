@@ -16,5 +16,15 @@ namespace FinanceTracker.Core.Builders.Grids
         {
             throw new NotImplementedException();
         }
+
+        protected override List<RowAction> GetRowActions(Role data)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override RowTag GetRowTag(Role data)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

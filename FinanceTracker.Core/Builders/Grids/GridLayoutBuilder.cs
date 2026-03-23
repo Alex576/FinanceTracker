@@ -1,4 +1,5 @@
 ﻿using FinanceTracker.Core.Models;
+using FinanceTracker.Core.Models.Grid;
 using FinanceTracker.Core.Models.LayoutEditor.GridEditor;
 using FinanceTracker.Core.Models.LayoutEntities;
 using System;
@@ -14,19 +15,22 @@ namespace FinanceTracker.Core.Builders.Grids
             var index = 0;
             var gridEntityLayout = new GridEntityLayout();
             gridEntityLayout.Columns.Add(GetColumn(index++, TileItemCode.Name, "Name", ColumnDataType.String));
-            gridEntityLayout.Columns.Add(GetColumn(index++, TileItemCode.ColumnDataType, "Column Data Type", ColumnDataType.Enum));
+            gridEntityLayout.Columns.Add(GetColumn(index++, TileItemCode.Item, "Item", ColumnDataType.String));
+            gridEntityLayout.Columns.Add(GetColumn(index++, TileItemCode.ColumnDataType, "Column Data Type", ColumnDataType.String));
+            gridEntityLayout.Columns.Add(GetColumn(index++, TileItemCode.ColumnActions, "", ColumnDataType.Actions, PinPosition.Right, true));
 
             return gridEntityLayout;
         }
 
-        private static ColumnEntity GetColumn(int index, TileItemCode tileItemCode, string name, ColumnDataType type)
+        private ColumnEntity GetColumn(int index, TileItemCode tileItemCode, string name, ColumnDataType type, PinPosition pin = PinPosition.None, bool lockPin = false)
         {
             return new ColumnEntity()
             {
                 TileItemCode = tileItemCode,
                 Name = name,
                 ColumnDataType = type,
-                ColumnId = $"{index}"
+                Pin = pin,
+                LockPin = lockPin,
             };
         }
     }

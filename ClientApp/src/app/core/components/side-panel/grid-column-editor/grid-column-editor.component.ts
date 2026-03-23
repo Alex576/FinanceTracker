@@ -3,31 +3,30 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { tap } from 'rxjs';
 import { EditorType } from '../../../models/form-editor/editor-type';
-import { GridColumn } from '../../../models/grid-editor/grid-column';
 import { OperationResult, OperationResultData } from '../../../models/operation-result/operation-result';
 import { isSuccess } from '../../../models/operation-result/result-code';
+import { RowTag } from '../../ag-grid/models/row-tag';
 import { FormComponent } from '../../form/form.component';
 import { LayoutEditorService } from '../../layout-editor/layout-editor.service';
 import { LayoutEditorModel } from '../../layout-editor/models/layout-editor-model';
 import { BaseSidePanelComponent } from '../base-side-panel.component';
-import { FiltersEditorService } from '../filter-editor/filters-editor.service';
+import { LayoutItemEditorService } from '../layout-item-editor.service';
 import { SidePanelViewComponent } from '../side-panel-view/side-panel-view.component';
-import { GridColumnEditorService } from './grid-column-editor.service';
 
 @Component({
   selector: 'app-grid-column-editor',
   templateUrl: './grid-column-editor.component.html',
   styleUrls: ['./grid-column-editor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [GridColumnEditorService, FiltersEditorService],
+  providers: [LayoutItemEditorService],
   imports: [SidePanelViewComponent, FormComponent, MatButtonModule],
 })
 export class GridColumnEditorComponent extends BaseSidePanelComponent {
-  private readonly service = inject(FiltersEditorService);
+  private readonly service = inject(LayoutItemEditorService);
   private readonly layoutService = inject(LayoutEditorService);
 
-  private get data(): GridColumn {
-    return this.panelData.data as GridColumn;
+  private get data(): RowTag {
+    return this.panelData.data as RowTag;
   }
 
   constructor() {
@@ -52,7 +51,7 @@ export class GridColumnEditorComponent extends BaseSidePanelComponent {
   }
 
   onDelete(): void {
-    this.service.deleteControl({ tileCode: this.panelData.tileCode, controlId: this.data.id })
+    this.service.deleteItem({ tileCode: this.panelData.tileCode, itemId: this.data.id, type: EditorType.Grid })
       .pipe(
         takeUntilDestroyed(this.destroyRef),
       )

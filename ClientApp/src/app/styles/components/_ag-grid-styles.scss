@@ -1,0 +1,21 @@
+.actions-cell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    gap: 10px;
+
+    .grid-icon {
+        cursor: pointer;
+        color: var(--mat-sys-primary);
+        font-size: var(--mat-icon-button-icon-size, 24px);
+
+        &:hover {
+            color: var(--ft-icon-hover-color);
+        }
+
+        &.remove-icon:hover {
+            color: var(--ft-remove-icon-color);
+        }
+    }
+}

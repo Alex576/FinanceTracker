@@ -1,4 +1,5 @@
 ﻿using FinanceTracker.Core.Models.LayoutEditor;
+using FinanceTracker.Core.Models.OperationResult;
 using FinanceTracker.Core.Services.Interfaces;
 using FinanceTracker.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,12 @@ namespace FinanceTracker.Controllers.Api
         public async Task<LayoutEditor> GetLayoutEditor(GetLayoutEditorModel model)
         {
             return await m_LayoutService.GetLayoutEditor(model.ToolCode);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<OperationResult> RemoveElement(RemoveItemModel model)
+        {
+            return await m_LayoutService.RemoveElement(model.TileCode, model.ItemId, model.Type);
         }
 
 

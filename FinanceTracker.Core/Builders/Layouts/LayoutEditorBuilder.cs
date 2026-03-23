@@ -52,7 +52,7 @@ namespace FinanceTracker.Core.Builders.Layouts
 
         protected FormControlData GetControl(string name, TileItemCode tileItemCode, ControlType type, List<ControlState> states, ControlDependence? dependence = null, int order = 0)
         {
-            var control = new FormControlData() { Id = GetControlId(tileItemCode), Name = name, TileItemCode = tileItemCode, Type = type, Dependence = dependence, Order = order };
+            var control = new FormControlData() { Name = name, TileItemCode = tileItemCode, Type = type, Dependence = dependence, Order = order };
             control.ControlStates.AddRange(states);
             return control;
         }

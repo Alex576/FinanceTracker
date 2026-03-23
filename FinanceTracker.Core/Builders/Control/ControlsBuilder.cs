@@ -2,6 +2,7 @@
 using FinanceTracker.Core.Models.ControlSettingModels;
 using FinanceTracker.Core.Models.Forms;
 using FinanceTracker.Core.Models.LayoutEditor.EditorModels;
+using FinanceTracker.Core.Utils;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace FinanceTracker.Core.Builders.Control
             foreach (var controlData in m_ControlDatas)
             {
                 var control = new FormControl(controlData);
+                control.Id = ItemCodeHelper.GetItemCode(controlData);
                 control.Settings = GetControlSettings(controlData, control, data);
                 control.Value = GetControlValue(controlData, control, data);
                 controls.Add(control);

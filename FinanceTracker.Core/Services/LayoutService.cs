@@ -7,6 +7,7 @@ using FinanceTracker.Core.Models.LayoutEditor;
 using FinanceTracker.Core.Models.LayoutEditor.GridEditor;
 using FinanceTracker.Core.Models.LayoutEntities;
 using FinanceTracker.Core.Models.LayoutPreviews;
+using FinanceTracker.Core.Models.OperationResult;
 using FinanceTracker.Core.Services.Interfaces;
 using FinanceTracker.Core.Utils;
 using FinanceTracker.Data.Models;
@@ -19,12 +20,10 @@ namespace FinanceTracker.Core.Services
 {
     public class LayoutService : ILayoutService
     {
-        private readonly IServiceProvider m_ServiceProvider;
         private readonly TileContextService m_FinanceContextService;
 
-        public LayoutService(IServiceProvider serviceProvider, TileContextService financeContextService)
+        public LayoutService(TileContextService financeContextService)
         {
-            m_ServiceProvider = serviceProvider;
             m_FinanceContextService = financeContextService;
         }
 
@@ -44,8 +43,6 @@ namespace FinanceTracker.Core.Services
 
             return model;
         }
-
-
 
         private async Task<List<Tile>> GetTileUnderTool(int toolValue)
         {
@@ -73,8 +70,6 @@ namespace FinanceTracker.Core.Services
             foreach (var previewItem in layoutPreview.Previews)
             {
                 var layout = await m_FinanceContextService.Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == (int)previewItem.TileCode);
-                //if (layout == null)
-                //    continue;
                 if (previewItem is FilterPreview filterPreview)
                 {
                     var item = new LayoutEntity() { TileCode = previewItem.TileCode };
@@ -86,7 +81,6 @@ namespace FinanceTracker.Core.Services
                     }
                     item.Data = entity;
                     layoutItems.Add(item);
-                    //layoutItems.Add(new(LayoutBlockNames.FILTER_BLOCK, filterLayout));
 
                 }
                 else if (previewItem is GridPreview gridPreview)
@@ -100,13 +94,53 @@ namespace FinanceTracker.Core.Services
                         entity.GridEditor = new GridEditorEntity() { GridEntity = gridBuilder.GetLayout(gridLayout.GridEntity.Layout.Columns) };
                         item.Data = entity;
                     }
-                    //item.Data = entity;
                     layoutItems.Add(item);
-                    //layoutItems.Add(new(LayoutBlockNames.GRID_BLOCK, gridLayout));
                 }
             }
 
             return layoutItems;
+        }
+
+        public async Task<OperationResult> RemoveElement(TileCode tileCode, string itemId, EditorType type)
+        {
+            var layout = await m_FinanceContextService.Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == (int)tileCode);
+            if (layout == null)
+                return new OperationResult(ResultCode.Error, $"Failed to find layout with tile code = {tileCode}");
+            switch (type)
+            {
+                case EditorType.Filter:
+                case EditorType.Form:
+                    {
+                        if (!layout.LayoutJson.TryParse<LayoutEditorModel>(out var layoutData))
+                            return new OperationResult(ResultCode.Error, $"Failed to parse layout with id = {layout.Id}");
+                        var index = layoutData.FormControls.FindIndex(x => ItemCodeHelper.GetItemCode(x) == itemId);
+                        if (index >= 0)
+                        {
+                            layoutData.FormControls.RemoveAt(index);
+                            layout.LayoutJson = JsonConvert.SerializeObject(layoutData);
+                            m_FinanceContextService.Context.Layouts.Update(layout);
+                            await m_FinanceContextService.Context.SaveChangesAsync();
+                        }
+                        break;
+                    }
+                case EditorType.Grid:
+                    {
+                        if (!layout.LayoutJson.TryParse<GridEditorModel>(out var layoutData))
+                            return new OperationResult(ResultCode.Error, $"Failed to parse layout with id = {layout.Id}");
+                        var index = layoutData.GridEntity.Layout.Columns.FindIndex(x => ItemCodeHelper.GetItemCode(x) == itemId);
+                        if (index >= 0)
+                        {
+                            layoutData.GridEntity.Layout.Columns.RemoveAt(index);
+                            layout.LayoutJson = JsonConvert.SerializeObject(layoutData);
+                            m_FinanceContextService.Context.Layouts.Update(layout);
+                            await m_FinanceContextService.Context.SaveChangesAsync();
+                        }
+                        break;
+                    }
+                default:
+                    throw new NotImplementedException();
+            }
+            return new OperationResult(ResultCode.Success);
         }
     }
 }

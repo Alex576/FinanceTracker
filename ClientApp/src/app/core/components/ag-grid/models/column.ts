@@ -7,8 +7,8 @@ export interface Column {
     width: number;
     editable: boolean;
     filter: boolean;
-    pinned: PinPosition;
-    lockPinned: boolean;
+    pin: PinPosition;
+    lockPin: boolean;
     autoHeight: boolean;
     wrapText: boolean;
     sortable: boolean;

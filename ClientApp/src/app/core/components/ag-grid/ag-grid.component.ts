@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, OnInit } from '@angular/core';
 import { AgGridAngular } from "ag-grid-angular";
-import { colorSchemeDarkBlue, colorSchemeLight, GridOptions, GridReadyEvent, themeMaterial } from 'ag-grid-community';
+import { GridOptions, GridReadyEvent } from 'ag-grid-community';
 import { LoadingComponent } from "../loading/loading.component";
 import { AgGridService } from './ag-grid.service';
 import { Grid } from './models/grid';
@@ -18,21 +18,18 @@ export class AgGridComponent implements OnInit {
 
   private readonly service = inject(AgGridService);
 
-  protected readonly gridOptions = computed<GridOptions>(() => {
-    const grid = this.grid();
-    return {
-      theme: themeMaterial
-        .withParams(Object.entries(colorSchemeLight.modeParams)[0][1], 'light-theme')
-        .withParams(Object.entries(colorSchemeDarkBlue.modeParams)[0][1], 'dark-theme'),
-      rowData: grid.rows.map((row) => row.data),
-      columnDefs: this.service.prepareCols(grid.layout.cols),
-    };
-  });
+  protected readonly gridOptions = computed<GridOptions>(() => this.service.gridOptions());
 
   protected readonly ready = computed<boolean>(() => !!this.gridOptions());
 
   constructor() {
 
+    effect(() => {
+      const grid = this.grid();
+      if (!grid) { return; }
+
+      this.service.initializeGrid(grid);
+    });
   }
 
   ngOnInit() {

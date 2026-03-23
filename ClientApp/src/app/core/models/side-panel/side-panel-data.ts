@@ -1,6 +1,6 @@
 import { TileCode } from "../tile-code";
 
-export interface SidePanelData {
+export interface SidePanelData<D = unknown> {
     tileCode: TileCode;
-    data: unknown;
+    data: D;
 }

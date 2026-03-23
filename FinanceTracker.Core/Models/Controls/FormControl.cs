@@ -22,7 +22,7 @@ namespace FinanceTracker.Core.Models.Controls
 
         public FormControl(FormControlData formControlData)
         {
-            Id = formControlData.Id;
+            //Id = formControlData.Id;
             Name = formControlData.Name;
             Type = formControlData.Type;
             TileItemCode = formControlData.TileItemCode;

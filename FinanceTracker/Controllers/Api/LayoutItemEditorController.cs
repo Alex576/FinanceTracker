@@ -37,9 +37,9 @@ namespace FinanceTracker.Controllers.Api
         }
 
         [HttpPost("[action]")]
-        public async Task<OperationResult> DeleteItem(DeleteControlModel model)
+        public async Task<OperationResult> RemoveItem(RemoveItemModel model)
         {
-            return await m_LayoutItemService.DeleteItem(model.TileCode, model.ControlId);
+            return await m_LayoutItemService.RemoveItem(model.TileCode, model.ItemId, model.Type);
         }
     }
 }

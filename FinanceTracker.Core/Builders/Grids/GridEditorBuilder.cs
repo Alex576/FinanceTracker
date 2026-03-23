@@ -1,6 +1,7 @@
 ﻿using FinanceTracker.Core.Models;
 using FinanceTracker.Core.Models.Grid;
 using FinanceTracker.Core.Models.LayoutEditor.GridEditor;
+using FinanceTracker.Core.Utils;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace FinanceTracker.Core.Builders.Grids
 
         protected override JToken? GetCellData(ColumnEntity col, ColumnEntity data)
         {
-            object value = col.TileItemCode switch
+            object? value = col.TileItemCode switch
             {
                 TileItemCode.Id => throw new NotImplementedException(),
                 TileItemCode.Object => throw new NotImplementedException(),
@@ -28,15 +29,27 @@ namespace FinanceTracker.Core.Builders.Grids
                 TileItemCode.State => throw new NotImplementedException(),
                 TileItemCode.Tool => throw new NotImplementedException(),
                 TileItemCode.Tile => throw new NotImplementedException(),
-                TileItemCode.Item => throw new NotImplementedException(),
+                TileItemCode.Item => data.TileItemCode.ToString(),
                 TileItemCode.Class => throw new NotImplementedException(),
                 TileItemCode.DataType => throw new NotImplementedException(),
-                TileItemCode.ColumnDataType => data.ColumnDataType,
+                TileItemCode.ColumnDataType => data.ColumnDataType.ToString(),
                 _ => throw new NotImplementedException(),
             };
             if (value == null)
                 return null;
             return JToken.FromObject(value);
+        }
+
+        protected override List<RowAction> GetRowActions(ColumnEntity data)
+        {
+            return [RowAction.Edit, RowAction.Remove];
+        }
+
+        protected override RowTag GetRowTag(ColumnEntity data)
+        {
+            var tag = new RowTag();
+            tag.Id = ItemCodeHelper.GetItemCode(data);
+            return tag;
         }
     }
 }

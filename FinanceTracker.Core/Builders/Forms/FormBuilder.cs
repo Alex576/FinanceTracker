@@ -48,7 +48,8 @@ namespace FinanceTracker.Core.Builders.Forms
             for (int i = m_LayoutModel.FormControls.Count - 1; i >= 0; i--)
             {
                 var controlData = m_LayoutModel.FormControls[i];
-                if (!formValueModel.UpdatedControls.TryGetValue(x => x.ControlId == controlData.Id, out var controlValue))// || controlValue.Updated)
+                var controlId = ItemCodeHelper.GetItemCode(controlData);
+                if (!formValueModel.UpdatedControls.TryGetValue(x => x.ControlId == controlId, out var controlValue))// || controlValue.Updated)
                     continue;
 
                 UpdateData(data, controlData, controlValue);
