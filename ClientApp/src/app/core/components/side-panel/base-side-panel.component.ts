@@ -17,6 +17,7 @@ export abstract class BaseSidePanelComponent {
     protected readonly destroyRef = inject(DestroyRef);
 
     protected readonly form = signal<FormModel>(null);
+    protected readonly canSaveForm = signal<boolean>(false);
 
     protected readonly isFormReady = computed<boolean>(() => !!this.form());
 
@@ -28,5 +29,9 @@ export abstract class BaseSidePanelComponent {
             model.updatedControls.push({ controlId: control.id, value: control.value, updated: control.updated });
         }
         return model;
+    }
+
+    protected onCanSaveForm(canSave: boolean): void {
+        this.canSaveForm.set(canSave);
     }
 }

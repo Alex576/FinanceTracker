@@ -17,20 +17,21 @@ namespace FinanceTracker.Core.Builders.Filter
 
         public FormControl GetFilterControl(string name, List<Item> items, string id, TileItemCode tileItemCode)
         {
+            var settings = new ComboControlSettings()
+            {
+                AllowMultiselect = false,
+                Editable = true,
+                Items = items
+            };
             var toolFilter = new FormControl()
             {
                 Id = id,
                 Name = name,
                 TileItemCode = tileItemCode,
                 Type = ControlType.Combo,
-                Settings = new ComboControlSettings()
-                {
-                    AllowMultiselect = false,
-                    Editable = true,
-                    Items = items
-                },
+                Settings = settings,
+                Value = GetComboDefaultValue(settings),
             };
-            toolFilter.Value = GetDefaultValue(toolFilter);
             return toolFilter;
         }
 
@@ -39,7 +40,7 @@ namespace FinanceTracker.Core.Builders.Filter
             throw new NotImplementedException();
         }
 
-        protected override JToken? GetControlValue(FormControlData controlData, FiltersEditorModel data)
+        protected override object? GetControlValue(FormControlData controlData, FiltersEditorModel data)
         {
             throw new NotImplementedException();
         }

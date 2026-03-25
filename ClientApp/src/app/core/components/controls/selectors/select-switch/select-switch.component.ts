@@ -15,6 +15,7 @@ export class SelectSwitchComponent {
   readonly control = input.required<FormControl>();
 
   readonly valueChanged = output<FormControl>();
+  readonly validChanged = output<FormControl>();
 
   protected readonly comboSettings = computed<ComboControlSettings>(() => this.control().settings as ComboControlSettings);
   protected readonly isMulti = computed<boolean>(() => this.comboSettings().allowMultiselect);
@@ -23,5 +24,9 @@ export class SelectSwitchComponent {
 
   onValueChanged(control: FormControl): void {
     this.valueChanged.emit(control);
+  }
+
+  onValidChanged(control: FormControl): void {
+    this.validChanged.emit(control);
   }
 }

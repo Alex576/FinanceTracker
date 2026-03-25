@@ -4,5 +4,6 @@
     {
         public bool Editable { get; set; }
         public bool Hidden { get; set; }
+        public bool Required { get; set; }
     }
 }

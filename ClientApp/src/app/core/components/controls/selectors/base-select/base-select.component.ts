@@ -10,7 +10,7 @@ import { BaseControlComponent } from '../../base-control/base-control.component'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export abstract class BaseSelectComponent<TData> extends BaseControlComponent<TData> {
-  protected readonly comboSettings = computed<ComboControlSettings>(() => this.control().settings as ComboControlSettings);
+  protected readonly comboSettings = computed<ComboControlSettings>(() => this.settings() as ComboControlSettings);
   protected readonly items = computed<Item[]>(() => this.comboSettings().items);
 
   constructor() {

@@ -15,7 +15,7 @@ export class ControlSwitchComponent implements OnInit {
   readonly control = input.required<FormControl>();
 
   readonly controlChanged = output<FormControl>();
-
+  readonly validChanged = output<FormControl>();
 
   protected readonly controlType = ControlType;
   constructor() { }
@@ -25,5 +25,9 @@ export class ControlSwitchComponent implements OnInit {
 
   onControlChanged(control: FormControl): void {
     this.controlChanged.emit(control);
+  }
+
+  onValidChanged(control: FormControl): void {
+    this.validChanged.emit(control);
   }
 }

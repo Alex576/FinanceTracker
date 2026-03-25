@@ -2,7 +2,9 @@
   @if (form()) {
   <div class="form__controls">
     @for (control of controls(); track control.id) {
-    <app-control-switch [control]="control" (controlChanged)="onControlChanged($event)" />
+    <app-control-switch [control]="control"
+                        (controlChanged)="onControlChanged($event)"
+                        (validChanged)="onValidChanged($event)" />
     }
   </div>
   <!-- <div class="form__actions">

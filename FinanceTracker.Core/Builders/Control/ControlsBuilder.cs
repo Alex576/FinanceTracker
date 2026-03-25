@@ -51,25 +51,40 @@ namespace FinanceTracker.Core.Builders.Control
             };
             settings.Editable = IsEditable(controlData);
             settings.Hidden = IsHidden(controlData);
+            settings.Required = IsRequired(controlData);
             return settings;
         }
         protected JToken? GetControlValue(FormControlData controlData, FormControl control, TData data)
         {
-            return GetControlValue(controlData, data) ?? GetDefaultValue(control); ;
+            var value = GetControlValue(controlData, data);
+            if (value == null)
+                return GetDefaultValue(control);
+            if (control.Settings is ComboControlSettings controlSettings)
+                value = RestrictValueByItems(value, controlSettings);
+            return value == null ? GetDefaultValue(control) : JToken.FromObject(value);
         }
 
-        protected abstract JToken? GetControlValue(FormControlData controlData, TData data);
+        private object? RestrictValueByItems(object value, ComboControlSettings controlSettings)
+        {
+            if (value is List<int> values)
+                return values.Intersect(controlSettings.Items.Select(x => x.Id)).ToList();
+            if (value is int intValue && controlSettings.Items.Any(x => x.Id == intValue))
+                return intValue;
+            return null;
+        }
+
+        protected abstract object? GetControlValue(FormControlData controlData, TData data);
 
         protected virtual JToken? GetDefaultValue(FormControl control) => control.Type switch
         {
             ControlType.Input => null,
-            ControlType.Combo when control.Settings is ComboControlSettings controlSettings => GetComboDefaultValue(controlSettings),
+            ControlType.Combo when control.Settings is ComboControlSettings controlSettings => controlSettings.AllowMultiselect ? JToken.FromObject(new List<int>()) : null,
             ControlType.DateTime => throw new NotImplementedException(),
             ControlType.Between => throw new NotImplementedException(),
             _ => null,
         };
 
-        private JToken? GetComboDefaultValue(ComboControlSettings settings)
+        protected JToken? GetComboDefaultValue(ComboControlSettings settings)
         {
             if (settings.Items == null || settings.Items.Count == 0)
                 return null;
@@ -82,5 +97,6 @@ namespace FinanceTracker.Core.Builders.Control
         private bool IsAllowMultiSelect(FormControlData controlData) => controlData.ControlStates.Contains(ControlState.AllowMultiselect);
         private bool IsEditable(FormControlData controlData) => controlData.ControlStates.Contains(ControlState.Editable);
         private bool IsHidden(FormControlData controlData) => controlData.ControlStates.Contains(ControlState.Hidden);
+        private bool IsRequired(FormControlData controlData) => controlData.ControlStates.Contains(ControlState.Required);
     }
 }

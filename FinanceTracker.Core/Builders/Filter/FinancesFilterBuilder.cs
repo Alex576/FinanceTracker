@@ -24,7 +24,7 @@ namespace FinanceTracker.Core.Builders.Filter
             };
         }
 
-        protected override JToken? GetControlValue(FormControlData controlData, FinanceFiltersModel data)
+        protected override object? GetControlValue(FormControlData controlData, FinanceFiltersModel data)
         {
             return controlData.TileItemCode switch
             {

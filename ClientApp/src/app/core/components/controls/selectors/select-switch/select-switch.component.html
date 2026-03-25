@@ -1,8 +1,12 @@
 <div class="select-switch">
   @if (isMulti()){
-  <app-multi-select [control]="control()" (valueChanged)="onValueChanged($event)" />
+  <app-multi-select [control]="control()"
+                    (valueChanged)="onValueChanged($event)"
+                    (validChanged)="onValidChanged($event)" />
   }
   @else {
-  <app-single-select [control]="control()" (valueChanged)="onValueChanged($event)" />
+  <app-single-select [control]="control()"
+                     (valueChanged)="onValueChanged($event)"
+                     (validChanged)="onValidChanged($event)" />
   }
 </div>

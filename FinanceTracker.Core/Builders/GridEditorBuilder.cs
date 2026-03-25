@@ -46,7 +46,7 @@ namespace FinanceTracker.Core.Builders
             }
         }
 
-        protected override JToken? GetControlValue(FormControlData controlData, ColumnEntity data)
+        protected override object? GetControlValue(FormControlData controlData, ColumnEntity data)
         {
             object? value = controlData.TileItemCode switch
             {
@@ -59,7 +59,7 @@ namespace FinanceTracker.Core.Builders
                 TileItemCode.DataType => data.ControlMasterData.FactModel.DataType,
                 _ => null,
             };
-            return value == null ? null : JToken.FromObject(value);
+            return value;
         }
 
         protected override async Task<OperationResult> SaveLayout(TileCode tileCode, ColumnEntity data, FormValueModel formValueModel)

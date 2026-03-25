@@ -17,6 +17,7 @@ export class FormComponent {
   readonly form = input.required<FormModel>();
 
   readonly formChanged = output<void>();
+  readonly canSaveForm = output<boolean>();
 
   // protected readonly actionCode = FormActionCode;
 
@@ -34,6 +35,14 @@ export class FormComponent {
   onControlChanged(control: FormControl): void {
     this.service.updateControl(control);
     this.formChanged.emit();
+  }
+
+  onValidChanged(control: FormControl): void {
+    if (control.settings.invalid) {
+      this.canSaveForm.emit(false);
+    } else {
+      this.canSaveForm.emit(!this.controls().some((control) => control.settings.invalid));
+    }
   }
 
   // onSave(): void {

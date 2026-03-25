@@ -60,7 +60,7 @@ export class AgGridService {
     return {
       theme: themeMaterial
         .withParams(Object.entries(colorSchemeLight.modeParams)[0][1], 'light-theme')
-        .withParams(Object.entries(colorSchemeDarkBlue.modeParams)[0][1], 'dark-theme'),
+        .withParams({ ...Object.entries(colorSchemeDarkBlue.modeParams)[0][1], headerTextColor: '#FFFFFFCC' }, 'dark-theme'),
       rowData: grid.rows,
       columnDefs: this.prepareCols(grid.layout.cols, grid.rows),
       getRowId: (params: GetRowIdParams<Row>) => params.data.tag.id,

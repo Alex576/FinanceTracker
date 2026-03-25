@@ -40,21 +40,21 @@ namespace FinanceTracker.Core.Builders
             }
         }
 
-        protected override JToken? GetControlValue(FormControlData controlData, FormControlData data)
+        protected override object? GetControlValue(FormControlData controlData, FormControlData data)
         {
             //return controlData.Value;
             object? value = controlData.TileItemCode switch
             {
-                TileItemCode.Item => data.TileItemCode,
+                TileItemCode.Item => (int)data.TileItemCode,
                 TileItemCode.Class => data.ControlMasterData.ClassCodes,
                 TileItemCode.Name => data.Name,
-                TileItemCode.Type => data.Type,
-                TileItemCode.State => data.ControlStates,
+                TileItemCode.Type => (int)data.Type,
+                TileItemCode.State => data.ControlStates.Cast<int>().ToList(),
                 TileItemCode.Fact => data.ControlMasterData.FactModel.Name,
-                TileItemCode.DataType => data.ControlMasterData.FactModel.DataType,
+                TileItemCode.DataType => (int)data.ControlMasterData.FactModel.DataType,
                 _ => null,
             };
-            return value == null ? null : JToken.FromObject(value);
+            return value;
         }
 
         protected override void UpdateData(FormControlData data, FormControlData controlData, FormControlValue controlValue)

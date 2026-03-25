@@ -12,6 +12,7 @@
           {{"Delete"}}
         </button>
         <button matButton="filled"
+                [disabled]="!canSaveForm()"
                 (click)="onSave()">
           {{"Save"}}
         </button>
