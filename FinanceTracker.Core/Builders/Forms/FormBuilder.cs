@@ -1,17 +1,11 @@
 ﻿using FinanceTracker.Core.Builders.Control;
 using FinanceTracker.Core.Models;
-using FinanceTracker.Core.Models.Controls;
-using FinanceTracker.Core.Models.ControlSettingModels;
 using FinanceTracker.Core.Models.Forms;
 using FinanceTracker.Core.Models.LayoutEditor;
 using FinanceTracker.Core.Models.LayoutEditor.EditorModels;
 using FinanceTracker.Core.Models.OperationResult;
 using FinanceTracker.Core.Utils;
-using FinanceTracker.Data.DBContext;
 using FinanceTracker.Data.Services;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace FinanceTracker.Core.Builders.Forms
 {

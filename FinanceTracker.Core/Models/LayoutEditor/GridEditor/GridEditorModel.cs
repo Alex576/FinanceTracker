@@ -1,9 +1,4 @@
-﻿using FinanceTracker.Core.Models.Grid;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FinanceTracker.Core.Models.LayoutEditor.GridEditor
+﻿namespace FinanceTracker.Core.Models.LayoutEditor.GridEditor
 {
     /// <summary>
     /// Stored in db

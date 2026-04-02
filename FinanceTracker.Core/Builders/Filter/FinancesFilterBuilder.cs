@@ -1,11 +1,6 @@
-﻿using FinanceTracker.Core.Models;
-using FinanceTracker.Core.Models.Controls;
+﻿using FinanceTracker.Core.Models.Controls;
 using FinanceTracker.Core.Models.Finances;
 using FinanceTracker.Core.Models.LayoutEditor.EditorModels;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FinanceTracker.Core.Builders.Filter
 {

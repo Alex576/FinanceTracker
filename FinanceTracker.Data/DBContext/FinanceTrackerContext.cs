@@ -76,11 +76,6 @@ public partial class FinanceTrackerContext : DbContext
             entity.Property(e => e.TileCode)
                 .ValueGeneratedNever()
                 .HasColumnName("tileCode");
-            entity.Property(e => e.Hierarchy)
-                .HasMaxLength(4000)
-                .HasComputedColumnSql("([hierarchyPath].[ToString]())", false)
-                .HasColumnName("hierarchy");
-            entity.Property(e => e.HierarchyPath).HasColumnName("hierarchyPath");
             entity.Property(e => e.Name)
                 .HasMaxLength(255)
                 .HasColumnName("name");

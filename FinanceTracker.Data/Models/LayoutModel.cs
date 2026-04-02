@@ -1,9 +1,5 @@
 ﻿using FinanceTracker.Data.DBModels;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FinanceTracker.Data.Models
 {

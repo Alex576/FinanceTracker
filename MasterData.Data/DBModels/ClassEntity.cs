@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MasterData.Data.Models;
 
 namespace MasterData.Data.DBModels;
 

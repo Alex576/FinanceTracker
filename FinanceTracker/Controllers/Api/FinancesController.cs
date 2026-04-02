@@ -1,4 +1,6 @@
 ﻿using FinanceTracker.Core.Models.Controls;
+using FinanceTracker.Core.Models.Dashboard;
+using FinanceTracker.Core.Models.Grid;
 using FinanceTracker.Core.Services.Interfaces;
 using FinanceTracker.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -17,9 +19,9 @@ namespace FinanceTracker.Controllers.Api
         }
 
         [HttpPost("[action]")]
-        public List<int> GetFinances(GetGridLayoutModel model)
+        public async Task<DashboardLayout> GetFinances(GetGridLayoutModel model)
         {
-            return [1];
+            return await m_FinancesService.GetFinances(model.ToolCode, model.Filters);
         }
 
         [HttpPost("[action]")]

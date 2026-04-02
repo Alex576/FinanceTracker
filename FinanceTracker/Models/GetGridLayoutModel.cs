@@ -1,5 +1,4 @@
 ﻿using FinanceTracker.Core.Models;
-using FinanceTracker.Core.Models.Controls;
 using FinanceTracker.Core.Models.Forms;
 
 namespace FinanceTracker.Models

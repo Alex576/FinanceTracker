@@ -16,13 +16,13 @@ namespace FinanceTracker.Data.DBContext
         {
             m_Logger = logger;
         }
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Tile>(entity =>
-            {
-                entity.Ignore(e => e.Hierarchy);
-            });
-        }
+        //partial void OnModelCreatingPartial(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Tile>(entity =>
+        //    {
+        //        entity.Ignore(e => e.Hierarchy);
+        //    });
+        //}
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {

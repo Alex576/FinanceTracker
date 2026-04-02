@@ -25,15 +25,15 @@ namespace FinanceTracker.Controllers.Api
         }
 
         [HttpPost("[action]")]
-        public async Task<FormModel> UpdateForm(FormValueModel model)
+        public async Task<FormModel> UpdateForm(LayoutItemFormEditorModel model)
         {
-            return await m_LayoutItemService.UpdateForm(model);
+            return await m_LayoutItemService.UpdateForm(model.TileCode, model.ItemId, model.Type, model.Value);
         }
 
         [HttpPost("[action]")]
-        public async Task<OperationResultData<LayoutEditor>> SaveForm(SaveFormModel model)
+        public async Task<OperationResultData<LayoutEditor>> SaveForm(LayoutItemFormSaveEditorModel model)
         {
-            return await m_LayoutItemService.SaveForm(model);
+            return await m_LayoutItemService.SaveForm(model.TileCode, model.ItemId, model.Type, model.Value);
         }
 
         [HttpPost("[action]")]

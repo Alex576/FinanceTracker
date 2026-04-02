@@ -1,6 +1,4 @@
-﻿using FinanceTracker.Data.Models;
-
-namespace FinanceTracker.Core.Models.LayoutEntities
+﻿namespace FinanceTracker.Core.Models.LayoutEntities
 {
     public class LayoutEntity
     {

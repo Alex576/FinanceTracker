@@ -1,7 +1,4 @@
-﻿using FinanceTracker.Core.Models.Controls;
-using FinanceTracker.Core.Models.ControlSettingModels;
-using FinanceTracker.Core.Models.Grid;
-using FinanceTracker.Data.Models;
+﻿using FinanceTracker.Data.Models;
 
 namespace FinanceTracker.Core.Models.LayoutEntities
 {

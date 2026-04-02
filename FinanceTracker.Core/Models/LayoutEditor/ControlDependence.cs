@@ -1,7 +1,4 @@
-﻿using FinanceTracker.Core.Models.Forms;
-using FinanceTracker.Core.Utils;
-
-namespace FinanceTracker.Core.Models.LayoutEditor
+﻿namespace FinanceTracker.Core.Models.LayoutEditor
 {
     public class ControlDependence
     {

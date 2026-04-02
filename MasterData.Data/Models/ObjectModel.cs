@@ -1,7 +1,4 @@
 ﻿using MasterData.Data.DBModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MasterData.Data.Models
 {
@@ -17,9 +14,9 @@ namespace MasterData.Data.Models
 
         public ObjectModel(ObjectEntity entity)
         {
-            Id= entity.Id;
-            Name= entity.Name;
-            FullName= entity.FullName;
+            Id = entity.Id;
+            Name = entity.Name;
+            FullName = entity.FullName;
             ClassCode = entity.ClassCode;
         }
     }

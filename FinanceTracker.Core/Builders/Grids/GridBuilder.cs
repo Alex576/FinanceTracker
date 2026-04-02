@@ -71,9 +71,14 @@ namespace FinanceTracker.Core.Builders.Grids
             for (int i = 0; i < Columns.Count; i++)
             {
                 var col = Columns[i];
-                var colDef = new ColDefinition(col);
-                colDef.Editable = IsEditable(col);
-                colDef.ColumnId = i.ToString();
+                var colDef = new ColDefinition(col)
+                {
+                    Editable = IsEditable(col),
+                    ColumnId = i.ToString(),
+                    Filter = true,
+                    Sortable = true,
+                    Resizable = true
+                };
                 columns.Add(colDef);
             }
 

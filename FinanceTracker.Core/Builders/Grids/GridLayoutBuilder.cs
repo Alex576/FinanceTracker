@@ -2,9 +2,6 @@
 using FinanceTracker.Core.Models.Grid;
 using FinanceTracker.Core.Models.LayoutEditor.GridEditor;
 using FinanceTracker.Core.Models.LayoutEntities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FinanceTracker.Core.Builders.Grids
 {

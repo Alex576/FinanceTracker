@@ -14,5 +14,6 @@ namespace FinanceTracker.Core.Models.LayoutEditor.GridEditor
         public List<ControlState> ControlStates { get; set; } = new();
         public PinPosition Pin { get; set; }
         public bool LockPin { get; set; }
+        public string? AttributeName { get; set; }
     }
 }

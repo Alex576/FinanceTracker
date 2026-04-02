@@ -16,7 +16,9 @@ public partial class MasterDataContext : DbContext
 
     public virtual DbSet<ClassEntity> ClassEntities { get; set; }
 
-    public virtual DbSet<Finance> Finances { get; set; }
+    public virtual DbSet<FinanceItem> FinanceItems { get; set; }
+
+    public virtual DbSet<FinanceType> FinanceTypes { get; set; }
 
     public virtual DbSet<ObjectEntity> ObjectEntities { get; set; }
 
@@ -31,6 +33,8 @@ public partial class MasterDataContext : DbContext
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("(NEXT VALUE FOR [md].[SQ_Capital])", "DF__Capitals__id__4D94879B")
                 .HasColumnName("id");
+            entity.Property(e => e.DateFrom).HasColumnName("dateFrom");
+            entity.Property(e => e.DateTo).HasColumnName("dateTo");
             entity.Property(e => e.Name)
                 .HasMaxLength(255)
                 .HasColumnName("name");
@@ -50,29 +54,48 @@ public partial class MasterDataContext : DbContext
                 .HasColumnName("name");
         });
 
-        modelBuilder.Entity<Finance>(entity =>
+        modelBuilder.Entity<FinanceItem>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Finances__3213E83F27F42E06");
 
-            entity.ToTable("Finances", "md");
+            entity.ToTable("FinanceItem", "md");
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("(NEXT VALUE FOR [md].[SQ_Finances])", "DF__Finances__id__5165187F")
                 .HasColumnName("id");
-            entity.Property(e => e.CapitalId).HasColumnName("capitalId");
             entity.Property(e => e.DateFrom).HasColumnName("dateFrom");
             entity.Property(e => e.DateTo).HasColumnName("dateTo");
+            entity.Property(e => e.FinanceType).HasColumnName("financeType");
             entity.Property(e => e.LastModifiedUser).HasColumnName("lastModifiedUser");
             entity.Property(e => e.LastUpdate).HasColumnName("lastUpdate");
             entity.Property(e => e.Name)
                 .HasMaxLength(400)
                 .HasColumnName("name");
             entity.Property(e => e.OptionsJson).HasColumnName("optionsJson");
+            entity.Property(e => e.ParentFinanceId).HasColumnName("parentFinanceId");
 
-            entity.HasOne(d => d.Capital).WithMany(p => p.Finances)
-                .HasForeignKey(d => d.CapitalId)
+            entity.HasOne(d => d.FinanceTypeNavigation).WithMany(p => p.FinanceItems)
+                .HasForeignKey(d => d.FinanceType)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Finances__capita__534D60F1");
+                .HasConstraintName("FK__FinanceIt__finan__02C769E9");
+
+            entity.HasOne(d => d.ParentFinance).WithMany(p => p.InverseParentFinance)
+                .HasForeignKey(d => d.ParentFinanceId)
+                .HasConstraintName("FK__FinanceIt__paren__7FEAFD3E");
+        });
+
+        modelBuilder.Entity<FinanceType>(entity =>
+        {
+            entity.HasKey(e => e.Type).HasName("PK__FinanceT__E3F8524938482C14");
+
+            entity.ToTable("FinanceType", "md");
+
+            entity.Property(e => e.Type)
+                .ValueGeneratedNever()
+                .HasColumnName("type");
+            entity.Property(e => e.Name)
+                .HasMaxLength(100)
+                .HasColumnName("name");
         });
 
         modelBuilder.Entity<ObjectEntity>(entity =>

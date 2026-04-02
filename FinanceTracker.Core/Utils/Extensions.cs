@@ -1,5 +1,4 @@
 ﻿using FinanceTracker.Core.Models;
-using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -65,6 +64,30 @@ namespace FinanceTracker.Core.Utils
         {
             ToolCode.Dashboard => throw new NotImplementedException(),
             ToolCode.Finances => TileCode.FinancesFilter,
+            ToolCode.Settings => throw new NotImplementedException(),
+            ToolCode.Roles => throw new NotImplementedException(),
+            ToolCode.Users => throw new NotImplementedException(),
+            ToolCode.Translation => throw new NotImplementedException(),
+            ToolCode.Layout => throw new NotImplementedException(),
+            _ => throw new NotImplementedException(),
+        };
+
+        public static TileCode GetGridTileCode(this ToolCode toolCode) => toolCode switch
+        {
+            ToolCode.Dashboard => throw new NotImplementedException(),
+            ToolCode.Finances => TileCode.FinancesGrid,
+            ToolCode.Settings => throw new NotImplementedException(),
+            ToolCode.Roles => throw new NotImplementedException(),
+            ToolCode.Users => throw new NotImplementedException(),
+            ToolCode.Translation => throw new NotImplementedException(),
+            ToolCode.Layout => throw new NotImplementedException(),
+            _ => throw new NotImplementedException(),
+        };
+
+        public static TileCode GetDashboardTileCode(this ToolCode toolCode) => toolCode switch
+        {
+            ToolCode.Dashboard => throw new NotImplementedException(),
+            ToolCode.Finances => TileCode.FinancesDashboard,
             ToolCode.Settings => throw new NotImplementedException(),
             ToolCode.Roles => throw new NotImplementedException(),
             ToolCode.Users => throw new NotImplementedException(),

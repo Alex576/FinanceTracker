@@ -4,6 +4,7 @@ import { FormControl } from '../../models/controls/form-control';
 import { BaseToolComponent } from '../base-tool/base-tool.component';
 import { FiltersComponent } from "../filters/filters.component";
 import { LoadingComponent } from "../loading/loading.component";
+import { DashboardEditorComponent } from "./dashboard-editor/dashboard-editor.component";
 import { FiltersEditorComponent } from "./filters-editor/filters-editor.component";
 import { GridEditorComponent } from "./grid-editor/grid-editor.component";
 import { LayoutEditorService } from './layout-editor.service';
@@ -15,7 +16,7 @@ import { TileTypeCode } from './models/tile-type-code';
   templateUrl: './layout-editor.component.html',
   styleUrls: ['./layout-editor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FiltersComponent, LoadingComponent, FiltersEditorComponent, GridEditorComponent],
+  imports: [FiltersComponent, LoadingComponent, FiltersEditorComponent, GridEditorComponent, DashboardEditorComponent],
   providers: [LayoutEditorService],
 })
 export class LayoutEditorComponent extends BaseToolComponent {

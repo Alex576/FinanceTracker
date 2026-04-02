@@ -1,7 +1,6 @@
 ﻿using FinanceTracker.Core.Services;
 using FinanceTracker.Core.Services.Interfaces;
 using FinanceTracker.Data;
-using FinanceTracker.Data.Services;
 using MasterData.Data;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,6 +23,7 @@ namespace FinanceTracker.Core
             services.AddScoped<IUserSettingsService, UserSettingsService>();
             services.AddScoped<ILayoutItemService, LayoutItemService>();
             services.AddScoped<IGridEditorService, GridEditorService>();
+            services.AddScoped<ICapitalItemEditor, CapitalItemEditor>();
             services.AddScoped<IFinancesService, FinancesService>();
         }
     }

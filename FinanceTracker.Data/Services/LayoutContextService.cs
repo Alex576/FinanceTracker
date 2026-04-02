@@ -1,9 +1,6 @@
 ﻿using FinanceTracker.Data.DBContext;
-using FinanceTracker.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Newtonsoft.Json;
 
 namespace FinanceTracker.Data.Services
 {
@@ -13,10 +10,13 @@ namespace FinanceTracker.Data.Services
         {
         }
 
-        public async Task<LayoutModel<JsonType>?> GetLayout<JsonType>(int tileCode) where JsonType : class
+        public async Task<JsonType> GetLayout<JsonType>(int tileCode) where JsonType : class
         {
-            var layout = await m_Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == tileCode);
-            return layout == null ? null : new LayoutModel<JsonType>(layout);
+            var layout = await m_Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == tileCode)
+                ?? throw new NullReferenceException($"Failed to find layout with tileCode = {tileCode}");
+            var layoutData = JsonConvert.DeserializeObject<JsonType>(layout.LayoutJson ?? "")
+                ?? throw new NullReferenceException($"Failed to deserialize object with tileCode = {tileCode}");
+            return layoutData;
         }
     }
 }

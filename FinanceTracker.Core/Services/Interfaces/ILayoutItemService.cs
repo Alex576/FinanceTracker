@@ -9,7 +9,7 @@ namespace FinanceTracker.Core.Services.Interfaces
     {
         Task<OperationResult> RemoveItem(TileCode tileCode, string controlId, EditorType type);
         Task<FormModel> GetForm(TileCode tileCode, string? itemId, EditorType type);
-        Task<OperationResultData<LayoutEditor>> SaveForm(SaveFormModel model);
-        Task<FormModel> UpdateForm(FormValueModel model);
+        Task<FormModel> UpdateForm(TileCode tileCode, string? itemId, EditorType type, FormValueModel value);
+        Task<OperationResultData<LayoutEditor>> SaveForm(TileCode tileCode, string? itemId, EditorType type, FormValueModel value);
     }
 }

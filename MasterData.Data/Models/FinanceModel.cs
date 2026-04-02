@@ -1,9 +1,5 @@
 ﻿using MasterData.Data.DBModels;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using MasterData.Data.Services;
 
 namespace MasterData.Data.Models
 {
@@ -11,26 +7,34 @@ namespace MasterData.Data.Models
     {
         public int Id { get; set; }
         public DateTime? DateFrom { get; set; }
-
         public DateTime? DateTo { get; set; }
-
         public DateTime? LastUpdate { get; set; }
-
         public int? LastModifiedUser { get; set; }
-
         public FinanceOptionsData Options { get; set; }
+        public FinanceOptionsDataExt? OptionsExt { get; set; }
+        public FinanceType Type { get; set; }
+        public int? Parent { get; set; }
 
-        public int CapitalId { get; set; }
 
-        public FinanceModel(Finance finance)
+        public FinanceModel(FinanceItem finance)
         {
             Id = finance.Id;
             DateFrom = finance.DateFrom;
             DateTo = finance.DateTo;
             LastUpdate = finance.LastUpdate;
             LastModifiedUser = finance.LastModifiedUser;
-            CapitalId = finance.CapitalId;
-            Options = JsonConvert.DeserializeObject<FinanceOptionsData>(finance.OptionsJson ?? "") ?? new();
+            Options = finance.OptionsJson ?? new();
+            Type = (FinanceType)finance.FinanceType;
+            Parent = finance.ParentFinanceId;
+        }
+
+
+        public async Task InitializeOptionsAsync(ObjectContextService objectContextService)
+        {
+            OptionsExt = new FinanceOptionsDataExt();
+            OptionsExt.Objects.AddRange(await objectContextService.GetObjects(Options.ObjCodes));
+            OptionsExt.Attributes = Options.Attributes.ToList();
+            OptionsExt.ReadOnly = Options.ReadOnly;
         }
     }
 }

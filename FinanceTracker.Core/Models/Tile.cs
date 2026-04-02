@@ -30,7 +30,7 @@ namespace FinanceTracker.Core.Models
         public string Name { get; set; }
         public int? Order { get; set; }
         public TileTypeCode Type { get; set; }
-        public HierarchyId Hierarchy { get; set; }
+        //public HierarchyId Hierarchy { get; set; }
         public int? ParentTile { get; set; }
 
         public Tile() { }
@@ -42,7 +42,7 @@ namespace FinanceTracker.Core.Models
             Name = tile.Name;
             Order = tile.Order;
             Type = (TileTypeCode)tile.Type;
-            Hierarchy = tile.HierarchyPath;
+            //Hierarchy = tile.HierarchyPath;
             ParentTile = tile.ParentTileCode;
         }
     }

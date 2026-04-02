@@ -3,17 +3,17 @@ using FinanceTracker.Core.Builders.Grids;
 using FinanceTracker.Core.Builders.Layouts;
 using FinanceTracker.Core.Models;
 using FinanceTracker.Core.Models.Controls;
+using FinanceTracker.Core.Models.Dashboard;
 using FinanceTracker.Core.Models.LayoutEditor;
+using FinanceTracker.Core.Models.LayoutEditor.DashboardEditor;
 using FinanceTracker.Core.Models.LayoutEditor.GridEditor;
 using FinanceTracker.Core.Models.LayoutEntities;
 using FinanceTracker.Core.Models.LayoutPreviews;
 using FinanceTracker.Core.Models.OperationResult;
 using FinanceTracker.Core.Services.Interfaces;
 using FinanceTracker.Core.Utils;
-using FinanceTracker.Data.Models;
 using FinanceTracker.Data.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 
 namespace FinanceTracker.Core.Services
@@ -70,31 +70,52 @@ namespace FinanceTracker.Core.Services
             foreach (var previewItem in layoutPreview.Previews)
             {
                 var layout = await m_FinanceContextService.Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == (int)previewItem.TileCode);
-                if (previewItem is FilterPreview filterPreview)
+                switch (previewItem)
                 {
-                    var item = new LayoutEntity() { TileCode = previewItem.TileCode };
-                    var entity = new FilterLayoutEntity(previewItem.TileCode);
-                    if (layout != null)
-                    {
-                        var filters = JsonConvert.DeserializeObject<LayoutEditorModel>(layout.LayoutJson ?? "") ?? new(previewItem.TileCode);
-                        entity.Filters = filters.FormControls.Select(x => new FormControl(x)).ToList();
-                    }
-                    item.Data = entity;
-                    layoutItems.Add(item);
+                    case FilterPreview filterPreview:
+                        {
+                            var item = new LayoutEntity() { TileCode = previewItem.TileCode };
+                            var entity = new FilterLayoutEntity(previewItem.TileCode);
+                            if (layout != null)
+                            {
+                                var filters = JsonConvert.DeserializeObject<LayoutEditorModel>(layout.LayoutJson ?? "") ?? new(previewItem.TileCode);
+                                entity.Filters = filters.FormControls.Select(x => new FormControl(x)).ToList();
+                            }
+                            item.Data = entity;
+                            layoutItems.Add(item);
+                            break;
+                        }
 
-                }
-                else if (previewItem is GridPreview gridPreview)
-                {
-                    var item = new LayoutEntity() { TileCode = previewItem.TileCode };
-                    var entity = new GridLayoutEntity(previewItem.TileCode);
-                    if (layout != null)
-                    {
-                        var gridLayout = JsonConvert.DeserializeObject<GridEditorModel>(layout?.LayoutJson ?? "") ?? new(previewItem.TileCode);
-                        var gridBuilder = new GridEditorBuilder(new GridLayoutBuilder().GetGridEditorLayout());
-                        entity.GridEditor = new GridEditorEntity() { GridEntity = gridBuilder.GetLayout(gridLayout.GridEntity.Layout.Columns) };
-                        item.Data = entity;
-                    }
-                    layoutItems.Add(item);
+                    case GridPreview gridPreview:
+                        {
+                            var item = new LayoutEntity() { TileCode = previewItem.TileCode };
+                            var entity = new GridLayoutEntity(previewItem.TileCode);
+                            if (layout != null)
+                            {
+                                var gridLayout = JsonConvert.DeserializeObject<GridEditorModel>(layout?.LayoutJson ?? "") ?? new(previewItem.TileCode);
+                                var gridBuilder = new GridEditorBuilder(new GridLayoutBuilder().GetGridEditorLayout());
+                                entity.GridEditor = new GridEditorEntity() { GridEntity = gridBuilder.GetLayout(gridLayout.GridEntity.Layout.Columns) };
+                            }
+                            item.Data = entity;
+                            layoutItems.Add(item);
+                            break;
+                        }
+                    case DashboardPreview dashboardPreview:
+                        {
+                            var item = new LayoutEntity() { TileCode = previewItem.TileCode };
+                            var entity = new DashboardLayoutEntity(previewItem.TileCode);
+                            if (layout != null)
+                            {
+                                var dashboardLayout = JsonConvert.DeserializeObject<DashboardEditorModel>(layout?.LayoutJson ?? "") ?? new();
+                                var gridBuilder = new DashboardLayout();
+                                gridBuilder.Options.CanAdd = true;
+                                gridBuilder.Items.AddRange(dashboardLayout.Items.Select(x => new DashboardItem(x)));
+                                entity.DashboardLayout = gridBuilder;
+                            }
+                            item.Data = entity;
+                            layoutItems.Add(item);
+                            break;
+                        }
                 }
             }
 

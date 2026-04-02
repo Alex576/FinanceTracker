@@ -17,6 +17,9 @@
     <app-grid-editor [gridEntity]="item.data"
                      [tileCode]="item.tileCode" />
     }
+    @case (itemType.Dashboard) {
+    <app-dashboard-editor />
+    }
     }
     }
     }@else {

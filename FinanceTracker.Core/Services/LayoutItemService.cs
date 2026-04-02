@@ -1,20 +1,14 @@
 ﻿using FinanceTracker.Core.Builders;
-using FinanceTracker.Core.Builders.Forms;
 using FinanceTracker.Core.Builders.Layouts;
 using FinanceTracker.Core.Models;
-using FinanceTracker.Core.Models.Controls;
 using FinanceTracker.Core.Models.Forms;
 using FinanceTracker.Core.Models.LayoutEditor;
-using FinanceTracker.Core.Models.LayoutEditor.EditorModels;
 using FinanceTracker.Core.Models.LayoutEditor.GridEditor;
-using FinanceTracker.Core.Models.LayoutEntities;
 using FinanceTracker.Core.Models.OperationResult;
 using FinanceTracker.Core.Services.Interfaces;
 using FinanceTracker.Core.Utils;
-using FinanceTracker.Data.DBContext;
 using FinanceTracker.Data.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 
 namespace FinanceTracker.Core.Services
@@ -78,7 +72,7 @@ namespace FinanceTracker.Core.Services
         public async Task<FormModel> GetForm(TileCode tileCode, string? itemId, EditorType type)
         {
             switch (type)
-            {
+            {//todo dashboard editor
                 case EditorType.Filter:
                 case EditorType.Form:
                     {
@@ -104,76 +98,73 @@ namespace FinanceTracker.Core.Services
                     throw new NotImplementedException();
             }
 
-            //return await formBuilder.GetFormLayout(tileCode, control);//todo split methods on editors and non editors methods
         }
 
-        public async Task<OperationResultData<LayoutEditor>> SaveForm(SaveFormModel model)
+        public async Task<FormModel> UpdateForm(TileCode tileCode, string? itemId, EditorType type, FormValueModel value)
+        {
+            switch (type)
+            {
+                case EditorType.Filter:
+                case EditorType.Form:
+                    {
+                        var layoutBuilder = new FormLayoutEditorBuilder(m_FinanceContextService);
+                        var formLayout = layoutBuilder.GetFormEditorLayout(tileCode);
+                        var layout = await m_FinanceContextService.Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == (int)tileCode);
+                        var layoutData = JsonConvert.DeserializeObject<LayoutEditorModel>(layout?.LayoutJson ?? "") ?? new(tileCode);
+                        var control = layoutData.FormControls.FirstOrDefault(x => ItemCodeHelper.GetItemCode(x) == itemId) ?? new();
+                        var formBuilder = new FormEditorBuilder(m_FinanceContextService, formLayout);
+                        return await formBuilder.UpdateFormLayout(tileCode, control, value);
+                    }
+                case EditorType.Grid:
+                    {
+                        var layoutBuilder = new GridLayoutEditorBuilder(m_FinanceContextService);
+                        var formLayout = layoutBuilder.GetFormEditorLayout(tileCode);
+                        var layout = await m_FinanceContextService.Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == (int)tileCode);
+                        var layoutData = JsonConvert.DeserializeObject<GridEditorModel>(layout?.LayoutJson ?? "") ?? new(tileCode);
+                        var column = layoutData.GridEntity.Layout.Columns.FirstOrDefault(x => ItemCodeHelper.GetItemCode(x) == itemId) ?? new();
+                        var formBuilder = new GridEditorBuilder(m_FinanceContextService, formLayout);
+                        return await formBuilder.UpdateFormLayout(tileCode, column, value);
+                    }
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public async Task<OperationResultData<LayoutEditor>> SaveForm(TileCode tileCode, string? itemId, EditorType type, FormValueModel value)
         {
             OperationResult operationResult;
-            switch (model.Type)
+            switch (type)
             {
                 case EditorType.Filter:
                 case EditorType.Form:
                     {
                         var layoutBuilder = new FormLayoutEditorBuilder(m_FinanceContextService);
-                        var formLayout = layoutBuilder.GetFormEditorLayout(model.TileCode);
-                        var layout = await m_FinanceContextService.Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == (int)model.TileCode);
-                        var layoutData = JsonConvert.DeserializeObject<LayoutEditorModel>(layout?.LayoutJson ?? "") ?? new(model.TileCode);
-                        var control = layoutData.FormControls.FirstOrDefault(x => ItemCodeHelper.GetItemCode(x) == model.ItemId) ?? new();
+                        var formLayout = layoutBuilder.GetFormEditorLayout(tileCode);
+                        var layout = await m_FinanceContextService.Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == (int)tileCode);
+                        var layoutData = JsonConvert.DeserializeObject<LayoutEditorModel>(layout?.LayoutJson ?? "") ?? new(tileCode);
+                        var control = layoutData.FormControls.FirstOrDefault(x => ItemCodeHelper.GetItemCode(x) == itemId) ?? new();
                         var formBuilder = new FormEditorBuilder(m_FinanceContextService, formLayout);
-                        operationResult = await formBuilder.SaveForm(model.TileCode, control, model);
+                        operationResult = await formBuilder.SaveForm(tileCode, control, value);
                     }
                     break;
                 case EditorType.Grid:
                     {
                         var layoutBuilder = new GridLayoutEditorBuilder(m_FinanceContextService);
-                        var formLayout = layoutBuilder.GetFormEditorLayout(model.TileCode);
-                        var layout = await m_FinanceContextService.Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == (int)model.TileCode);
-                        var layoutData = JsonConvert.DeserializeObject<GridEditorModel>(layout?.LayoutJson ?? "") ?? new(model.TileCode);
-                        var column = layoutData.GridEntity.Layout.Columns.FirstOrDefault(x => ItemCodeHelper.GetItemCode(x) == model.ItemId) ?? new();
+                        var formLayout = layoutBuilder.GetFormEditorLayout(tileCode);
+                        var layout = await m_FinanceContextService.Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == (int)tileCode);
+                        var layoutData = JsonConvert.DeserializeObject<GridEditorModel>(layout?.LayoutJson ?? "") ?? new(tileCode);
+                        var column = layoutData.GridEntity.Layout.Columns.FirstOrDefault(x => ItemCodeHelper.GetItemCode(x) == itemId) ?? new();
                         var formBuilder = new GridEditorBuilder(m_FinanceContextService, formLayout);
-                        operationResult = await formBuilder.SaveForm(model.TileCode, column, model);
+                        operationResult = await formBuilder.SaveForm(tileCode, column, value);
                     }
                     break;
                 default:
                     throw new NotImplementedException();
             }
 
-            //var operationResult = await formBuilder.SaveForm(model.TileCode, control, model);
-            var layoutTile = await m_FinanceContextService.GetLayoutTile((int)model.TileCode);
+            var layoutTile = await m_FinanceContextService.GetLayoutTile((int)tileCode);
             var newLayout = await m_LayoutService.GetLayoutEditor((ToolCode)layoutTile.ToolCode);
             return new OperationResultData<LayoutEditor>(operationResult, newLayout);
-        }
-
-        public async Task<FormModel> UpdateForm(FormValueModel model)
-        {
-            switch (model.Type)
-            {
-                case EditorType.Filter:
-                case EditorType.Form:
-                    {
-                        var layoutBuilder = new FormLayoutEditorBuilder(m_FinanceContextService);
-                        var formLayout = layoutBuilder.GetFormEditorLayout(model.TileCode);
-                        var layout = await m_FinanceContextService.Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == (int)model.TileCode);
-                        var layoutData = JsonConvert.DeserializeObject<LayoutEditorModel>(layout?.LayoutJson ?? "") ?? new(model.TileCode);
-                        var control = layoutData.FormControls.FirstOrDefault(x => ItemCodeHelper.GetItemCode(x) == model.ItemId) ?? new();
-                        var formBuilder = new FormEditorBuilder(m_FinanceContextService, formLayout);
-                        return await formBuilder.UpdateFormLayout(model.TileCode, control, model);
-                    }
-                case EditorType.Grid:
-                    {
-                        var layoutBuilder = new GridLayoutEditorBuilder(m_FinanceContextService);
-                        var formLayout = layoutBuilder.GetFormEditorLayout(model.TileCode);
-                        var layout = await m_FinanceContextService.Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == (int)model.TileCode);
-                        var layoutData = JsonConvert.DeserializeObject<GridEditorModel>(layout?.LayoutJson ?? "") ?? new(model.TileCode);
-                        var column = layoutData.GridEntity.Layout.Columns.FirstOrDefault(x => ItemCodeHelper.GetItemCode(x) == model.ItemId) ?? new();
-                        var formBuilder = new GridEditorBuilder(m_FinanceContextService, formLayout);
-                        return await formBuilder.UpdateFormLayout(model.TileCode, column, model);
-                    }
-                default:
-                    throw new NotImplementedException();
-            }
-            //return await formBuilder.UpdateFormLayout(model.TileCode, control, model);//todo split methods on editors and non editors methods
         }
     }
 }

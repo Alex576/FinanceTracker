@@ -1,8 +1,5 @@
 ﻿using FinanceTracker.Data.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FinanceTracker.Data
 {

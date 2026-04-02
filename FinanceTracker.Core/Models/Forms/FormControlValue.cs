@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace FinanceTracker.Core.Models.Forms
+﻿namespace FinanceTracker.Core.Models.Forms
 {
     public class FormControlValue : ControlValue
     {

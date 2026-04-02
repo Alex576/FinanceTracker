@@ -1,5 +1,4 @@
-﻿using FinanceTracker.Core.Models.Controls;
-using FinanceTracker.Core.Models.LayoutEditor;
+﻿using FinanceTracker.Core.Models.LayoutEditor;
 using FinanceTracker.Core.Utils;
 
 namespace FinanceTracker.Core.Models.Forms
@@ -8,8 +7,7 @@ namespace FinanceTracker.Core.Models.Forms
     {
         public List<FormControlValue> UpdatedControls { get; set; } = new();
         public TileCode TileCode { get; set; }
-        public string? ItemId { get; set; }
-        public EditorType Type { get; set; }
+
 
         public bool TryGetControl(Func<FormControlValue, bool> condition, out FormControlValue control)
         {
