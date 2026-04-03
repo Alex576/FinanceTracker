@@ -25,7 +25,10 @@
 
     }
   </div>
-  <button matIconButton (click)="onToggleTheme()">
-    <mat-icon class="icon">sunny</mat-icon>
-  </button>
+  <div class="navigation__environment-settings">
+    <mat-slide-toggle [formControl]="themeFormControl" matTooltip="Auto switch theme" />
+    <button matIconButton (click)="onToggleTheme()">
+      <mat-icon class="icon">sunny</mat-icon>
+    </button>
+  </div>
 </div>

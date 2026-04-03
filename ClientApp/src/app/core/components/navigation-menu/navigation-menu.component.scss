@@ -41,4 +41,12 @@
             }
         }
     }
+
+    &__environment-settings {
+        padding: 0 4px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+    }
 }
