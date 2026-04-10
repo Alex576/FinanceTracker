@@ -1,6 +1,7 @@
 ﻿using FinanceTracker.Core.Builders.Dashboards;
 using FinanceTracker.Core.Builders.Filter;
 using FinanceTracker.Core.Builders.Grids;
+using FinanceTracker.Core.Cache;
 using FinanceTracker.Core.Models;
 using FinanceTracker.Core.Models.Controls;
 using FinanceTracker.Core.Models.Dashboard;
@@ -22,12 +23,14 @@ namespace FinanceTracker.Core.Services
         private readonly LayoutContextService m_LayoutContextService;
         private readonly FinancesContextService m_FinancesContextService;
         private readonly ObjectContextService m_ObjectContextService;
+        private readonly ICache m_Cache;
 
-        public FinancesService(LayoutContextService layoutContextService, FinancesContextService financesContextService, ObjectContextService objectContextService)
+        public FinancesService(LayoutContextService layoutContextService, FinancesContextService financesContextService, ObjectContextService objectContextService, ICache cache)
         {
             m_LayoutContextService = layoutContextService;
             m_FinancesContextService = financesContextService;
             m_ObjectContextService = objectContextService;
+            m_Cache = cache;
         }
 
         public async Task<List<FormControl>> GetFilters(ToolCode toolCode)
@@ -37,9 +40,9 @@ namespace FinanceTracker.Core.Services
             if (filterLayout == null)
                 return new List<FormControl>();
 
-            var filterBuilder = new FinancesFilterBuilder(filterLayout.FormControls);
+            var filterBuilder = new CapitalsFilterBuilder(filterLayout.FormControls, m_Cache);
             var finances = await m_FinancesContextService.GetAllFinances();
-            var model = new FinanceFiltersModel();
+            var model = new CapitalFiltersModel();
             model.Finances = finances;
             var filters = filterBuilder.GetControls(model);
             return filters;

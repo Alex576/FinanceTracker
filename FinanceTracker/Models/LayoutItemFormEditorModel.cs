@@ -9,6 +9,6 @@ namespace FinanceTracker.Models
         public TileCode TileCode { get; set; }
         public string? ItemId { get; set; }
         public EditorType Type { get; set; }
-        public FormValueModel Value { get; set; }
+        public FormValueModel? FormValueModel { get; set; }
     }
 }

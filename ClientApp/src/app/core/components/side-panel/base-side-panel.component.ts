@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, signal } from '@angular/core';
-import { EditorType } from '../../models/form-editor/editor-type';
 import { FormModel } from '../../models/form-editor/form-model';
-import { FormUpdateModel } from '../../models/form-editor/form-update-model';
+import { FormValueModel } from '../../models/form-editor/form-value-model';
 import { SIDE_PANEL_DATA } from '../../models/side-panel/side-panel-data-token';
+import { TileCode } from '../../models/tile-code';
 import { SidePanelService } from '../../services/side-panel.service';
 
 @Component({
@@ -21,9 +21,13 @@ export abstract class BaseSidePanelComponent {
 
     protected readonly isFormReady = computed<boolean>(() => !!this.form());
 
-    protected getFormUpdateModel(itemId: string, type: EditorType): FormUpdateModel {
+    protected get tileCode(): TileCode {
+        return this.panelData.tileCode;
+    }
+
+    protected getFormUpdateModel(): FormValueModel {
         const form = this.form();
-        const model: FormUpdateModel = new FormUpdateModel(form.tileCode, itemId, type);
+        const model: FormValueModel = new FormValueModel(form.tileCode);
         for (let i = 0; i < form.controls.length; i++) {
             const control = form.controls[i];
             model.updatedControls.push({ controlId: control.id, value: control.value, updated: control.updated });

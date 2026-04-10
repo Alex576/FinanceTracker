@@ -1,5 +1,6 @@
 ﻿using FinanceTracker.Core.Converters;
 using FinanceTracker.Core.Models.LayoutEditor.EditorModels;
+using FinanceTracker.Core.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -22,7 +23,7 @@ namespace FinanceTracker.Core.Models.Controls
 
         public FormControl(FormControlData formControlData)
         {
-            //Id = formControlData.Id;
+            Id = ItemCodeHelper.GetItemCode(formControlData);
             Name = formControlData.Name;
             Type = formControlData.Type;
             TileItemCode = formControlData.TileItemCode;

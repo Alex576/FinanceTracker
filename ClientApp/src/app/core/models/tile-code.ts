@@ -1,4 +1,5 @@
 export enum TileCode {
-    Node = 0,
+    None = 0,
 
+    CapitalEditor = 1,
 }

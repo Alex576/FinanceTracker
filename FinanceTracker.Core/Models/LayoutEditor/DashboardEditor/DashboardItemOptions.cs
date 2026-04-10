@@ -2,8 +2,8 @@
 {
     public class DashboardItemOptions
     {
-        public DashboardMasterData Data { get; set; }
-
+        public DashboardMasterData Data { get; set; } = new();
+        public string Id { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
         public int Cols { get; set; }

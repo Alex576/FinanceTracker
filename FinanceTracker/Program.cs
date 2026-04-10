@@ -40,7 +40,7 @@ public partial class Program
 
         //builder.Logging.ClearProviders();
         builder.Host.UseNLog();
-
+        builder.Services.AddMemoryCache();
         // Add services to the container.
 
         builder.Services.AddControllers();

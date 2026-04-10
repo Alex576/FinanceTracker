@@ -8,7 +8,6 @@ import { DashboardEditorComponent } from "./dashboard-editor/dashboard-editor.co
 import { FiltersEditorComponent } from "./filters-editor/filters-editor.component";
 import { GridEditorComponent } from "./grid-editor/grid-editor.component";
 import { LayoutEditorService } from './layout-editor.service';
-import { EditFilterModel } from './models/edit-filter-model';
 import { TileTypeCode } from './models/tile-type-code';
 
 @Component({
@@ -38,9 +37,5 @@ export class LayoutEditorComponent extends BaseToolComponent {
     if (control.id == 'ToolFilter') {
       this.service.loadLayoutEditorAsync(control.value as number);
     }
-  }
-
-  onEditFilter(model: EditFilterModel): void {
-    this.service.editFilter(model);
   }
 }

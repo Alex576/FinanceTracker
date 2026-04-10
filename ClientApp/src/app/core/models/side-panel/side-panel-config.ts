@@ -1,10 +1,11 @@
 import { ComponentType } from "@angular/cdk/overlay";
-import { SidePanelData } from "./side-panel-data";
+import { TileCode } from "../tile-code";
 import { SidePanelType } from "./side-panel-type";
 
-export interface SidePanelConfig<T> {
+export interface SidePanelConfig<T, D = unknown> {
     type: SidePanelType,
     componentType: ComponentType<T>;
-    data: SidePanelData;
+    tileCode: TileCode,
+    data: D;
     header: string;
 }

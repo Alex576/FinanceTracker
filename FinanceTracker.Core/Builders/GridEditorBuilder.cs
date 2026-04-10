@@ -25,20 +25,20 @@ namespace FinanceTracker.Core.Builders
         {
             switch (controlData.TileItemCode)
             {
-                case TileItemCode.Item:
-                    return EnumHelper.GetEnums<TileItemCode>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList();
-                case TileItemCode.Class:
-                    return EnumHelper.GetEnums<ClassCode>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList();
-                case TileItemCode.DataType:
-                    return EnumHelper.GetEnums<DataType>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList();
-                case TileItemCode.Type:
-                    return EnumHelper.GetEnums<ControlType>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList();
+                //case TileItemCode.Item:
+                //    return EnumHelper.GetEnums<TileItemCode>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList();
+                //case TileItemCode.Class:
+                //    return EnumHelper.GetEnums<ClassCode>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList();
+                //case TileItemCode.DataType:
+                //    return EnumHelper.GetEnums<DataType>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList();
+                //case TileItemCode.Type:
+                //    return EnumHelper.GetEnums<ControlType>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList();
                 case TileItemCode.ColumnDataType:
                     return EnumHelper.GetEnums<ColumnDataType>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList();
-                case TileItemCode.State:
-                    return EnumHelper.GetEnums<ControlState>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList();
+                //case TileItemCode.State:
+                //    return EnumHelper.GetEnums<ControlState>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList();
                 default:
-                    return null;
+                    return base.GetControlItems(controlData, control, data) ;
             }
         }
 
@@ -89,8 +89,8 @@ namespace FinanceTracker.Core.Builders
         {
             switch (controlData.TileItemCode)
             {
-                case TileItemCode.Item when controlValue.Value.TryParse(out int itemCode):
-                    data.TileItemCode = (TileItemCode)itemCode;
+                case TileItemCode.Item when controlValue.Value.TryParse(out TileItemCode itemCode):
+                    data.TileItemCode = itemCode;
                     break;
                 case TileItemCode.Class when controlValue.Value.TryParse(out List<int> classes):
                     data.ControlMasterData.ClassCodes = classes;

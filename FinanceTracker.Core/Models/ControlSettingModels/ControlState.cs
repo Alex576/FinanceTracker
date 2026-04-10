@@ -6,5 +6,6 @@
         Editable = 2,
         Hidden = 3,
         Required = 4,
+        AutoSelectFirstValueIfEmpty = 5,
     }
 }

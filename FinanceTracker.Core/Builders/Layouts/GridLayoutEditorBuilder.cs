@@ -20,7 +20,7 @@ namespace FinanceTracker.Core.Builders.Layouts
             controls.Add(GetControl("Item", TileItemCode.Item, ControlType.Combo, [ControlState.Editable, ControlState.Required]));
             controls.Add(GetControl("Column Data Type", TileItemCode.ColumnDataType, ControlType.Combo, [ControlState.Editable, ControlState.Required]));
             controls.Add(GetControl("State", TileItemCode.State, ControlType.Combo, [ControlState.Editable, ControlState.AllowMultiselect]));
-            controls.Add(GetControl("Class", TileItemCode.Class, ControlType.Combo, [ControlState.Hidden, ControlState.Editable, ControlState.AllowMultiselect, ControlState.Hidden]));
+            controls.Add(GetControl("Class", TileItemCode.Class, ControlType.Combo, [ControlState.Hidden, ControlState.Editable, ControlState.AllowMultiselect]));
 
             return controls;
         }

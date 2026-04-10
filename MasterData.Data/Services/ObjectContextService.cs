@@ -10,14 +10,19 @@ namespace MasterData.Data.Services
         {
         }
 
-        public async Task<List<ObjectModel>> GetObjectsByClass(int classCode)
+        public async Task<List<ObjectModel>> GetAll()
         {
-            return await m_Context.ObjectEntities.Where(x => x.ClassCode == classCode).Select(x => new ObjectModel(x)).ToListAsync();
+            return await m_Context.ObjectEntities.Select(x => new ObjectModel(x)).ToListAsync();
         }
+
+        //public async Task<List<ObjectModel>> GetObjectsByClass(int classCode)
+        //{
+        //    return await m_Context.ObjectEntities.Where(x => x.ClassCode == classCode).Select(x => new ObjectModel(x)).ToListAsync();
+        //}
 
         public async Task<List<ObjectModel>> GetObjects(List<int> objList)
         {
-            return await m_Context.ObjectEntities.Where(x => objList.Contains(x.Id)).Select(x => new ObjectModel(x)).ToListAsync();
+            return await m_Context.ObjectEntities.AsNoTracking().Where(x => objList.Contains(x.Id)).Select(x => new ObjectModel(x)).ToListAsync();
         }
     }
 }

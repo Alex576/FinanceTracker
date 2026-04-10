@@ -1,0 +1,22 @@
+<div class="item-editor">
+  <app-side-panel-view [isMainDataReady]="isFormReady()">
+    <ng-container main-data>
+      <div class="item-editor__form">
+        <app-form [form]="form()" (formChanged)="onFormChanged()" (canSaveForm)="onCanSaveForm($event)" />
+      </div>
+    </ng-container>
+    <ng-container buttons>
+      <div class="item-editor__buttons">
+        <button appearance="delete" matButton="outlined"
+                (click)="onDelete()">
+          {{"Delete"}}
+        </button>
+        <button matButton="filled"
+                [disabled]="!canSaveForm()"
+                (click)="onSave()">
+          {{"Save"}}
+        </button>
+      </div>
+    </ng-container>
+  </app-side-panel-view>
+</div>

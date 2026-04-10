@@ -1,4 +1,5 @@
 ﻿using MasterData.Data.Services;
+using MasterData.Data.Storages;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MasterData.Data

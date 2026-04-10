@@ -2,6 +2,7 @@ import { DestroyRef, inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subject } from 'rxjs';
 import { LocalStorageKeys } from '../models/local-storage-keys';
+import { Constants } from '../utils/constants';
 import { StorageService } from './storage.service';
 
 @Injectable({
@@ -35,7 +36,7 @@ export class ThemeSwitcherService {
 
   private setThemeByCurrentTime(): void {
     const currentHours = new Date(Date.now()).getHours();
-    const isNightTime = currentHours > 20 || currentHours < 5;
+    const isNightTime = currentHours >= Constants.AutoThemeSwitchStartInHours || currentHours <= Constants.AutoThemeSwitchEndInHours;
     if (isNightTime) {
       this.setTheme(this.darkThemeName, false);
     } else {

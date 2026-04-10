@@ -1,9 +1,10 @@
 ﻿using FinanceTracker.Data.DBContext;
 using FinanceTracker.Data.DBModels;
+using MasterData.Data.Storages;
 
 namespace FinanceTracker.Core.Storages
 {
-    public class TIleStorage : IMemoryStorage<Tile>
+    public class TIleStorage //: IMemoryStorage<Tile>
     {
         private readonly FinanceTrackerContext m_Context;
 

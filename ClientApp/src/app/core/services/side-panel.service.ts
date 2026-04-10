@@ -2,6 +2,7 @@ import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { inject, Injectable, Injector, Provider } from '@angular/core';
 import { SidePanelConfig } from '../models/side-panel/side-panel-config';
+import { SidePanelData } from '../models/side-panel/side-panel-data';
 import { SIDE_PANEL_DATA, SIDE_PANEL_HEADER } from '../models/side-panel/side-panel-data-token';
 
 @Injectable({
@@ -16,20 +17,25 @@ export class SidePanelService {
   constructor() { }
 
 
-  openSidePanel<T>(data: SidePanelConfig<T>, providers: Provider[] = []): void {
+  openSidePanel<T, D>(data: SidePanelConfig<T, D>, providers: Provider[] = []): void {
     this.close();
 
     const config: OverlayConfig = {
       positionStrategy: this.overlay.position().global().right().top(),
       hasBackdrop: false,
+      usePopover: false,
       panelClass: 'side-panel',
       scrollStrategy: this.overlay.scrollStrategies.block(),
     };
     this.overlayRef = this.overlay.create(config);
 
+    const panelData: SidePanelData = {
+      tileCode: data.tileCode,
+      data: data.data,
+    };
     const panelInjector = Injector.create({
       providers: [
-        { provide: SIDE_PANEL_DATA, useValue: data.data },
+        { provide: SIDE_PANEL_DATA, useValue: panelData },
         { provide: SIDE_PANEL_HEADER, useValue: data.header },
         ...providers,
       ],

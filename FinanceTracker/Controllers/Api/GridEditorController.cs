@@ -11,29 +11,29 @@ namespace FinanceTracker.Controllers.Api
     [ApiController]
     public class GridEditorController : ControllerBase
     {
-        private readonly IGridEditorService m_GridEditorService;
+        //private readonly IGridEditorService m_GridEditorService;
 
-        public GridEditorController(IGridEditorService gridEditorService)
-        {
-            m_GridEditorService = gridEditorService;
-        }
+        //public GridEditorController(IGridEditorService gridEditorService)
+        //{
+        //    m_GridEditorService = gridEditorService;
+        //}
 
-        [HttpPost("[action]")]
-        public async Task<FormModel> GetForm(FormEditorModel model)
-        {
-            return await m_GridEditorService.GetForm(model.TileCode, model.ItemId);
-        }
+        //[HttpPost("[action]")]
+        //public async Task<FormModel> GetForm(FormEditorModel model)
+        //{
+        //    return await m_GridEditorService.GetForm(model.TileCode, model.ItemId);
+        //}
 
-        [HttpPost("[action]")]
-        public async Task<FormModel> UpdateForm(LayoutItemFormEditorModel model)
-        {
-            return await m_GridEditorService.UpdateForm(model.TileCode, model.ItemId, model.Type, model.Value);
-        }
+        //[HttpPost("[action]")]
+        //public async Task<FormModel> UpdateForm(LayoutItemFormEditorModel model)
+        //{
+        //    return await m_GridEditorService.UpdateForm(model.TileCode, model.ItemId, model.Type, model.Value);
+        //}
 
-        [HttpPost("[action]")]
-        public async Task<OperationResultData<LayoutEditor>> SaveForm(LayoutItemFormSaveEditorModel model)
-        {
-            return await m_GridEditorService.SaveForm(model.TileCode, model.ItemId, model.Type, model.Value);
-        }
+        //[HttpPost("[action]")]
+        //public async Task<OperationResultData<LayoutEditor>> SaveForm(LayoutItemFormSaveEditorModel model)
+        //{
+        //    return await m_GridEditorService.SaveForm(model.TileCode, model.ItemId, model.Type, model.Value);
+        //}
     }
 }

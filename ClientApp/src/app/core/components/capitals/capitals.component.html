@@ -1,0 +1,18 @@
+<div class="finances">
+  <app-filters [filters]="filters()" (valueChanged)="onFilterChanged($event)" />
+  <div class="actions">
+    <div class="actions__left"></div>
+    <div class="actions__right">
+      <button matIconButton (click)="onAddItem()">
+        <mat-icon class="icon">add</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="finances__content">
+    @let dashboardLayout = dashboard();
+    @if (dashboardLayout){
+    <app-dashboard-panel [options]="dashboardLayout.options" [items]="dashboardLayout.items" />
+    }
+    <!-- <app-ag-grid [grid]="grid()" /> -->
+  </div>
+</div>

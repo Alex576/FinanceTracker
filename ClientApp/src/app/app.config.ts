@@ -21,8 +21,7 @@ export const appConfig: ApplicationConfig = {
     provideToastr({
       progressBar: true,
       closeButton: false,
-      // extendedTimeOut: 100110,
-
+      // timeOut: 110110,
     }),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),

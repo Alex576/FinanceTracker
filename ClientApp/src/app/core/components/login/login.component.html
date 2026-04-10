@@ -1,16 +1,50 @@
 <div class="login">
-  <form class="login_form" [formGroup]="form">
-    <mat-form-field>
-      <mat-label>Login</mat-label>
-      <input matInput type="text" [formControl]="form.controls.login">
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Password</mat-label>
-      <input matInput type="password" [formControl]="form.controls.password">
-    </mat-form-field>
+  <div class="login__logo">
+    <svg width="600" height="150" viewBox="0 0 600 150" fill="none" xmlns="http://w3.org">
+      <!-- Мягкое свечение под текстом для читаемости на любом фоне -->
+      <defs>
+        <filter id="glow" x="-25%" y="-25%" width="150%" height="150%">
+          <!-- Цвет свечения берем из первичного контейнера, но размываем его -->
+          <feGaussianBlur stdDeviation="1.2" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+      </defs>
 
-    <div class="form_actions">
-      <button matButton [disabled]="isDisabledLogin()" (click)="onLoginClick()">Login</button>
-    </div>
-  </form>
+      <!-- Декоративная линия (акцент) -->
+      <path d="M120 110 H480" stroke="var(--mat-sys-tertiary)" stroke-width="4" stroke-linecap="round"
+            opacity="0.8" />
+
+      <!-- Основной текст -->
+      <text x="50%" y="85" text-anchor="middle" font-family="Roboto, sans-serif" font-size="42" font-weight="900"
+            fill="white" style="letter-spacing: 1px;">
+        <tspan fill="var(--mat-sys-primary)" filter="url(#glow)">FINANCE</tspan>
+        <tspan fill="var(--mat-sys-on-primary-container)"> TRACKER</tspan>
+      </text>
+
+      <!-- Мелкий слоган или подпись (опционально) -->
+      <text x="50%" y="130" text-anchor="middle" font-family="Verdana, sans-serif" font-size="12" font-weight="bold"
+            fill="var(--mat-sys-on-primary-container)" opacity="0.5"
+            style="letter-spacing: 4px; text-transform: uppercase;">
+        Smart Management
+      </text>
+    </svg>
+  </div>
+
+  <div class="login__container">
+    <form class="form" [formGroup]="form">
+      <mat-form-field>
+        <mat-label>Login</mat-label>
+        <input matInput type="text" [formControl]="form.controls.login">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput type="password" [formControl]="form.controls.password">
+      </mat-form-field>
+
+      <div class="form__actions">
+        <button matButton="filled" [disabled]="true">Register</button>
+        <button matButton="filled" [disabled]="isDisabledLogin()" (click)="onLoginClick()">Login</button>
+      </div>
+    </form>
+  </div>
 </div>

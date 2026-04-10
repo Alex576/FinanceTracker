@@ -95,5 +95,21 @@ namespace FinanceTracker.Core.Utils
             ToolCode.Layout => throw new NotImplementedException(),
             _ => throw new NotImplementedException(),
         };
+
+        //public static bool IsForm(this TileCode code) => false;
+
+        //public static bool IsFilter(this TileCode code) => code is
+        //    TileCode.DashboardFilters or
+        //    TileCode.FinancesFilter or
+        //    TileCode.UsersFilter or
+        //    TileCode.RoleFilter or
+        //    TileCode.TranslationFilter;
+
+        //public static bool IsGrid(this TileCode code) => code is
+        //    TileCode.FinancesGrid or
+        //    TileCode.UsersGrid or
+        //    TileCode.RoleGrid or
+        //    TileCode.TranslationGrid;
+        
     }
 }

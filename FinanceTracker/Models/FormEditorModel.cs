@@ -6,7 +6,6 @@ namespace FinanceTracker.Models
     public class FormEditorModel
     {
         public TileCode TileCode { get; set; }
-        public string? ItemId { get; set; }
-        public EditorType Type { get; set; }
+        public int? ItemId { get; set; }
     }
 }

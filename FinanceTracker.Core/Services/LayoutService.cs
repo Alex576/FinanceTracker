@@ -106,7 +106,7 @@ namespace FinanceTracker.Core.Services
                             var entity = new DashboardLayoutEntity(previewItem.TileCode);
                             if (layout != null)
                             {
-                                var dashboardLayout = JsonConvert.DeserializeObject<DashboardEditorModel>(layout?.LayoutJson ?? "") ?? new();
+                                var dashboardLayout = JsonConvert.DeserializeObject<DashboardEditorModel>(layout?.LayoutJson ?? "") ?? new(previewItem.TileCode);
                                 var gridBuilder = new DashboardLayout();
                                 gridBuilder.Options.CanAdd = true;
                                 gridBuilder.Items.AddRange(dashboardLayout.Items.Select(x => new DashboardItem(x)));

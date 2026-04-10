@@ -1,0 +1,15 @@
+.dashboard-editor {
+    height: 60vh;
+
+    &__action-panel {
+        padding: 6px;
+        background-color: var(--mat-sys-secondary-container);
+        display: flex;
+        align-items: center;
+        gap: var(--ft-item-ident);
+    }
+
+    &__dashboard {
+        height: calc(100% - 52px);
+    }
+}

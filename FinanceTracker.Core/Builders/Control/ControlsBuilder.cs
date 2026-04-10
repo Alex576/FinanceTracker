@@ -1,4 +1,5 @@
-﻿using FinanceTracker.Core.Models.Controls;
+﻿using FinanceTracker.Core.Models;
+using FinanceTracker.Core.Models.Controls;
 using FinanceTracker.Core.Models.ControlSettingModels;
 using FinanceTracker.Core.Models.LayoutEditor.EditorModels;
 using FinanceTracker.Core.Utils;
@@ -21,7 +22,6 @@ namespace FinanceTracker.Core.Builders.Control
             foreach (var controlData in m_ControlDatas)
             {
                 var control = new FormControl(controlData);
-                control.Id = ItemCodeHelper.GetItemCode(controlData);
                 control.Settings = GetControlSettings(controlData, control, data);
                 control.Value = GetControlValue(controlData, control, data);
                 controls.Add(control);
@@ -29,7 +29,18 @@ namespace FinanceTracker.Core.Builders.Control
             return controls;
         }
 
-        protected abstract List<Item> GetControlItems(FormControlData controlData, FormControl control, TData data);
+        protected virtual List<Item> GetControlItems(FormControlData controlData, FormControl control, TData data)
+        {
+            return controlData.TileItemCode switch
+            {
+                TileItemCode.Item => EnumHelper.GetEnums<TileItemCode>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList(),
+                TileItemCode.Class => EnumHelper.GetEnums<ClassCode>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList(),
+                TileItemCode.DataType => EnumHelper.GetEnums<DataType>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList(),
+                TileItemCode.Type => EnumHelper.GetEnums<ControlType>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList(),
+                TileItemCode.State => EnumHelper.GetEnums<ControlState>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList(),
+                _ => [],
+            };
+        }
 
         protected ControlSettings GetControlSettings(FormControlData controlData, FormControl control, TData data)
         {
@@ -54,11 +65,29 @@ namespace FinanceTracker.Core.Builders.Control
         {
             var value = GetControlValue(controlData, data);
             if (value == null)
-                return GetDefaultValue(control);
+                return GetDefaultValue(controlData, control);
             if (control.Settings is ComboControlSettings controlSettings)
                 value = RestrictValueByItems(value, controlSettings);
-            return value == null ? GetDefaultValue(control) : JToken.FromObject(value);
+            if (value == null)
+                return GetDefaultValue(controlData, control);
+
+
+            return JToken.FromObject(value);
+
+            JToken? GetDefaultValue(FormControlData controlData, FormControl control)
+            {
+                return IsAutoSelectFirstValueIfEmpty(controlData) ? GetFirstValue(control) ?? this.GetDefaultValue(control) : this.GetDefaultValue(control);
+            }
         }
+
+        private JToken? GetFirstValue(FormControl control) => control.Type switch
+        {
+            ControlType.Combo when control.Settings is ComboControlSettings controlSettings && controlSettings.Items.Count > 0 =>
+                controlSettings.AllowMultiselect ?
+                    JToken.FromObject(new List<int>() { controlSettings.Items.First().Id }) :
+                    controlSettings.Items.First().Id,
+            _ => null,
+        };
 
         private object? RestrictValueByItems(object value, ComboControlSettings controlSettings)
         {
@@ -66,6 +95,8 @@ namespace FinanceTracker.Core.Builders.Control
                 return values.Intersect(controlSettings.Items.Select(x => x.Id)).ToList();
             if (value is int intValue && controlSettings.Items.Any(x => x.Id == intValue))
                 return intValue;
+            if (value is Enum enumValue)
+                return Convert.ToInt32(enumValue);
             return null;
         }
 
@@ -94,5 +125,6 @@ namespace FinanceTracker.Core.Builders.Control
         private bool IsEditable(FormControlData controlData) => controlData.ControlStates.Contains(ControlState.Editable);
         private bool IsHidden(FormControlData controlData) => controlData.ControlStates.Contains(ControlState.Hidden);
         private bool IsRequired(FormControlData controlData) => controlData.ControlStates.Contains(ControlState.Required);
+        private bool IsAutoSelectFirstValueIfEmpty(FormControlData controlData) => controlData.ControlStates.Contains(ControlState.AutoSelectFirstValueIfEmpty);
     }
 }

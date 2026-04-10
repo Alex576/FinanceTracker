@@ -1,9 +1,29 @@
-<div>
-  <gridster [options]="">
+<div class="dashboard-panel">
+  @let config = gridsterConfig();
+  @if (config){
+  <gridster [options]="config">
     @for (item of items(); track item.id) {
     <gridster-item [item]="item">
-
+      <div class="item">
+        <div class="item__header">
+          <div class="item__header__name">{{item.name}}</div>
+          <div class="item__header__actions">
+            <button matIconButton (click)="onOpenItem(item.id)">
+              <mat-icon class="icon">edit</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="item__fields">
+          @for (field of item.fields; track field.name) {
+          <div class="item__fields__field">
+            <div>{{field.name}}</div>
+            <div>{{field.value}}</div>
+          </div>
+          }
+        </div>
+      </div>
     </gridster-item>
     }
   </gridster>
+  }
 </div>

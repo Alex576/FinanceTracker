@@ -17,7 +17,7 @@ export const routes: Routes = [
             {
                 path: 'finances',
                 data: { [RouteData.ToolCode]: ToolCode.Finances },
-                loadComponent: () => import('../components/finances/finances.component').then(c => c.FinancesComponent)
+                loadComponent: () => import('../components/capitals/capitals.component').then(c => c.CapitalsComponent)
             },
             {
                 path: 'users',

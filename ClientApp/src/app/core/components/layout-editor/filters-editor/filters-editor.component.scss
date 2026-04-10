@@ -1,8 +1,7 @@
-@use "../../../../styles/variable-styles.scss" as var;
 .filters-editor {
     display: flex;
-    gap: var.$item-indent;
-    padding: 0 var.$item-indent;
+    gap: var(--ft-item-ident);
+    padding: 0 var(--ft-item-ident);
 
     &__item {
         width: 200px;
@@ -17,7 +16,7 @@
 
         &-title {
             cursor: default;
-            padding: 0 var.$item-indent;
+            padding: 0 var(--ft-item-ident);
         }
     }
 }

@@ -1,5 +1,5 @@
-import { FormUpdateModel } from "./form-update-model";
+import { FormValueModel } from "./form-value-model";
 
-export interface FormSaveModel extends FormUpdateModel {
+export interface FormSaveModel extends FormValueModel {
 
 }

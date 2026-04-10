@@ -1,0 +1,37 @@
+$block-ident: 10px;
+
+.finances {
+    // width: 100%;
+    height: calc(100% - $block-ident * 2);
+    display: flex;
+    flex-direction: column;
+    padding: $block-ident;
+    gap: $block-ident;
+
+    .actions {
+        display: flex;
+        justify-content: space-between;
+        background-color: var(--mat-sys-secondary-container);
+        border-radius: var(--mat-sys-corner-medium);
+
+        &__left {
+            display: flex;
+        }
+
+        &__right {
+            display: flex;
+            align-items: flex-end;
+        }
+    }
+
+    &__content {
+        flex: 1;
+        height: 100%;
+        width: 100%;
+
+        &_table {
+            height: 100%;
+            width: 100%;
+        }
+    }
+}

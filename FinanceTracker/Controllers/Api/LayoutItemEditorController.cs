@@ -19,27 +19,27 @@ namespace FinanceTracker.Controllers.Api
         }
 
         [HttpPost("[action]")]
-        public async Task<FormModel> GetForm(FormEditorModel model)
+        public async Task<FormModel> GetForm(LayoutItemFormEditorModel model)
         {
-            return await m_LayoutItemService.GetForm(model.TileCode, model.ItemId, model.Type);
+            return await m_LayoutItemService.GetForm(model.TileCode, model.ItemId);
         }
 
         [HttpPost("[action]")]
         public async Task<FormModel> UpdateForm(LayoutItemFormEditorModel model)
         {
-            return await m_LayoutItemService.UpdateForm(model.TileCode, model.ItemId, model.Type, model.Value);
+            return await m_LayoutItemService.UpdateForm(model.TileCode, model.ItemId, model.FormValueModel);
         }
 
         [HttpPost("[action]")]
         public async Task<OperationResultData<LayoutEditor>> SaveForm(LayoutItemFormSaveEditorModel model)
         {
-            return await m_LayoutItemService.SaveForm(model.TileCode, model.ItemId, model.Type, model.Value);
+            return await m_LayoutItemService.SaveForm(model.TileCode, model.ItemId, model.FormValueModel);
         }
 
         [HttpPost("[action]")]
-        public async Task<OperationResult> RemoveItem(RemoveItemModel model)
+        public async Task<OperationResult> RemoveItem(RemoveLayoutItemModel model)
         {
-            return await m_LayoutItemService.RemoveItem(model.TileCode, model.ItemId, model.Type);
+            return await m_LayoutItemService.RemoveItem(model.TileCode, model.ItemId);
         }
     }
 }

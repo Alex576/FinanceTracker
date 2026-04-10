@@ -7,6 +7,7 @@ namespace FinanceTracker.Core.Models.Dashboard
     public class DashboardItem
     {
         public string Name { get; set; }
+        public string Id { get; set; }
         public List<DashboardField> Fields { get; set; } = [];
         public int X { get; set; }
         public int Y { get; set; }
@@ -24,6 +25,7 @@ namespace FinanceTracker.Core.Models.Dashboard
 
         public DashboardItem(DashboardItemOptions dashboardItemOptions)
         {
+            Id = dashboardItemOptions.Id;
             X = dashboardItemOptions.X;
             Y = dashboardItemOptions.Y;
             Cols = dashboardItemOptions.Cols;

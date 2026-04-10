@@ -11,7 +11,7 @@ import { SidePanelService } from '../../../services/side-panel.service';
 import { AgGridComponent } from "../../ag-grid/ag-grid.component";
 import { Grid } from '../../ag-grid/models/grid';
 import { RowAction } from '../../ag-grid/models/row-action';
-import { GridColumnEditorComponent } from '../../side-panel/grid-column-editor/grid-column-editor.component';
+import { ItemEditorComponent } from '../../side-panel/layout-editors/item-editor/item-editor.component';
 import { LayoutEditorService } from '../layout-editor.service';
 import { GridLayoutEntity } from '../models/layout-editable-item';
 
@@ -41,8 +41,10 @@ export class GridEditorComponent {
         next: ({ data }: GridActionModel) => {
           this.sidePanelService.openSidePanel({
             type: SidePanelType.LayoutGridColumnEditor,
-            componentType: GridColumnEditorComponent,
-            data: { tileCode: this.tileCode(), data: data }, header: 'Column'
+            componentType: ItemEditorComponent,
+            tileCode: this.tileCode(),
+            data: data,
+            header: 'Column'
           },
             [{ provide: LayoutEditorService, useValue: this.layoutEditorService }]);
         }
@@ -62,8 +64,10 @@ export class GridEditorComponent {
   onAddColumn(): void {
     this.sidePanelService.openSidePanel({
       type: SidePanelType.LayoutGridColumnEditor,
-      componentType: GridColumnEditorComponent,
-      data: { tileCode: this.tileCode(), data: {} }, header: 'Column'
+      componentType: ItemEditorComponent,
+      tileCode: this.tileCode(),
+      data: {},
+      header: 'Column'
     },
       [{ provide: LayoutEditorService, useValue: this.layoutEditorService }]);
   }

@@ -23,18 +23,18 @@ namespace FinanceTracker.Core.Builders
         {
             switch (controlData.TileItemCode)
             {
-                case TileItemCode.Item:
-                    return EnumHelper.GetEnums<TileItemCode>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList();
-                case TileItemCode.Class:
-                    return EnumHelper.GetEnums<ClassCode>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList();
-                case TileItemCode.DataType:
-                    return EnumHelper.GetEnums<DataType>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList();
-                case TileItemCode.Type:
-                    return EnumHelper.GetEnums<ControlType>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList();
-                case TileItemCode.State:
-                    return EnumHelper.GetEnums<ControlState>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList();
+                //case TileItemCode.Item:
+                //    return EnumHelper.GetEnums<TileItemCode>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList();
+                //case TileItemCode.Class:
+                //    return EnumHelper.GetEnums<ClassCode>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList();
+                //case TileItemCode.DataType:
+                //    return EnumHelper.GetEnums<DataType>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList();
+                //case TileItemCode.Type:
+                //    return EnumHelper.GetEnums<ControlType>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList();
+                //case TileItemCode.State:
+                //    return EnumHelper.GetEnums<ControlState>().Select(x => new Item() { Id = (int)x, Name = x.ToString() }).ToList();
                 default:
-                    return [];
+                    return base.GetControlItems(controlData, control, data);
             }
         }
 
