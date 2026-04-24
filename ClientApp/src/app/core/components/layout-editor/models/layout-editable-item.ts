@@ -1,3 +1,4 @@
+import { ControlType } from "../../../models/controls/control-type";
 import { FormControl } from "../../../models/controls/form-control";
 import { TileCode } from "../../../models/tile-code";
 import { PinPosition } from "../../ag-grid/models/column";
@@ -23,7 +24,7 @@ export interface ColumnEntity {
 
 }
 
-export type LayoutItemEntity = FilterLayoutEntity | GridLayoutEntity | DashboardLayoutEntity;
+export type LayoutItemEntity = FilterLayoutEntity | GridLayoutEntity | DashboardLayoutEntity | FormLayoutEntity;
 
 export interface LayoutEntity {
     tileCode: TileCode;
@@ -39,8 +40,18 @@ export interface GridLayoutEntity extends LayoutEntityBase {
     gridEditor: GridEditorEntity;
 }
 
+export interface FormLayoutEntity extends LayoutEntityBase {
+    type: TileTypeCode.Form;
+    controls: FormEditorControlEntity[];
+}
 export interface GridEditorEntity {
     gridEntity: Grid;
+}
+
+export interface FormEditorControlEntity {
+    name: string;
+    type: ControlType;
+    tileItemCode: number;
 }
 
 export interface FilterLayoutEntity extends LayoutEntityBase {

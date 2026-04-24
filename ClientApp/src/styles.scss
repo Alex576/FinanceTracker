@@ -58,7 +58,17 @@ body {
   flex-direction: column;
   min-width: 30vw;
   height: 100vh;
-  background: var(--mat-sys-surface-container);
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
+
+  font: var(--mat-sys-body-medium);
+}
+
+.full-screen-panel {
+  width: 90vw;
+  height: 90vh;
+  background: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);
   box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
 

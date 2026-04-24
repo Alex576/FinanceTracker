@@ -18,5 +18,12 @@ namespace FinanceTracker.Data.Services
                 ?? throw new NullReferenceException($"Failed to deserialize object with tileCode = {tileCode}");
             return layoutData;
         }
+
+        public async Task<JsonType?> TryGetLayout<JsonType>(int tileCode) where JsonType : class
+        {
+            var layout = await m_Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == tileCode);
+
+            return layout == null ? null : JsonConvert.DeserializeObject<JsonType>(layout.LayoutJson ?? "");
+        }
     }
 }

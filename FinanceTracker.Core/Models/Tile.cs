@@ -8,10 +8,10 @@ namespace FinanceTracker.Core.Models
         Dashboard = 1,
         DashboardFilters = 2,
         DashboardDashboard = 3,
-        FinancesLayout = 4,
-        FinancesDashboard = 5,
-        FinancesFilter = 6,
-        FinancesGrid = 7,
+        CapitalsLayout = 4,
+        CapitalsDashboard = 5,
+        CapitalsFilter = 6,
+        CapitalsGrid = 7,
         UsersLayout = 8,
         UsersFilter = 9,
         UsersGrid = 10,
@@ -21,6 +21,7 @@ namespace FinanceTracker.Core.Models
         TranslationLayout = 14,
         TranslationFilter = 15,
         TranslationGrid = 16,
+        CapitalsForm = 17,
     }
 
     public class Tile

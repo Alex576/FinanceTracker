@@ -63,7 +63,7 @@ namespace FinanceTracker.Core.Utils
         public static TileCode GetFilterTileCode(this ToolCode toolCode) => toolCode switch
         {
             ToolCode.Dashboard => throw new NotImplementedException(),
-            ToolCode.Finances => TileCode.FinancesFilter,
+            ToolCode.Finances => TileCode.CapitalsFilter,
             ToolCode.Settings => throw new NotImplementedException(),
             ToolCode.Roles => throw new NotImplementedException(),
             ToolCode.Users => throw new NotImplementedException(),
@@ -75,7 +75,7 @@ namespace FinanceTracker.Core.Utils
         public static TileCode GetGridTileCode(this ToolCode toolCode) => toolCode switch
         {
             ToolCode.Dashboard => throw new NotImplementedException(),
-            ToolCode.Finances => TileCode.FinancesGrid,
+            ToolCode.Finances => TileCode.CapitalsGrid,
             ToolCode.Settings => throw new NotImplementedException(),
             ToolCode.Roles => throw new NotImplementedException(),
             ToolCode.Users => throw new NotImplementedException(),
@@ -87,7 +87,7 @@ namespace FinanceTracker.Core.Utils
         public static TileCode GetDashboardTileCode(this ToolCode toolCode) => toolCode switch
         {
             ToolCode.Dashboard => throw new NotImplementedException(),
-            ToolCode.Finances => TileCode.FinancesDashboard,
+            ToolCode.Finances => TileCode.CapitalsDashboard,
             ToolCode.Settings => throw new NotImplementedException(),
             ToolCode.Roles => throw new NotImplementedException(),
             ToolCode.Users => throw new NotImplementedException(),

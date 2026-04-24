@@ -10,7 +10,7 @@ import { RemoveLayoutItemModel } from './layout-editors/item-editor/remove-layou
 @Injectable({
   providedIn: 'root'
 })
-export class FiltersEditorApiService extends BaseApiService {
+export class LayoutItemEditorApiService extends BaseApiService {
   private readonly GET_FORM = "LayoutItemEditor/GetForm";
   private readonly UPDATER_FORM = "LayoutItemEditor/UpdateForm";
   private readonly SAVE_FORM = "LayoutItemEditor/SaveForm";

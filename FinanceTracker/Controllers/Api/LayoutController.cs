@@ -1,4 +1,5 @@
-﻿using FinanceTracker.Core.Models.LayoutEditor;
+﻿using FinanceTracker.Core.Models.FullScreenModels;
+using FinanceTracker.Core.Models.LayoutEditor;
 using FinanceTracker.Core.Models.OperationResult;
 using FinanceTracker.Core.Services.Interfaces;
 using FinanceTracker.Models;
@@ -33,6 +34,12 @@ namespace FinanceTracker.Controllers.Api
         public async Task<OperationResult> RemoveElement(RemoveLayoutItemModel model)
         {
             return await m_LayoutService.RemoveElement(model.TileCode, model.ItemId, model.Type);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<FullScreenFormEditorModel> GetForm(FullScreenFormModel model)
+        {
+            return await m_LayoutService.GetForm(model.TileCode, model.Controls, model.FormValueModel);
         }
 
 

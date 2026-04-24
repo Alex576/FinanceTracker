@@ -5,7 +5,7 @@
   </div>
   @let editor = layoutEditor();
   <div class="layout-editor__content">
-    @if (editor){
+    @if (editor) {
     @for (item of editor.layoutItems; track item.tileCode) {
     @switch (item.data.type) {
     @case (itemType.Filter) {
@@ -19,6 +19,14 @@
     @case (itemType.Dashboard) {
     <app-dashboard-editor [dashboardLayout]="item.data.dashboardLayout"
                           [tileCode]="item.tileCode" />
+    }
+    @case (itemType.Form) {
+    <div class="form-editor">
+      <button matButton="filled" (click)="onEditForm(item.tileCode, item.data)">
+        <mat-icon class="icon">assignment</mat-icon>
+        Edit Form
+      </button>
+    </div>
     }
     }
     }

@@ -16,7 +16,7 @@ export class AppService {
     return this.api.getAppConfig()
       .pipe(
         tap({ next: (config) => this._config = config }),
-        map(() => { return; }),
+        map((): void => void 0),
       );
   }
 

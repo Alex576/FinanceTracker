@@ -31,7 +31,7 @@ export class ItemEditorComponent extends BaseLayoutItemSidePanelComponent {
   constructor() {
     super();
 
-    this.service.getForm({ tileCode: this.panelData.tileCode, itemId: this.data.itemId, type: this.data.editorType })
+    this.service.getForm({ tileCode: this.panelData.tileCode, itemId: this.data.itemId })
       .pipe(
         tap({ next: (form) => this.form.set(form) }),
         takeUntilDestroyed(),
@@ -40,7 +40,7 @@ export class ItemEditorComponent extends BaseLayoutItemSidePanelComponent {
   }
 
   onFormChanged(): void {
-    this.service.updateForm(this.getLayoutItemFormUpdateModel(this.data.itemId, this.data.editorType))
+    this.service.updateForm(this.getLayoutItemFormUpdateModel(this.data.itemId))
       .pipe(
         tap({ next: (form) => this.form.set(form) }),
         takeUntilDestroyed(this.destroyRef),
@@ -49,7 +49,7 @@ export class ItemEditorComponent extends BaseLayoutItemSidePanelComponent {
   }
 
   onDelete(): void {
-    this.service.deleteItem({ tileCode: this.panelData.tileCode, itemId: this.data.itemId, type: this.data.editorType })
+    this.service.deleteItem({ tileCode: this.panelData.tileCode, itemId: this.data.itemId })
       .pipe(
         takeUntilDestroyed(this.destroyRef),
       )
@@ -64,7 +64,7 @@ export class ItemEditorComponent extends BaseLayoutItemSidePanelComponent {
   }
 
   onSave(): void {
-    this.service.saveForm(this.getLayoutItemFormUpdateModel(this.data.itemId, this.data.editorType))
+    this.service.saveForm(this.getLayoutItemFormUpdateModel(this.data.itemId))
       .pipe(
         takeUntilDestroyed(this.destroyRef),
       )

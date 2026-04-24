@@ -3,14 +3,10 @@
     /// <summary>
     /// Stored in db
     /// </summary>
-    public class GridEditorModel
+    public class GridEditorModel : ItemEditorModelBase
     {
-        public TileCode TileCode { get; set; }
         public GridEntity GridEntity { get; set; } = new();
 
-        public GridEditorModel(TileCode tileCode)
-        {
-            TileCode = tileCode;
-        }
+        public GridEditorModel(TileCode tileCode) : base(tileCode) { }
     }
 }

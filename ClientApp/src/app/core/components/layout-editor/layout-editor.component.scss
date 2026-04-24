@@ -11,5 +11,10 @@
         display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
+        gap: var(--ft-item-ident);
+
+        .form-editor {
+            padding: 0 var(--ft-item-ident);
+        }
     }
 }

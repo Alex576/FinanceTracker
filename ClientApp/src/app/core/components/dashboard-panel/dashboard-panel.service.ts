@@ -32,7 +32,7 @@ export class DashboardPanelService {
       outerMarginRight: null,
       outerMarginBottom: null,
       outerMarginLeft: null,
-      useTransformPositioning: true,
+      useTransformPositioning: false,
       mobileBreakpoint: 640,
       useBodyForBreakpoint: false,
       minCols: 30,

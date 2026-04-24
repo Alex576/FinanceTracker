@@ -2,15 +2,19 @@ import { computed, DestroyRef, inject, Injectable, signal } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { mergeMap, Observable, tap } from 'rxjs';
 import { ComboControl } from '../../models/controls/combo-control';
+import { FullScreenPanelType } from '../../models/full-screen-panel/full-screen-panel-type';
 import { OperationResult } from '../../models/operation-result/operation-result';
 import { isSuccess } from '../../models/operation-result/result-code';
 import { TileCode } from '../../models/tile-code';
 import { ToolCode } from '../../models/tool-code';
+import { FullScreenPanelService } from '../../services/full-screen-panel.service';
 import { SidePanelService } from '../../services/side-panel.service';
 import { AgGridActionService } from '../ag-grid/ag-grid-action.service';
 import { UpdateGridModel } from '../ag-grid/models/update-grid-model';
+import { FormEditorComponent } from '../full-screen-panel/form-editor/form-editor.component';
 import { RemoveLayoutItemModel } from '../side-panel/layout-editors/item-editor/remove-layout-item-model';
 import { LayoutEditorApiService } from './layout-editor-api.service';
+import { FormLayoutEntity } from './models/layout-editable-item';
 import { LayoutEditorModel } from './models/layout-editor-model';
 import { LayoutManagementModel } from './models/layout-management-model';
 import { TileTypeCode } from './models/tile-type-code';
@@ -18,6 +22,7 @@ import { TileTypeCode } from './models/tile-type-code';
 @Injectable()
 export class LayoutEditorService {
   private readonly sidePanelService = inject(SidePanelService);
+  private readonly fullScreenPanelService = inject(FullScreenPanelService);
   private readonly api = inject(LayoutEditorApiService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly gridService = inject(AgGridActionService);
@@ -115,5 +120,16 @@ export class LayoutEditorService {
       }
       return layout;
     });
+  }
+
+  editForm(tileCode: TileCode, data: FormLayoutEntity): void {
+    this.fullScreenPanelService.openFullScreenPanel({
+      type: FullScreenPanelType.LayoutFormEditor,
+      componentType: FormEditorComponent,
+      tileCode,
+      data,
+      header: 'Form editor'
+    },
+      [{ provide: LayoutEditorService, useValue: this }]);
   }
 }

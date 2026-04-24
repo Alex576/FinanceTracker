@@ -1,0 +1,67 @@
+:host {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.form-editor {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+
+    &__header {
+        background: var(--mat-sys-surface-container-high);
+        border-bottom: var(--mat-card-outlined-outline-width) solid var(--mat-card-outlined-outline-color);
+    }
+
+    &__editor {
+        display: flex;
+        flex: 1;
+        &__items,
+        &__item-options {
+            width: 25%;
+            background-color: var(--mat-sys-surface-container);
+        }
+        &__items {
+            border-right: var(--mat-card-outlined-outline-width) solid var(--mat-card-outlined-outline-color);
+            padding: var(--ft-item-ident);
+            gap: var(--ft-item-ident);
+            display: flex;
+            flex-direction: column;
+
+            .component {
+                &__title {
+                    font-weight: 500;
+                    font-size: 1.3em;
+                    padding-bottom: var(--ft-item-ident);
+                    cursor: default;
+                }
+
+                &__presets {
+                    gap: var(--ft-item-ident);
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                    width: 100%;
+                    flex-wrap: wrap;
+
+                    &__preset {
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        cursor: grab;
+                        border: solid 1px var(--mat-sys-primary);
+                        padding: 2px;
+                    }
+                }
+            }
+        }
+        &__preview {
+            flex: 1;
+        }
+        &__item-options {
+            border-left: var(--mat-card-outlined-outline-width) solid var(--mat-card-outlined-outline-color);
+        }
+    }
+}

@@ -12,6 +12,8 @@ public partial class FinanceTrackerContext : DbContext
     {
     }
 
+    public virtual DbSet<Language> Languages { get; set; }
+
     public virtual DbSet<Layout> Layouts { get; set; }
 
     public virtual DbSet<MenuItem> MenuItems { get; set; }
@@ -24,10 +26,26 @@ public partial class FinanceTrackerContext : DbContext
 
     public virtual DbSet<Tool> Tools { get; set; }
 
+    public virtual DbSet<TranslationKey> TranslationKeys { get; set; }
+
+    public virtual DbSet<TranslationValue> TranslationValues { get; set; }
+
     public virtual DbSet<UserSetting> UserSettings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Language>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Language__3213E83FC70C3384");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Name)
+                .HasMaxLength(10)
+                .HasColumnName("name");
+        });
+
         modelBuilder.Entity<Layout>(entity =>
         {
             entity.ToTable("Layout");
@@ -137,6 +155,41 @@ public partial class FinanceTrackerContext : DbContext
             entity.HasOne(d => d.ParentToolCodeNavigation).WithMany(p => p.InverseParentToolCodeNavigation)
                 .HasForeignKey(d => d.ParentToolCode)
                 .HasConstraintName("FK__ToolCode__tool_c__656C112C");
+        });
+
+        modelBuilder.Entity<TranslationKey>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Translat__3213E83FC318ECC5");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.KeyName)
+                .HasMaxLength(1000)
+                .HasColumnName("keyName");
+            entity.Property(e => e.ParentId).HasColumnName("parentId");
+
+            entity.HasOne(d => d.Parent).WithMany(p => p.InverseParent)
+                .HasForeignKey(d => d.ParentId)
+                .HasConstraintName("FK__Translati__paren__1D7B6025");
+        });
+
+        modelBuilder.Entity<TranslationValue>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Translat__3213E83F27889297");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.KeyId).HasColumnName("keyId");
+            entity.Property(e => e.Language).HasColumnName("language");
+            entity.Property(e => e.Value).HasColumnName("value");
+
+            entity.HasOne(d => d.Key).WithMany(p => p.TranslationValues)
+                .HasForeignKey(d => d.KeyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Translati__keyId__24285DB4");
+
+            entity.HasOne(d => d.LanguageNavigation).WithMany(p => p.TranslationValues)
+                .HasForeignKey(d => d.Language)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Translati__langu__251C81ED");
         });
 
         modelBuilder.Entity<UserSetting>(entity =>

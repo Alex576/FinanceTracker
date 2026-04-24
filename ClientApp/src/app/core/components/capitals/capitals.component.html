@@ -9,10 +9,20 @@
     </div>
   </div>
   <div class="finances__content">
-    @let dashboardLayout = dashboard();
-    @if (dashboardLayout){
-    <app-dashboard-panel [options]="dashboardLayout.options" [items]="dashboardLayout.items" />
+
+    @for (dashboard of dashboards(); track dashboard.id) {
+    <app-accordion (opened)="onOpened(dashboard.id)">
+      <ng-content header>
+        test
+      </ng-content>
+      <ng-content data>
+        @if (getLoadedSignal(dashboard.id)) {
+        <app-dashboard-panel [options]="dashboard.options" [items]="dashboard.items" />
+        }
+      </ng-content>
+    </app-accordion>
     }
+
     <!-- <app-ag-grid [grid]="grid()" /> -->
   </div>
 </div>

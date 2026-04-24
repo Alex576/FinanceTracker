@@ -9,6 +9,7 @@ namespace FinanceTracker.Data
         {
             services.AddScoped<TileContextService>();
             services.AddScoped<LayoutContextService>();
+            services.AddScoped<TranslationContextService>();
         }
     }
 }

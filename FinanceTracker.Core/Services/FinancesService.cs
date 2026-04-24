@@ -50,9 +50,11 @@ namespace FinanceTracker.Core.Services
 
         public async Task<DashboardLayout> GetFinances(ToolCode toolCode, List<FormControlValue> filters)
         {
+            var objectStorage = m_Cache.GetObjectStorage();
+
             var capitals = await m_FinancesContextService.GetCapitals();
             foreach (var capital in capitals)
-                await capital.InitializeOptionsAsync(m_ObjectContextService);//todo optimize!
+                capital.InitializeOptions(objectStorage);
             var dashboardTileCode = toolCode.GetDashboardTileCode();
             var dashboardEditorModel = await m_LayoutContextService.GetLayout<DashboardEditorModel>((int)dashboardTileCode);
             var dashboardBuilder = new CapitalDashboardBuilder(dashboardEditorModel);
@@ -82,9 +84,11 @@ namespace FinanceTracker.Core.Services
                     }
                 }
             }
+            var objectStorage = m_Cache.GetObjectStorage();
+
             var capitals = await m_FinancesContextService.GetCapitals(objList, from, to);
             foreach (var capital in capitals)
-                await capital.InitializeOptionsAsync(m_ObjectContextService);//todo optimize!
+                capital.InitializeOptions(objectStorage);
             var gridTileCode = toolCode.GetGridTileCode();
             var filterLayout = await m_LayoutContextService.GetLayout<GridEditorModel>((int)gridTileCode);
 

@@ -21,13 +21,15 @@ export class NavigationService {
   // }
 
   navigateToLoginPage() {
-    this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
+    if (!this.router.url.includes('/login')) {
+      this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
+    }
   }
 
   navigateDefaultOrReturnUrl(): void {
     const returnUrl: string = this.activeRoute.snapshot.queryParams['returnUrl'];
     if (returnUrl) {
-      this.router.navigate([returnUrl]);
+      this.router.navigateByUrl(returnUrl);
     }
     else {
       this.redirectToHome();

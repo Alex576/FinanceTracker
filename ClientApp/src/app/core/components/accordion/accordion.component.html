@@ -1,0 +1,13 @@
+<div class="accordion">
+  @let isClosed = closed();
+  <div class="accordion__header" (click)="onToggle()">
+    <ng-content select="[header]" />
+
+    <mat-icon class="icon">{{isClosed ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}}</mat-icon>
+  </div>
+  <div class="accordion__content"
+       [class.hide]="isClosed"
+       [class.show]="!isClosed">
+    <ng-content select="[data]" />
+  </div>
+</div>

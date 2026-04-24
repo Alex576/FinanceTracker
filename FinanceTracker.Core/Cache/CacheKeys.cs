@@ -4,5 +4,6 @@
     {
         public static string TileStorageKey = "TileStorage";
         public static string ObjectStorageKey = "ObjectStorage";
+        public static string TranslationStorageKey = "TranslationStorage";
     }
 }

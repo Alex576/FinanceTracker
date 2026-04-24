@@ -45,8 +45,4 @@ export class DashboardEditorComponent {
     },
       [{ provide: LayoutEditorService, useValue: this.layoutEditorService }]);
   }
-
-  onEditForm(): void {
-    console.error('not implemented!');
-  }
 }

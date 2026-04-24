@@ -1,4 +1,6 @@
 ﻿using FinanceTracker.Core.Storages;
+using FinanceTracker.Data.DBContext;
+using FinanceTracker.Data.Storages;
 using MasterData.Data.DBContext;
 using MasterData.Data.Services;
 using MasterData.Data.Storages;
@@ -29,6 +31,18 @@ namespace FinanceTracker.Core.Cache
             var context = scope.ServiceProvider.GetRequiredService<MasterDataContext>();
             storage.LoadAsync(context).GetAwaiter().GetResult();
             m_MemoryCache.Set(CacheKeys.ObjectStorageKey, storage);
+            return storage;
+        }
+
+        public TranslationStorage GetTranslationStorage()
+        {
+            if (m_MemoryCache.TryGetValue<TranslationStorage>(CacheKeys.TranslationStorageKey, out var storage) && storage != null)
+                return storage;
+            storage = new TranslationStorage();
+            using var scope = m_ServiceScopeFactory.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<FinanceTrackerContext>();
+            storage.LoadAsync(context).GetAwaiter().GetResult();
+            m_MemoryCache.Set(CacheKeys.TranslationStorageKey, storage);
             return storage;
         }
 

@@ -1,5 +1,6 @@
 ﻿using MasterData.Data.DBModels;
 using MasterData.Data.Services;
+using MasterData.Data.Storages;
 
 namespace MasterData.Data.Models
 {
@@ -29,10 +30,10 @@ namespace MasterData.Data.Models
         }
 
 
-        public async Task InitializeOptionsAsync(ObjectContextService objectContextService)
+        public async void InitializeOptions(ObjectStorage objectStorage)
         {
             OptionsExt = new FinanceOptionsDataExt();
-            OptionsExt.Objects.AddRange(await objectContextService.GetObjects(Options.ObjCodes));
+            OptionsExt.Objects.AddRange(objectStorage.Get(Options.ObjCodes));
             OptionsExt.Attributes = Options.Attributes.ToList();
             OptionsExt.ReadOnly = Options.ReadOnly;
         }

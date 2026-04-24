@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, Signal, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,6 +8,7 @@ import { getFormControlValues } from '../../models/controls/form-control-value';
 import { SidePanelType } from '../../models/side-panel/side-panel-type';
 import { TileCode } from '../../models/tile-code';
 import { SidePanelService } from '../../services/side-panel.service';
+import { AccordionComponent } from '../accordion/accordion.component';
 import { BaseToolComponent } from '../base-tool/base-tool.component';
 import { DashboardPanelComponent } from "../dashboard-panel/dashboard-panel.component";
 import { DashboardLayout } from '../dashboard-panel/models/dashboard-layout';
@@ -19,7 +20,7 @@ import { CapitalsService } from './capitals.service';
   selector: 'app-capitals',
   templateUrl: './capitals.component.html',
   styleUrls: ['./capitals.component.scss'],
-  imports: [FiltersComponent, MatIconModule, MatIconButton, MatButtonModule, DashboardPanelComponent],
+  imports: [FiltersComponent, MatIconModule, MatIconButton, MatButtonModule, DashboardPanelComponent, AccordionComponent],
   providers: [CapitalsService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -29,7 +30,9 @@ export class CapitalsComponent extends BaseToolComponent {
   private readonly sidePanelService = inject(SidePanelService);
 
   protected readonly filters = signal<FormControl[]>(null);
-  protected readonly dashboard = signal<DashboardLayout>(null);
+  protected readonly dashboards = signal<DashboardLayout[]>([]);
+
+  private readonly loadedState = new Map<number, Signal<boolean>>();
 
   constructor() {
     super();
@@ -41,10 +44,15 @@ export class CapitalsComponent extends BaseToolComponent {
       )
       .subscribe({
         next: (dashboard: DashboardLayout) => {
-          this.dashboard.set(dashboard);
+          this.loadedState.set(dashboard.id, signal<boolean>(true));
+          this.dashboards.set([dashboard]);
         }
       });
 
+  }
+
+  getLoadedSignal(id: number): Signal<boolean> {
+    return this.loadedState.get(id);
   }
 
   onFilterChanged(control: FormControl): void {
@@ -69,4 +77,7 @@ export class CapitalsComponent extends BaseToolComponent {
     });
   }
 
+  onOpened(id: number): void {
+
+  }
 }

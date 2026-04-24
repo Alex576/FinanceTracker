@@ -4,8 +4,11 @@ using FinanceTracker.Core.Builders.Layouts;
 using FinanceTracker.Core.Models;
 using FinanceTracker.Core.Models.Controls;
 using FinanceTracker.Core.Models.Dashboard;
+using FinanceTracker.Core.Models.Forms;
+using FinanceTracker.Core.Models.FullScreenModels;
 using FinanceTracker.Core.Models.LayoutEditor;
 using FinanceTracker.Core.Models.LayoutEditor.DashboardEditor;
+using FinanceTracker.Core.Models.LayoutEditor.FormEditorModels;
 using FinanceTracker.Core.Models.LayoutEditor.GridEditor;
 using FinanceTracker.Core.Models.LayoutEntities;
 using FinanceTracker.Core.Models.LayoutPreviews;
@@ -20,16 +23,18 @@ namespace FinanceTracker.Core.Services
 {
     public class LayoutService : ILayoutService
     {
-        private readonly TileContextService m_FinanceContextService;
+        private readonly TileContextService m_TileContextService;
+        private readonly LayoutContextService m_LayoutContextService;
 
-        public LayoutService(TileContextService financeContextService)
+        public LayoutService(TileContextService financeContextService, LayoutContextService layoutContextService)
         {
-            m_FinanceContextService = financeContextService;
+            m_TileContextService = financeContextService;
+            m_LayoutContextService = layoutContextService;
         }
 
         public async Task<LayoutManagementModel> GetLayoutManagement()
         {
-            var tools = await m_FinanceContextService.Context.Tools.Where(x => x.Id != (int)ToolCode.Settings).ToListAsync();
+            var tools = await m_TileContextService.Context.Tools.Where(x => x.Id != (int)ToolCode.Settings).ToListAsync();
             var model = new LayoutManagementModel();
             var toolItems = tools.Select(x => new Item() { Id = x.Id, Name = x.Name }).ToList();
             var builder = new LayoutFiltersBuilder([]);
@@ -46,7 +51,7 @@ namespace FinanceTracker.Core.Services
 
         private async Task<List<Tile>> GetTileUnderTool(int toolValue)
         {
-            return await m_FinanceContextService.Context.Tiles.Where(x => x.ToolCode == toolValue).Select(x => new Tile(x)).ToListAsync();
+            return await m_TileContextService.Context.Tiles.Where(x => x.ToolCode == toolValue).Select(x => new Tile(x)).ToListAsync();
         }
 
         public async Task<LayoutEditor> GetLayoutEditor(ToolCode toolCode)
@@ -59,7 +64,7 @@ namespace FinanceTracker.Core.Services
 
             layoutEditor.TileFilter = builder.GetFilterControl("Tiles", controlItems, Constants.TileFilterId, TileItemCode.Tile);// filterBuilder.GetFilterControl(controlItems, "Tiles", new ComboControlSettings() { AllowMultiselect = false }, );
 
-            var layoutBuilder = new LayoutEditorBuilder(m_FinanceContextService);
+            var layoutBuilder = new LayoutEditorBuilder(m_TileContextService);
             layoutEditor.LayoutItems = await GetLayoutEditorItems(await layoutBuilder.GetLayoutAsync(tiles));
             return layoutEditor;
         }
@@ -69,12 +74,13 @@ namespace FinanceTracker.Core.Services
             var layoutItems = new List<LayoutEntity>();
             foreach (var previewItem in layoutPreview.Previews)
             {
-                var layout = await m_FinanceContextService.Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == (int)previewItem.TileCode);
+                var layout = await m_TileContextService.Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == (int)previewItem.TileCode);
+                var item = new LayoutEntity() { TileCode = previewItem.TileCode };
+
                 switch (previewItem)
                 {
                     case FilterPreview filterPreview:
                         {
-                            var item = new LayoutEntity() { TileCode = previewItem.TileCode };
                             var entity = new FilterLayoutEntity(previewItem.TileCode);
                             if (layout != null)
                             {
@@ -82,41 +88,50 @@ namespace FinanceTracker.Core.Services
                                 entity.Filters = filters.FormControls.Select(x => new FormControl(x)).ToList();
                             }
                             item.Data = entity;
-                            layoutItems.Add(item);
                             break;
                         }
 
                     case GridPreview gridPreview:
                         {
-                            var item = new LayoutEntity() { TileCode = previewItem.TileCode };
                             var entity = new GridLayoutEntity(previewItem.TileCode);
                             if (layout != null)
                             {
-                                var gridLayout = JsonConvert.DeserializeObject<GridEditorModel>(layout?.LayoutJson ?? "") ?? new(previewItem.TileCode);
+                                var gridLayout = JsonConvert.DeserializeObject<GridEditorModel>(layout.LayoutJson ?? "") ?? new(previewItem.TileCode);
                                 var gridBuilder = new GridEditorBuilder(new GridLayoutBuilder().GetGridEditorLayout());
                                 entity.GridEditor = new GridEditorEntity() { GridEntity = gridBuilder.GetLayout(gridLayout.GridEntity.Layout.Columns) };
                             }
                             item.Data = entity;
-                            layoutItems.Add(item);
                             break;
                         }
                     case DashboardPreview dashboardPreview:
                         {
-                            var item = new LayoutEntity() { TileCode = previewItem.TileCode };
                             var entity = new DashboardLayoutEntity(previewItem.TileCode);
                             if (layout != null)
                             {
-                                var dashboardLayout = JsonConvert.DeserializeObject<DashboardEditorModel>(layout?.LayoutJson ?? "") ?? new(previewItem.TileCode);
+                                var dashboardLayout = JsonConvert.DeserializeObject<DashboardEditorModel>(layout.LayoutJson ?? "") ?? new(previewItem.TileCode);
                                 var gridBuilder = new DashboardLayout();
                                 gridBuilder.Options.CanAdd = true;
                                 gridBuilder.Items.AddRange(dashboardLayout.Items.Select(x => new DashboardItem(x)));
                                 entity.DashboardLayout = gridBuilder;
                             }
                             item.Data = entity;
-                            layoutItems.Add(item);
                             break;
                         }
+                    case FormPreview formPreview:
+                        {
+                            var entity = new FormLayoutEntity(previewItem.TileCode);
+                            if (layout != null)
+                            {
+                                var formLayout = JsonConvert.DeserializeObject<FormEditorModel>(layout.LayoutJson ?? "") ?? new(previewItem.TileCode);
+                                entity.Controls = formLayout.Controls.Select(x => new FormEditorControlEntity(x)).ToList();
+                            }
+                            item.Data = entity;
+                            break;
+                        }
+                    default:
+                        throw new NotImplementedException();
                 }
+                layoutItems.Add(item);
             }
 
             return layoutItems;
@@ -124,7 +139,7 @@ namespace FinanceTracker.Core.Services
 
         public async Task<OperationResult> RemoveElement(TileCode tileCode, string itemId, EditorType type)
         {
-            var layout = await m_FinanceContextService.Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == (int)tileCode);
+            var layout = await m_TileContextService.Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == (int)tileCode);
             if (layout == null)
                 return new OperationResult(ResultCode.Error, $"Failed to find layout with tile code = {tileCode}");
             switch (type)
@@ -139,8 +154,8 @@ namespace FinanceTracker.Core.Services
                         {
                             layoutData.FormControls.RemoveAt(index);
                             layout.LayoutJson = JsonConvert.SerializeObject(layoutData);
-                            m_FinanceContextService.Context.Layouts.Update(layout);
-                            await m_FinanceContextService.Context.SaveChangesAsync();
+                            m_TileContextService.Context.Layouts.Update(layout);
+                            await m_TileContextService.Context.SaveChangesAsync();
                         }
                         break;
                     }
@@ -153,8 +168,8 @@ namespace FinanceTracker.Core.Services
                         {
                             layoutData.GridEntity.Layout.Columns.RemoveAt(index);
                             layout.LayoutJson = JsonConvert.SerializeObject(layoutData);
-                            m_FinanceContextService.Context.Layouts.Update(layout);
-                            await m_FinanceContextService.Context.SaveChangesAsync();
+                            m_TileContextService.Context.Layouts.Update(layout);
+                            await m_TileContextService.Context.SaveChangesAsync();
                         }
                         break;
                     }
@@ -162,6 +177,24 @@ namespace FinanceTracker.Core.Services
                     throw new NotImplementedException();
             }
             return new OperationResult(ResultCode.Success);
+        }
+
+        public async Task<FullScreenFormEditorModel> GetForm(TileCode tileCode, List<ControlPreviewModel>? controls, FormValueModel? formValueModel)
+        {
+            var result = new FullScreenFormEditorModel();
+            var formLayout = await m_LayoutContextService.TryGetLayout<LayoutEditorModel>((int)tileCode) ?? new(tileCode);
+            result.Controls = formLayout.FormControls.Select(x => new FormControl(x)).ToList();
+            FillFormComponents(result.Components);
+            return result;
+        }
+
+        private FormComponents FillFormComponents(FormComponents components)
+        {
+            components.Inputs = [.. EnumHelper.GetEnums<InputPresetCode>().Cast<int>()];
+            components.Dropdowns = [.. EnumHelper.GetEnums<DropdownPresetCode>().Cast<int>()];
+            components.Buttons = [.. EnumHelper.GetEnums<ButtonPresetCode>().Cast<int>()];
+            components.Containers = [.. EnumHelper.GetEnums<ContainerPresetCode>().Cast<int>()];
+            return components;
         }
     }
 }

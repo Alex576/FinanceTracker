@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, output } from '@angular/core';
 import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatIconModule } from "@angular/material/icon";
@@ -13,7 +12,7 @@ import { DashboardOptions } from './models/dashboard-options';
   templateUrl: './dashboard-panel.component.html',
   styleUrls: ['./dashboard-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Gridster, GridsterItem, MatIconModule, MatIconButton, MatButtonModule, AsyncPipe],
+  imports: [Gridster, GridsterItem, MatIconModule, MatIconButton, MatButtonModule],
   providers: [DashboardPanelService]
 })
 export class DashboardPanelComponent {

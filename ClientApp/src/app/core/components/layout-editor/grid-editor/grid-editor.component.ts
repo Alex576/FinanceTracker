@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, computed, inject, input } from '@an
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { EditorType } from '../../../models/form-editor/editor-type';
 import { GridActionModel } from '../../../models/grid-action-model';
 import { SidePanelType } from '../../../models/side-panel/side-panel-type';
 import { TileCode } from '../../../models/tile-code';
@@ -56,7 +55,7 @@ export class GridEditorComponent {
       )
       .subscribe({
         next: ({ data }: GridActionModel) => {
-          this.layoutService.removeLayoutItemAsync({ tileCode: this.tileCode(), itemId: data.id, type: EditorType.Grid });
+          this.layoutService.removeLayoutItemAsync({ tileCode: this.tileCode(), itemId: data.id });
         }
       });
   }

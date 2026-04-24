@@ -1,0 +1,25 @@
+.accordion {
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        height: 40px;
+        padding: 0 var(--ft-item-ident);
+        background-color: var(--mat-sys-primary-container);
+    }
+    &__content {
+        &.show {
+            visibility: visible;
+            height: 40vh;
+        }
+
+        &.hide {
+            visibility: hidden;
+        }
+
+        &.lazy {
+            display: none;
+        }
+    }
+}

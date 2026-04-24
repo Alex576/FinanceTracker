@@ -7,11 +7,11 @@ import { NotificationService } from '../../services/notification.service';
 import { LayoutEditorModel } from '../layout-editor/models/layout-editor-model';
 import { LayoutItemFormEditorModel } from './layout-editors/item-editor/layout-item-form-editor-model';
 import { RemoveLayoutItemModel } from './layout-editors/item-editor/remove-layout-item-model';
-import { FiltersEditorApiService } from './layout-item-editor-api.service';
+import { LayoutItemEditorApiService } from './layout-item-editor-api.service';
 
 @Injectable()
 export class LayoutItemEditorService {
-  private readonly api = inject(FiltersEditorApiService);
+  private readonly api = inject(LayoutItemEditorApiService);
   private readonly notify = inject(NotificationService);
 
   getForm(model: LayoutItemFormEditorModel): Observable<FormModel> {

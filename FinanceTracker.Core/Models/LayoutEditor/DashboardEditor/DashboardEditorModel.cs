@@ -3,14 +3,10 @@
     /// <summary>
     /// Stored in db
     /// </summary>
-    public class DashboardEditorModel
+    public class DashboardEditorModel : ItemEditorModelBase
     {
-        public TileCode TileCode { get; set; }
         public List<DashboardItemOptions> Items { get; set; } = [];
 
-        public DashboardEditorModel(TileCode tileCode)
-        {
-            TileCode = tileCode;
-        }
+        public DashboardEditorModel(TileCode tileCode) : base(tileCode) { }
     }
 }

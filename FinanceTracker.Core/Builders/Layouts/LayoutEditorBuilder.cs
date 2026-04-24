@@ -82,6 +82,7 @@ namespace FinanceTracker.Core.Builders.Layouts
                             layoutPreview.Previews.Add(new GridPreview(layoutItem.TileCode));
                             break;
                         case TileTypeCode.Form:
+                            layoutPreview.Previews.Add(new FormPreview(layoutItem.TileCode));
                             break;
                         case TileTypeCode.Filter:
                             layoutPreview.Previews.Add(new FilterPreview(layoutItem.TileCode));

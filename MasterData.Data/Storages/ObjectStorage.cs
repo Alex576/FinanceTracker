@@ -33,11 +33,19 @@ namespace MasterData.Data.Storages
             throw new NotImplementedException();
         }
 
-        public ObjectModel Get(int id)
+        public ObjectModel? Get(int id)
         {
-            if (m_Objects.TryGetValue(id, out var obj))
-                return obj;
-            return null;
+            return Get([id]).FirstOrDefault();
+        }
+
+        public List<ObjectModel> Get(List<int> ids)
+        {
+            var objects = new List<ObjectModel>();
+            foreach (var id in ids)
+                if (m_Objects.TryGetValue(id, out var obj))
+                    objects.Add(obj);
+
+            return objects;
         }
 
         public async Task LoadAsync(MasterDataContext context)
