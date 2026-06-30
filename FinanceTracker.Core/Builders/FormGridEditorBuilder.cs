@@ -15,9 +15,9 @@ using Newtonsoft.Json;
 
 namespace FinanceTracker.Core.Builders
 {
-    public class GridEditorBuilder : FormBuilder<ColumnEntity>
+    public class FormGridEditorBuilder : FormBuilder<ColumnEntity>
     {
-        public GridEditorBuilder(FinanceContextServiceBase financeContextServiceBase, LayoutEditorModel layoutModel) : base(financeContextServiceBase, layoutModel)
+        public FormGridEditorBuilder(FinanceContextServiceBase financeContextServiceBase, LayoutEditorModel layoutModel) : base(financeContextServiceBase, layoutModel)
         {
         }
 

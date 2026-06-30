@@ -24,16 +24,6 @@ export abstract class BaseFullScreenPanelComponent {
         return this.panelData.tileCode;
     }
 
-    // protected getFormUpdateModel(): FormValueModel {
-    //     const form = this.form();
-    //     const model: FormValueModel = new FormValueModel(form.tileCode);
-    //     for (let i = 0; i < form.controls.length; i++) {
-    //         const control = form.controls[i];
-    //         model.updatedControls.push({ controlId: control.id, value: control.value, updated: control.updated });
-    //     }
-    //     return model;
-    // }
-
     protected onCanSaveForm(canSave: boolean): void {
         this.canSaveForm.set(canSave);
     }

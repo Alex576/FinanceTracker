@@ -39,9 +39,20 @@ namespace FinanceTracker.Controllers.Api
         [HttpPost("[action]")]
         public async Task<FullScreenFormEditorModel> GetForm(FullScreenFormModel model)
         {
-            return await m_LayoutService.GetForm(model.TileCode, model.Controls, model.FormValueModel);
+            return await m_LayoutService.GetForm(model.TileCode, model.FormValueModel);
         }
 
+        [HttpPost("[action]")]
+        public async Task<FullScreenUpdateModel> GetOptionsForm(FullScreenFormModel model)
+        {
+            return await m_LayoutService.GetOptionsForm(model.TileCode, model.SelectedControl, model.FormValueModel, model.Controls);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<FullScreenUpdateModel> UpdateOptionsForm(FullScreenFormModel model)
+        {
+            return await m_LayoutService.UpdateOptionsForm(model.TileCode, model.SelectedControl, model.FormValueModel, model.Controls);
+        }
 
     }
 }

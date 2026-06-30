@@ -3,18 +3,15 @@ import { FormControl } from "../controls/form-control";
 export interface FullScreenFormEditorModel {
     controls: FormControl[];
     // tileCode: TileCode;
-    components: FormComponents;
+    components: FullScreenFormComponent[];
 }
 
-export interface FormComponents {
-    inputs: InputPresetCode[];
-    dropdowns: DropdownPresetCode[];
-    buttons: ButtonPresetCode[];
-    containers: ContainerPresetCode[];
+export interface FullScreenFormComponent extends FormControl {
+    controlGroup: string;
 }
 
 
-export enum InputPresetCode {
+export enum ControlPresetCode {
     Text = 1,
     Email = 2,
     Password = 3,
@@ -25,21 +22,12 @@ export enum InputPresetCode {
     Time = 8,
     DateTime = 9,
     Between = 10,
-}
-
-export enum DropdownPresetCode {
-    SingleSelect = 1,
-    MultiSelect = 2,
-}
-
-export enum ButtonPresetCode {
-    Button = 1,
-    ButtonIcon = 2,
-    Icon = 3,
-}
-
-export enum ContainerPresetCode {
-    Section = 1,
-    Group = 2,
-    RadioGroup = 3,
+    SingleSelect = 101,
+    MultiSelect = 102,
+    Button = 201,
+    ButtonIcon = 202,
+    Icon = 203,
+    Section = 301,
+    Group = 302,
+    RadioGroup = 303,
 }

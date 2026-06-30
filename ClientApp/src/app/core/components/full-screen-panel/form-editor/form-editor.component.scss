@@ -59,6 +59,40 @@
         }
         &__preview {
             flex: 1;
+
+            &__control {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: var(--ft-item-ident);
+                cursor: pointer;
+                gap: var(--ft-item-ident);
+
+                &.selected {
+                    background-color: var(--ft-light-primary-color);
+                }
+
+                &.changed {
+                    border-left: 3px solid var(--ft-warning-color);
+                }
+
+                &:hover {
+                    background-color: var(--ft-lightest-primary-color);
+                }
+
+                .control {
+                    &__data {
+                        flex: 1;
+                    }
+
+                    &__actions {
+                        padding-bottom: var(
+                            --mat-form-field-subscript-text-line-height,
+                            var(--mat-sys-body-small-line-height)
+                        );
+                    }
+                }
+            }
         }
         &__item-options {
             border-left: var(--mat-card-outlined-outline-width) solid var(--mat-card-outlined-outline-color);

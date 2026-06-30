@@ -6,9 +6,9 @@ using Newtonsoft.Json.Serialization;
 
 namespace FinanceTracker.Core.Converters
 {
-    public class FormControlConverter : JsonConverter<FormControl>
+    public class FormControlConverter : DefaultConverter<FormControl>
     {
-        public override FormControl? ReadJson(JsonReader reader, Type objectType, FormControl? existingValue, bool hasExistingValue, JsonSerializer serializer)
+        public override FormControl ReadJson(JsonReader reader, Type objectType, FormControl? existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             var jsonObj = JObject.Load(reader);
             var formControl = new FormControl();
@@ -28,32 +28,6 @@ namespace FinanceTracker.Core.Converters
             };
 
             return formControl;
-        }
-
-        private T? GetValue<T>(string fieldName, JObject jsonObj)
-        {
-            return jsonObj.TryGetValue(fieldName, StringComparison.Ordinal, out var value) ? value.ToObject<T>() : default;
-        }
-
-        public override void WriteJson(JsonWriter writer, FormControl? value, JsonSerializer serializer)
-        {
-            if (value == null)
-            {
-                writer.WriteNull();
-                return;
-            }
-            writer.WriteStartObject();
-
-            var properties = value.GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
-            foreach (var prop in properties)
-            {
-                if (prop.GetCustomAttributes(typeof(JsonIgnoreAttribute), true).Any())
-                    continue;
-                var propName = serializer.ContractResolver is DefaultContractResolver resolver ? resolver.GetResolvedPropertyName(prop.Name) : prop.Name;
-                writer.WritePropertyName(propName);
-                serializer.Serialize(writer, prop.GetValue(value));
-            }
-            writer.WriteEndObject();
         }
     }
 }

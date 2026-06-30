@@ -21,5 +21,8 @@ namespace FinanceTracker.Core.Models.LayoutEditor.EditorModels
         public ControlDependence? Dependence { get; set; }
 
         public ControlMasterData ControlMasterData { get; set; } = new();
+
+        [JsonConstructor]
+        public FormControlData() { }
     }
 }

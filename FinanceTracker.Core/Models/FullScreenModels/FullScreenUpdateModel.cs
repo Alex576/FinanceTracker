@@ -1,14 +1,15 @@
 ﻿using FinanceTracker.Core.Models.Controls;
+using FinanceTracker.Core.Models.Forms;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace FinanceTracker.Core.Models.FullScreenModels
 {
-    public class FullScreenFormEditorModel
+    public class FullScreenUpdateModel
     {
         public List<FormControl> Controls { get; set; } = [];
-        //public TileCode TileCode { get; set; }
-        public List<FormComponent> Components { get; set; } = new();
+        public FormModel OptionsForm { get; set; }
+
     }
 }

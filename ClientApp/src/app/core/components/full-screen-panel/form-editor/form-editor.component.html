@@ -16,30 +16,53 @@
   @if (layout){
   <div class="form-editor__editor">
     <div class="form-editor__editor__items">
-      <ng-container [ngTemplateOutlet]="components"
-                    [ngTemplateOutletContext]="{title: 'Inputs', items: layout.components.inputs, translation: 'Server.Layout.Form.Input.Preset'}" />
-      <ng-container [ngTemplateOutlet]="components"
-                    [ngTemplateOutletContext]="{title: 'Dropdowns', items: layout.components.dropdowns, translation: 'Server.Layout.Form.Dropdown.Preset'}" />
-      <ng-container [ngTemplateOutlet]="components"
-                    [ngTemplateOutletContext]="{title: 'Buttons', items: layout.components.buttons, translation: 'Server.Layout.Form.Button.Preset'}" />
-      <ng-container [ngTemplateOutlet]="components"
-                    [ngTemplateOutletContext]="{title: 'Containers', items: layout.components.containers, translation: 'Server.Layout.Form.Container.Preset'}" />
-      <ng-template #components let-title="title" let-items="items" let-translation="translation">
-        <div class="component">
-          <div class="component__title">{{title}}</div>
-          <div class="component__presets">
-            @for (item of items; track item) {
-            <div class="component__presets__preset">{{item | translate:translation }}</div>
-            }
+      @for (group of presetsGroup(); track group.group) {
+      <div class="component">
+        <div class="component__title">{{group.group | translate}}</div>
+        <div cdkDropList
+             cdkDropListSortingDisabled
+             cdkDropListHasAnchor
+             class="component__presets"
+             [cdkDropListData]="group.controls"
+             [cdkDropListConnectedTo]="controlList">
+          @for (preset of group.controls; track preset.id) {
+          <div cdkDrag
+               [cdkDragData]="preset"
+               class="component__presets__preset">
+            {{`Server.Layout.Form.Preset.${preset.id}` | translate }}
           </div>
+          }
         </div>
-      </ng-template>
+      </div>
+      }
     </div>
-    <div class="form-editor__editor__preview">
-
+    <div #controlList="cdkDropList"
+         cdkDropList
+         [cdkDropListData]="controls()"
+         (cdkDropListDropped)="onAddControl($event)"
+         class="form-editor__editor__preview">
+      @for (control of controls(); track control.id) {
+      <div cdkDrag
+           class="form-editor__editor__preview__control"
+           [class.selected]="isSelected(control)"
+           [class.changed]="control.updated"
+           (click)="onClickControl(control)">
+        <div class="control__data">
+          <app-control-switch [control]="control" />
+        </div>
+        <div class="control__actions">
+          <button matIconButton (click)="onRemove(control)">
+            <mat-icon class="icon">close</mat-icon>
+          </button>
+        </div>
+      </div>
+      }
     </div>
     <div class="form-editor__editor__item-options">
-
+      @let options = optionsForm();
+      @if (options){
+      <app-form [form]="options" (formChanged)="onChangedOptionsForm()" />
+      }
     </div>
   </div>
   }

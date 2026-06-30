@@ -20,12 +20,14 @@ namespace FinanceTracker.Core.Services
         private readonly IServiceProvider m_ServiceProvider;
         private readonly TileContextService m_FinanceContextService;
         private readonly ILayoutService m_LayoutService;
+        private readonly LayoutItemHelperService m_LayoutHelper;
 
-        public LayoutItemService(IServiceProvider serviceProvider, TileContextService financeContextService, ILayoutService layoutService)
+        public LayoutItemService(IServiceProvider serviceProvider, TileContextService financeContextService, ILayoutService layoutService, LayoutItemHelperService layoutHelper)
         {
             m_ServiceProvider = serviceProvider;
             m_FinanceContextService = financeContextService;
             m_LayoutService = layoutService;
+            m_LayoutHelper = layoutHelper;
         }
 
         public async Task<OperationResult> RemoveItem(TileCode tileCode, string itemId)
@@ -88,87 +90,13 @@ namespace FinanceTracker.Core.Services
 
         public async Task<FormModel> GetForm(TileCode tileCode, string? itemId)
         {
-            var type = await m_FinanceContextService.Context.Tiles.FirstAsync(x => x.TileCode == (int)tileCode);
-
-            switch ((TileTypeCode)type.Type)
-            {//todo dashboard editor
-                case TileTypeCode.Filter:
-                case TileTypeCode.Form:
-                    {
-                        var layoutBuilder = new FormLayoutEditorBuilder(m_FinanceContextService);
-                        var formLayout = layoutBuilder.GetFormEditorLayout(tileCode);
-                        var layout = await m_FinanceContextService.Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == (int)tileCode);
-                        var layoutData = JsonConvert.DeserializeObject<LayoutEditorModel>(layout?.LayoutJson ?? "") ?? new(tileCode);
-                        var control = layoutData.FormControls.FirstOrDefault(x => ItemCodeHelper.GetItemCode(x) == itemId) ?? new();
-                        var formBuilder = new FormEditorBuilder(m_FinanceContextService, formLayout);
-                        return await formBuilder.GetFormLayout(tileCode, control);
-                    }
-                case TileTypeCode.Grid:
-                    {
-                        var layoutBuilder = new GridLayoutEditorBuilder(m_FinanceContextService);
-                        var formLayout = layoutBuilder.GetFormEditorLayout(tileCode);
-                        var layout = await m_FinanceContextService.Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == (int)tileCode);
-                        var layoutData = JsonConvert.DeserializeObject<GridEditorModel>(layout?.LayoutJson ?? "") ?? new(tileCode);
-                        var column = layoutData.GridEntity.Layout.Columns.FirstOrDefault(x => ItemCodeHelper.GetItemCode(x) == itemId) ?? new();
-                        var formBuilder = new GridEditorBuilder(m_FinanceContextService, formLayout);
-                        return await formBuilder.GetFormLayout(tileCode, column);
-                    }
-                case TileTypeCode.Dashboard:
-                    {
-                        var layoutBuilder = new DashboardLayoutEditorBuilder(m_FinanceContextService);
-                        var formLayout = layoutBuilder.GetFormEditorLayout(tileCode);
-                        var layout = await m_FinanceContextService.Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == (int)tileCode);
-                        var layoutData = JsonConvert.DeserializeObject<DashboardEditorModel>(layout?.LayoutJson ?? "") ?? new(tileCode);
-                        var item = layoutData.Items.FirstOrDefault(x => x.Id == itemId) ?? new();
-                        var formBuilder = new DashboardEditorBuilder(m_FinanceContextService, formLayout);
-                        return await formBuilder.GetFormLayout(tileCode, item);
-                    }
-                default:
-                    throw new NotImplementedException();
-            }
+            return await m_LayoutHelper.GetLayoutItemFormAsync(tileCode, itemId);
 
         }
 
         public async Task<FormModel> UpdateForm(TileCode tileCode, string? itemId, FormValueModel value)
         {
-            var type = await m_FinanceContextService.Context.Tiles.FirstAsync(x => x.TileCode == (int)tileCode);
-
-            switch ((TileTypeCode)type.Type)
-            {
-                case TileTypeCode.Filter:
-                case TileTypeCode.Form:
-                    {
-                        var layoutBuilder = new FormLayoutEditorBuilder(m_FinanceContextService);
-                        var formLayout = layoutBuilder.GetFormEditorLayout(tileCode);
-                        var layout = await m_FinanceContextService.Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == (int)tileCode);
-                        var layoutData = JsonConvert.DeserializeObject<LayoutEditorModel>(layout?.LayoutJson ?? "") ?? new(tileCode);
-                        var control = layoutData.FormControls.FirstOrDefault(x => ItemCodeHelper.GetItemCode(x) == itemId) ?? new();
-                        var formBuilder = new FormEditorBuilder(m_FinanceContextService, formLayout);
-                        return await formBuilder.UpdateFormLayout(tileCode, control, value);
-                    }
-                case TileTypeCode.Grid:
-                    {
-                        var layoutBuilder = new GridLayoutEditorBuilder(m_FinanceContextService);
-                        var formLayout = layoutBuilder.GetFormEditorLayout(tileCode);
-                        var layout = await m_FinanceContextService.Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == (int)tileCode);
-                        var layoutData = JsonConvert.DeserializeObject<GridEditorModel>(layout?.LayoutJson ?? "") ?? new(tileCode);
-                        var column = layoutData.GridEntity.Layout.Columns.FirstOrDefault(x => ItemCodeHelper.GetItemCode(x) == itemId) ?? new();
-                        var formBuilder = new GridEditorBuilder(m_FinanceContextService, formLayout);
-                        return await formBuilder.UpdateFormLayout(tileCode, column, value);
-                    }
-                case TileTypeCode.Dashboard:
-                    {
-                        var layoutBuilder = new DashboardLayoutEditorBuilder(m_FinanceContextService);
-                        var formLayout = layoutBuilder.GetFormEditorLayout(tileCode);
-                        var layout = await m_FinanceContextService.Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == (int)tileCode);
-                        var layoutData = JsonConvert.DeserializeObject<DashboardEditorModel>(layout?.LayoutJson ?? "") ?? new(tileCode);
-                        var item = layoutData.Items.FirstOrDefault(x => x.Id == itemId) ?? new();
-                        var formBuilder = new DashboardEditorBuilder(m_FinanceContextService, formLayout);
-                        return await formBuilder.UpdateFormLayout(tileCode, item, value);
-                    }
-                default:
-                    throw new NotImplementedException();
-            }
+            return await m_LayoutHelper.UpdateLayoutItemFormAsync(tileCode, itemId, value);
         }
 
         public async Task<OperationResultData<LayoutEditor>> SaveForm(TileCode tileCode, string? itemId, FormValueModel value)
@@ -197,7 +125,7 @@ namespace FinanceTracker.Core.Services
                         var layout = await m_FinanceContextService.Context.Layouts.FirstOrDefaultAsync(x => x.TileCode == (int)tileCode);
                         var layoutData = JsonConvert.DeserializeObject<GridEditorModel>(layout?.LayoutJson ?? "") ?? new(tileCode);
                         var column = layoutData.GridEntity.Layout.Columns.FirstOrDefault(x => ItemCodeHelper.GetItemCode(x) == itemId) ?? new();
-                        var formBuilder = new GridEditorBuilder(m_FinanceContextService, formLayout);
+                        var formBuilder = new FormGridEditorBuilder(m_FinanceContextService, formLayout);
                         operationResult = await formBuilder.SaveForm(tileCode, column, value);
                     }
                     break;

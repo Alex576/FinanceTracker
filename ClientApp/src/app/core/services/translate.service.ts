@@ -16,8 +16,8 @@ export class TranslateService extends BaseApiService {
       );
   }
 
-  translate(key: string, args: string[]): string {
-    const fullKey = `${args.join('.')}.${key}`;
+  translate(key: unknown): string {
+    const fullKey = `${key}`;
     return this.translationMap.get(fullKey) || fullKey;
   }
 }

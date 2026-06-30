@@ -1,6 +1,7 @@
 ﻿using FinanceTracker.Core.Models;
 using FinanceTracker.Core.Models.Controls;
 using FinanceTracker.Core.Models.ControlSettingModels;
+using FinanceTracker.Core.Models.FullScreenModels;
 using FinanceTracker.Core.Models.LayoutEditor;
 using FinanceTracker.Core.Models.LayoutEditor.EditorModels;
 using FinanceTracker.Data.Services;

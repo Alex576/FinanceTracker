@@ -17,6 +17,7 @@ namespace FinanceTracker.Core
 
             MasterDataServicesInitialization.InitializeServices(services);
             FinanceTrackerServiceInitialization.InitializeServices(services);
+            services.AddScoped<LayoutItemHelperService>();
             services.AddScoped<IConfigurationService, ConfigurationService>();
             services.AddSingleton<ITokenService, TokenService>();
             services.AddSingleton<ITranslationService, TranslationService>();

@@ -34,18 +34,22 @@ body {
   @include mat.system-level-colors($theme);
   @include mat.system-level-shape($theme);
   // --mat-icon-button-icon-color: #{mat.get-theme-color($theme, primary)};
-  --ft-icon-hover-color: color-mix(in srgb, var(--mat-sys-primary), white 25%);
   --ft-remove-icon-color: #ff5555;
+  --ft-icon-hover-color: color-mix(in srgb, var(--mat-sys-primary), white 25%);
+  --ft-lightest-primary-color: color-mix(in srgb, var(--mat-sys-primary), transparent 95%);
+  --ft-light-primary-color: color-mix(in srgb, var(--mat-sys-primary), transparent 92%);
 }
 
 .dark-theme {
   @include themeConfig(darkTheme.$dark-theme);
   color-scheme: darkTheme;
+  --ft-warning-color: #fbbf24;
 }
 
 .light-theme {
   @include themeConfig(lightTheme.$light-theme);
   color-scheme: lightTheme;
+  --ft-warning-color: #f59e0b;
 }
 
 .ag-grid-angular {

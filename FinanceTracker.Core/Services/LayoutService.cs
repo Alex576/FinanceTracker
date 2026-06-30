@@ -1,4 +1,6 @@
-﻿using FinanceTracker.Core.Builders.Filter;
+﻿using FinanceTracker.Core.Builders;
+using FinanceTracker.Core.Builders.Filter;
+using FinanceTracker.Core.Builders.Forms;
 using FinanceTracker.Core.Builders.Grids;
 using FinanceTracker.Core.Builders.Layouts;
 using FinanceTracker.Core.Models;
@@ -25,11 +27,13 @@ namespace FinanceTracker.Core.Services
     {
         private readonly TileContextService m_TileContextService;
         private readonly LayoutContextService m_LayoutContextService;
+        private readonly LayoutItemHelperService m_LayoutHelper;
 
-        public LayoutService(TileContextService financeContextService, LayoutContextService layoutContextService)
+        public LayoutService(TileContextService financeContextService, LayoutContextService layoutContextService, LayoutItemHelperService layoutHelper)
         {
             m_TileContextService = financeContextService;
             m_LayoutContextService = layoutContextService;
+            m_LayoutHelper = layoutHelper;
         }
 
         public async Task<LayoutManagementModel> GetLayoutManagement()
@@ -179,7 +183,7 @@ namespace FinanceTracker.Core.Services
             return new OperationResult(ResultCode.Success);
         }
 
-        public async Task<FullScreenFormEditorModel> GetForm(TileCode tileCode, List<ControlPreviewModel>? controls, FormValueModel? formValueModel)
+        public async Task<FullScreenFormEditorModel> GetForm(TileCode tileCode, FormValueModel? formValueModel)
         {
             var result = new FullScreenFormEditorModel();
             var formLayout = await m_LayoutContextService.TryGetLayout<LayoutEditorModel>((int)tileCode) ?? new(tileCode);
@@ -188,13 +192,62 @@ namespace FinanceTracker.Core.Services
             return result;
         }
 
-        private FormComponents FillFormComponents(FormComponents components)
+        private void FillFormComponents(List<FormComponent> component)
         {
-            components.Inputs = [.. EnumHelper.GetEnums<InputPresetCode>().Cast<int>()];
-            components.Dropdowns = [.. EnumHelper.GetEnums<DropdownPresetCode>().Cast<int>()];
-            components.Buttons = [.. EnumHelper.GetEnums<ButtonPresetCode>().Cast<int>()];
-            components.Containers = [.. EnumHelper.GetEnums<ContainerPresetCode>().Cast<int>()];
-            return components;
+            foreach (var preset in EnumHelper.GetEnums<ControlPresetCode>())
+            {
+                component.Add(new FormComponent()
+                {
+                    Id = ((int)preset).ToString(),
+                    ControlGroup = preset.GetControlGroupName(),
+                    Type = preset.GetControlType(),
+                    Settings = GetFormComponentSettings(preset),
+                });
+            }
+        }
+
+        private ControlSettings GetFormComponentSettings(ControlPresetCode preset)
+        {
+            var settings = preset switch
+            {
+                //ControlPresetCode.Separator => throw new NotImplementedException(),
+                ControlPresetCode.Text => new InputControlSettings(),
+                ControlPresetCode.Email => new InputControlSettings(),
+                ControlPresetCode.Password => new InputControlSettings(),
+                ControlPresetCode.Phone => new InputControlSettings(),
+                ControlPresetCode.Number => new InputControlSettings(),
+                ControlPresetCode.Float => new InputControlSettings(),
+                ControlPresetCode.Link => new InputControlSettings(),
+                ControlPresetCode.Time => new InputControlSettings(),
+                ControlPresetCode.DateTime => new InputControlSettings(),
+                ControlPresetCode.Between => new InputControlSettings(),
+                ControlPresetCode.SingleSelect => new ComboControlSettings() { Items = [] },
+                ControlPresetCode.MultiSelect => new ComboControlSettings() { AllowMultiselect = true, Items = [] },
+                //ControlPresetCode.Button => throw new NotImplementedException(),
+                //ControlPresetCode.ButtonIcon => throw new NotImplementedException()a,
+                //ControlPresetCode.Icon => throw new NotImplementedException(),
+                //ControlPresetCode.Section => throw new NotImplementedException(),
+                //ControlPresetCode.Group => throw new NotImplementedException(),
+                //ControlPresetCode.RadioGroup => throw new NotImplementedException(),
+                _ => new ControlSettings(),
+            };
+            settings.Editable = false;
+            return settings;
+        }
+
+        public async Task<FullScreenUpdateModel> GetOptionsForm(TileCode tileCode, string selectedControl, FormValueModel? formValueModel, List<FormComponent> controls)
+        {
+            var result = new FullScreenUpdateModel();
+            result.OptionsForm = await m_LayoutHelper.GetLayoutItemFormAsync(tileCode, selectedControl);
+            return result;
+        }
+
+        public async Task<FullScreenUpdateModel> UpdateOptionsForm(TileCode tileCode, string selectedControl, FormValueModel formValueModel, List<FormComponent> controls)
+        {
+            var result = new FullScreenUpdateModel();
+            result.OptionsForm = await m_LayoutHelper.UpdateLayoutItemFormAsync(tileCode, selectedControl, formValueModel);
+            //var formBuilder = new FormEditorBuilder(m_TileContextService);
+            return result;
         }
     }
 }

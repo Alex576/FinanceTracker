@@ -9,7 +9,7 @@ namespace FinanceTracker.Core.Builders.Control
 {
     public abstract class ControlsBuilder<TData> where TData : class
     {
-        private readonly List<FormControlData> m_ControlDatas;
+        protected readonly List<FormControlData> m_ControlDatas;
 
         public ControlsBuilder(List<FormControlData> controlDatas)
         {

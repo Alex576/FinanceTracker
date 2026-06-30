@@ -33,7 +33,7 @@ namespace FinanceTracker.Core.Services
             var column = layoutData.GridEntity.Layout.Columns.FirstOrDefault(x => ItemCodeHelper.GetItemCode(x) == itemId) ?? new();
             var layoutBuilder = new GridLayoutEditorBuilder(m_TileContextService);
             var formLayout = layoutBuilder.GetFormEditorLayout(tileCode);
-            var formBuilder = new GridEditorBuilder(m_LayoutContextService, formLayout);
+            var formBuilder = new FormGridEditorBuilder(m_LayoutContextService, formLayout);
 
             return await formBuilder.GetFormLayout(tileCode, column);
         }
@@ -46,7 +46,7 @@ namespace FinanceTracker.Core.Services
 
             var layoutBuilder = new GridLayoutEditorBuilder(m_TileContextService);
             var formLayout = layoutBuilder.GetFormEditorLayout(tileCode);
-            var formBuilder = new GridEditorBuilder(m_LayoutContextService, formLayout);
+            var formBuilder = new FormGridEditorBuilder(m_LayoutContextService, formLayout);
 
             var operationResult = await formBuilder.SaveForm(tileCode, column, value);
             var layoutTile = await m_TileContextService.GetLayoutTile((int)tileCode);
@@ -62,7 +62,7 @@ namespace FinanceTracker.Core.Services
 
             var layoutBuilder = new GridLayoutEditorBuilder(m_TileContextService);
             var formLayout = layoutBuilder.GetFormEditorLayout(tileCode);
-            var formBuilder = new GridEditorBuilder(m_LayoutContextService, formLayout);
+            var formBuilder = new FormGridEditorBuilder(m_LayoutContextService, formLayout);
 
             return await formBuilder.UpdateFormLayout(tileCode, column, value);
         }

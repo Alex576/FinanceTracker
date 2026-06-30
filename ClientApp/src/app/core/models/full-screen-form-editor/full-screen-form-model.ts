@@ -6,6 +6,7 @@ export interface FullScreenFormModel {
     formValueModel?: FormValueModel;
     tileCode: TileCode;
     controls?: ControlPreviewModel[];
+    selectedControl?: string;
 }
 
 export interface ControlPreviewModel {
